@@ -13,6 +13,12 @@ PCC_TENANT_LIST = "/user-management/tenant/list"
 PCC_CLUSTER = "/pccserver/cluster"
 PCC_CLUSTER_ADD = PCC_CLUSTER + "/add" 
 
+PCCSERVER = "/pccserver"
+PCC_AGENT = PCCSERVER + "/agent"
+PCC_ANSIBLE = PCCSERVER + "/ansible"
+PCC_ANSIBLE_HISTORY = PCC_ANSIBLE + "/history"
+PCC_APPS = PCCSERVER + "/apps"
+
 ## Login
 def login(url:str, username:str, password:str)->dict:
     """
@@ -45,60 +51,123 @@ def login(url:str, username:str, password:str)->dict:
 
     return {'session': session, 'token': token, 'url': url}
 
-## NodeGroups
-def add_node_group(conn:dict, Name:str, owner:int, Description:str)->dict:
+
+## Agent
+def get_agent(conn:dict)->dict:
     """
-    Add Node Group to PCC
+    Get Agent metadata
+
     [Args]
-        (str) Name: Name of the group
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Get Agent response (includes any errors)
+    """
+    return get(conn, PCC_AGENT)
+
+## Ansible
+def get_ansible_history(conn:dict)->dict:
+    """
+    Get Ansible History
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Get Ansible History response (includes any errors)
+    """
+    return get(conn, PCC_ANSIBLE_HISTORY)
+
+def get_ansible_by_id(conn:dict, id:int)->dict:
+    """
+    Get Ansible by Id
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (int) id: Id of the Ansible
+
+    [Returns]
+        (dict) Response: Get Ansible response (includes any errors)
+    """
+    return get(conn, PCC_ANSIBLE + "/" + str(id))
+
+def get_ansible_log_by_id(conn:dict, id:int)->dict:
+    """
+    Get Ansible Log by Id
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (int) id: Log id
+
+    [Returns]
+        (dict) Response: Get Ansible History response (includes any errors)
+    """
+    return get(conn, PCC_ANSIBLE + "/" + str(id) + "/logs")
+
+## Apps
+def get_apps(conn:dict)->dict:
+    """
+    Get Apps
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Get Apps response (includes any errors)
+    """
+    return get(conn, PCC_APPS)
+
+def get_app_by_id(conn:dict, id:str)->dict:
+    """
+    Get App by Id
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) id: App Id  (for example 'collector')
+
+    [Returns]
+        (dict) Response: Get Apps response (includes any errors)
+    """
+    return get(conn, PCC_APPS + "/" + id)
+
+## Cluster (NodeGroups)
+def get_cluster(conn:dict)->dict:
+    """
+    Get Cluster (Node Group)
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Get Cluster response (includes any errors)
+    """
+    return get(conn, PCC_CLUSTER)
+
+def add_cluster(conn:dict, Name:str, owner:int, Description:str, Id:int=None, CreatedAt:int=None, ModifiedAt:int=None)->dict:
+    """
+    Add Cluster (NodeGroup) to PCC
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Name: Name of the Cluster
         (int) owner: Tenant Id of the group
         (str) Description: Description of the group
 
     [Returns]
-        (dict) Response: Add Node Group response (includes any errors)
+        (dict) Response: Add Cluster response (includes any errors)
     """
-
     payload = {
         "Name": Name,
         "Description": Description,
-        "owner": owner
+        "owner": owner,
+        "CreatedAt": CreatedAt,
+        "ModifiedAt": ModifiedAt,
+        "Id": Id
     }
-
     return post(conn, PCC_CLUSTER_ADD, payload)
 
-def get_node_groups(conn:dict)->dict:
+def get_cluster_id_by_name(conn:dict, Name:str)->int:
     """
-    Get Node Groups list from PCC
-    [Args]
-        (dict) conn: 
-
-    [Returns]
-        (dict) Response: Get Node Groups response (includes any errors)
-    """
-
-    return get(conn, PCC_CLUSTER)
-
-def delete_node_group(conn:dict, Name:str)->dict:
-    """
-    Delete Node Group to PCC
-    [Args]
-        (int) Name: Name of the Node Group to be deleted
-
-    [Returns]
-        (dict) Response: Delete Node Group response (includes any errors)
-    """
-    Id = get_node_group_id(conn, Name)
-
-    if Id is None:
-        return None
-    else:
-        return delete(conn, "%s/%s" % (PCC_CLUSTER, Id))
-
-    
-        
-def get_node_group_id(conn, Name):
-    """
-    Get Id of tenant with matching Name from PCC
+    Get Cluster Id
     [Args]
         (str) Name: Name of tenant
     [Returns]
@@ -107,15 +176,31 @@ def get_node_group_id(conn, Name):
         (dict) Error response: If Exception occured
     """
 
-    node_group_list = get_node_groups(conn)['Result']['Data']
+    cluster_list = get_cluster(conn)['Result']['Data']
 
     try:
-        for node_group in node_group_list:
-            if str(node_group['Name']) == str(Name):
-                return node_group['Id']
+        for cluster in cluster_list:
+            if str(cluster['Name']) == str(Name):
+                return cluster['Id']
         return None
     except Exception as e:
         return {"Error": str(e)}
+
+def delete_cluster_by_name(conn:dict, Name:str)->dict:
+    """
+    Delete Cluster to PCC
+    [Args]
+        (int) Name: Name of the Cluster to be deleted
+
+    [Returns]
+        (dict) Response: Delete Cluster response (includes any errors)
+    """
+    Id = get_cluster_id_by_name(conn, Name)
+
+    if Id is None:
+        return None
+    else:
+        return delete(conn, "%s/%s" % (PCC_CLUSTER, Id))
 
 
 
