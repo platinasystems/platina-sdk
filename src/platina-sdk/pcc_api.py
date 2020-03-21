@@ -100,7 +100,7 @@ def get_ansible_log_by_id(conn:dict, id:int)->dict:
         (int) id: Log id
 
     [Returns]
-        (dict) Response: Get Ansible History response (includes any errors)
+        (dict) Response: Get Ansible Log response (includes any errors)
     """
     return get(conn, PCC_ANSIBLE + "/" + str(id) + "/logs")
 
@@ -169,9 +169,9 @@ def get_cluster_id_by_name(conn:dict, Name:str)->int:
     """
     Get Cluster Id
     [Args]
-        (str) Name: Name of tenant
+        (str) Name: Name of the Cluster
     [Returns]
-        (int) Id: Id of the matchining tenant, or
+        (int) Id: Id of the matchining Cluster, or
             None: if no match found, or
         (dict) Error response: If Exception occured
     """
@@ -186,9 +186,22 @@ def get_cluster_id_by_name(conn:dict, Name:str)->int:
     except Exception as e:
         return {"Error": str(e)}
 
+def get_cluster_by_id(conn:dict, id:int)->dict:
+    """
+    Get Cluster by Id
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (int) id: Cluster id
+
+    [Returns]
+        (dict) Response: Get Cluster response (includes any errors)
+    """
+    return get(conn, PCC_CLUSTER + "/" + str(id))
+
 def delete_cluster_by_name(conn:dict, Name:str)->dict:
     """
-    Delete Cluster to PCC
+    Delete Cluster from PCC
     [Args]
         (int) Name: Name of the Cluster to be deleted
 
