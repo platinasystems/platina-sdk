@@ -26,6 +26,7 @@ PCC_ENVIRONMENT =  PCCSERVER + "/environment"
 PCC_FILES = PCCSERVER + "/files"
 PCC_HARDWARE_INVENTORY = PCCSERVER + "/hardware-inventory"
 PCC_INTERFACE = PCCSERVER + "/interface"
+PCC_KUBERNETES = PCCSERVER + "/kubernetes"
 
 ## Login
 def login(url:str, username:str, password:str)->dict:
@@ -676,10 +677,9 @@ def down_interface(conn:dict, data:dict)->dict:
     """
     return post(conn, PCC_INTERFACE + "/down", data)
 
-
-def down_interface(conn:dict, data:dict)->dict:
+def up_interface(conn:dict, data:dict)->dict:
     """
-    Down Interface - Set interface down
+    Up Interface 
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
@@ -713,12 +713,74 @@ def down_interface(conn:dict, data:dict)->dict:
                         "status": "string"
                         }        
     [Returns]
-        (dict) Response: Down Interface response (includes any errors)
+        (dict) Response: Up Interface response (includes any errors)
     """
     return post(conn, PCC_INTERFACE + "/up", data)
 
 
 ## Kubernetes
+def get_kubernetes(conn:dict)->dict:
+    """
+    Get Kuberbetes
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Get Kuberbetes response (includes any errors)
+    """
+    return get(conn, PCC_KUBERNETES)
+
+def get_kubernetes_strgclasses_by_id(conn:dict, Id:str)->dict:
+    """
+    Get Kuberbetes StrgClasses by Id
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id of the cluster
+
+    [Returns]
+        (dict) Response: Get Kuberbetes response (includes any errors)
+    """
+    return get(conn, PCC_KUBERNETES + "/cluster/" + Id + "/strgclasses")
+
+def get_kubernetes_by_id(conn:dict, Id:str)->dict:
+    """
+    Get Kuberbetes by Id
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id of the cluster
+
+    [Returns]
+        (dict) Response: Get Kuberbetes response (includes any errors)
+    """
+    return get(conn, PCC_KUBERNETES + "/" + Id)
+
+def delete_kubernetes_strgclasses_by_id(conn:dict, Id:str)->dict:
+    """
+    Delete Kuberbetes StrgClasses by Id
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id of the cluster
+
+    [Returns]
+        (dict) Response: Delete Kuberbetes response (includes any errors)
+    """
+    return delete(conn, PCC_KUBERNETES + "/cluster/" + Id + "/strgclasses")
+
+def get_kubernetes_info(conn:dict)->dict:
+    """
+    Get Kuberbetes Info
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Get Kuberbetes response (includes any errors)
+    """
+    return get(conn, PCC_KUBERNETES + "/info")
 
 
 ## Maas
