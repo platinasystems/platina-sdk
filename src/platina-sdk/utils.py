@@ -40,6 +40,17 @@ def post(conn, url_path, payload):
     response = conn['session'].post(url, json=payload, headers=headers)
     return _serialize_response(time.time(), response)
 
+def put(conn, url_path, payload):
+    # DISABLE SSL error
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+    headers = {
+        'Content Type': 'application/json',
+        'Authorization': 'Bearer %s' % conn['token']
+    }
+    url = conn['url'] + url_path
+    response = conn['session'].put(url, json=payload, headers=headers)
+    return _serialize_response(time.time(), response)
 
 def _serialize_response(start_time, response):
     execution_time = time.time() - start_time

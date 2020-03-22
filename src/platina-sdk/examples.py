@@ -17,9 +17,14 @@ def main():
     conn = pcc.login(PCC_URL, PCC_USER, PCC_PASSWD)
 
     #
-    # API pcc.get_ansible_history
+    # API pcc.add_cluster
     #
-    response = pcc.add_cluster(conn, "Billy2", 1, "Boy")
+    data = {
+        "Name": "AddClusterExample",
+        "Description": "AddClusterDescription",
+        "owner": 0
+    }
+    response = pcc.add_cluster(conn, data)
     # response = pcc.get_tenant_id(conn, "ROOT")
     print(response)
 
