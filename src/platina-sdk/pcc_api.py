@@ -731,6 +731,106 @@ def get_kubernetes(conn:dict)->dict:
     """
     return get(conn, PCC_KUBERNETES)
 
+def add_kubernetes(conn:dict, data:dict)->dict:
+    """
+    Add Kubernetes
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: Interface parameters:
+                    {
+                        "ID": 0,
+                        "apps": [
+                            {
+                            "ID": 0,
+                            "appName": "string",
+                            "appNamespace": "string",
+                            "gitBranch": "string",
+                            "gitRepoPath": "string",
+                            "gitUrl": "string",
+                            "helmValuesFile": "string",
+                            "kclusterID": 0,
+                            "label": "string"
+                            }
+                        ],
+                        "cniPlugin": "string",
+                        "controlCIDR": "string",
+                        "defaultGateway": "string",
+                        "deployStatus": "string",
+                        "healthStatus": "string",
+                        "igwPolicy": "string",
+                        "isBusy": true,
+                        "k8sVersion": "string",
+                        "latestAnsibleJob": {
+                            "ID": 0,
+                            "Label": "string",
+                            "aborted": true,
+                            "customArgs": [
+                            "string"
+                            ],
+                            "cwDir": "string",
+                            "endTime": "2020-03-22T16:04:17.413Z",
+                            "inventory": "string",
+                            "logPath": "string",
+                            "playbook": "string",
+                            "progressPercentage": 0,
+                            "result": 0,
+                            "startTime": "2020-03-22T16:04:17.413Z",
+                            "target": "string",
+                            "targetID": 0,
+                            "vars": "string",
+                            "wsDir": "string"
+                        },
+                        "latestRestart": "2020-03-22T16:04:17.413Z",
+                        "name": "string",
+                        "networkID": 0,
+                        "nodes": [
+                            {
+                            "Etcd": true,
+                            "controlIP": "string",
+                            "id": 0,
+                            "kclusterID": 0,
+                            "kroles": [
+                                "string"
+                            ]
+                            }
+                        ],
+                        "owner": 0,
+                        "podsCIDR": "string",
+                        "pools": [
+                            0
+                        ],
+                        "rbd_ids": [
+                            0
+                        ],
+                        "rbds": [
+                            {
+                            "KclusterId": 0,
+                            "ceph_cluster_id": 0,
+                            "ceph_pool_id": 0,
+                            "deploy_status": "string",
+                            "id": 0,
+                            "image_feature": 0,
+                            "mount_path": "string",
+                            "name": "string",
+                            "progressPercentage": 0,
+                            "size": 0,
+                            "size_units": 0,
+                            "status": "string",
+                            "storage_class": "string",
+                            "tags": [
+                                "string"
+                            ]
+                            }
+                        ],
+                        "rolePolicy": "string",
+                        "servicesCIDR": "string"
+                    }
+    [Returns]
+        (dict) Response: Add Kubernetes response (includes any errors)
+    """
+    return post(conn, PCC_KUBERNETES, data)
+
 def get_kubernetes_strgclasses_by_id(conn:dict, Id:str)->dict:
     """
     Get Kuberbetes StrgClasses by Id
@@ -743,19 +843,6 @@ def get_kubernetes_strgclasses_by_id(conn:dict, Id:str)->dict:
         (dict) Response: Get Kuberbetes response (includes any errors)
     """
     return get(conn, PCC_KUBERNETES + "/cluster/" + Id + "/strgclasses")
-
-def get_kubernetes_by_id(conn:dict, Id:str)->dict:
-    """
-    Get Kuberbetes by Id
-
-    [Args]
-        (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id of the cluster
-
-    [Returns]
-        (dict) Response: Get Kuberbetes response (includes any errors)
-    """
-    return get(conn, PCC_KUBERNETES + "/" + Id)
 
 def delete_kubernetes_strgclasses_by_id(conn:dict, Id:str)->dict:
     """
@@ -782,6 +869,161 @@ def get_kubernetes_info(conn:dict)->dict:
     """
     return get(conn, PCC_KUBERNETES + "/info")
 
+def test_kubernetes_rbdmap_cluster(conn:dict, Id:str, rbdId:str)->dict:
+    """
+    Test Kubernetes RBD Map Cluster
+    
+    [Args]
+        (str) Id: Id (path)
+        (str) rbdId: rbdId (path)
+
+    [Returns]
+        (dict) Response: Add Kubernetes response (includes any errors)   
+    """
+    # (dict) data: (not used)
+    data = {}
+    return post(conn, PCC_KUBERNETES + "/test/rdbmap/cluster/" + Id + "/rbd/" + rbdId, data)
+
+def test_kubernetes_stclass_cluster(conn:dict, Id:str, rbdId:str)->dict:
+    """
+    Test Kubernetes K8s Cluster
+
+    [Args]
+        (str) Id: Id (path)
+        (str) rbdId: rbdId (path)
+
+    [Returns]
+        (dict) Response: Add Kubernetes response (includes any errors)
+    """
+    # (dict) data: (not used)
+    data = {}
+    return post(conn, PCC_KUBERNETES + "/test/stclass/cluster/" + Id + "/rbd/" + rbdId, data)
+
+def get_kubernetes_by_id(conn:dict, Id:str)->dict:
+    """
+    Get Kuberbetes by Id
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id of the cluster
+
+    [Returns]
+        (dict) Response: Get Kuberbetes response (includes any errors)
+    """
+    return get(conn, PCC_KUBERNETES + "/" + Id)
+
+def modify_kubernetes_by_id(conn:dict, Id:str, data:dict)->dict:
+    """
+    Modify Kubernetes K8s Cluster
+
+    [Args]
+        (dict) Response: Add Kubernetes response (includes any errors)
+        (str) Id: Id (path)
+        (str) rbdId: rbdId (path)
+        (dict) data: Kubernetes parameters
+                    {
+                        "rolePolicy": "string",
+                        "toAdd": [
+                            {
+                            "Etcd": true,
+                            "controlIP": "string",
+                            "id": 0,
+                            "kclusterID": 0,
+                            "kroles": [
+                                "string"
+                            ]
+                            }
+                        ],
+                        "toRemove": [
+                            0
+                        ]
+                    }
+
+    [Returns]
+        (dict) Response: Get Kuberbetes response (includes any errors)
+    """
+    return put(conn, PCC_KUBERNETES + "/" + Id, data)
+
+def delete_kubernetes_by_id(conn:dict, Id:str)->dict:
+    """
+    Delete Kuberbetes by Id
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id of the cluster
+
+    [Returns]
+        (dict) Response: Delete Kuberbetes response (includes any errors)
+    """
+    return delete(conn, PCC_KUBERNETES + "/" + Id)
+
+def add_kubernetes_app(conn:dict, Id:str, data:dict)->dict:
+    """
+    Add Kubernetes App
+
+    [Args]
+        (str) Id: Id (path)
+        (dict) data: kapp (body)
+                    {
+                        "ID": 0,
+                        "appName": "string",
+                        "appNamespace": "string",
+                        "gitBranch": "string",
+                        "gitRepoPath": "string",
+                        "gitUrl": "string",
+                        "helmValuesFile": "string",
+                        "kclusterID": 0,
+                        "label": "string"
+                    }
+
+    [Returns]
+        (dict) Response: Add Kubernetes response (includes any errors)
+    """ 
+    return post(conn, PCC_KUBERNETES + "/" + Id + "/app", data)
+
+def delete_kubernetes_app_by_id(conn:dict, Id:str)->dict:
+    """
+    Delete Kuberbetes App by Id
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id of the cluster
+
+    [Returns]
+        (dict) Response: Delete Kuberbetes response (includes any errors)
+    """
+    return delete(conn, PCC_KUBERNETES + "/" + Id + "/app")
+
+def get_kubernetes_status_by_id(conn:dict, Id:str)->dict:
+    """
+    Get Kuberbetes Status by Id
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id of the cluster
+
+    [Returns]
+        (dict) Response: Get Kuberbetes response (includes any errors)
+    """
+    return get(conn, PCC_KUBERNETES + "/" + Id + "/status")
+
+
+def upgrade_kubernetes_by_id(conn:dict, Id:str, data:dict)->dict:
+    """
+    Upgrade Kubernetes by Id
+
+    [Args]
+        (str) Id: Id (path)
+        (dict) data: kClusterUpgradeRequest (body)
+                    {
+                        "cniPlugin": "string",
+                        "k8sVersion": "string"
+                    }
+
+    [Returns]
+        (dict) Response: Add Kubernetes response (includes any errors)
+    """ 
+    return post(conn, PCC_KUBERNETES + "/" + Id + "/upgrade", data)
 
 ## Maas
 
