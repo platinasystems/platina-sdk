@@ -28,6 +28,8 @@ PCC_HARDWARE_INVENTORY = PCCSERVER + "/hardware-inventory"
 PCC_INTERFACE = PCCSERVER + "/interface"
 PCC_KUBERNETES = PCCSERVER + "/kubernetes"
 PCC_NODE = PCCSERVER + "/node"
+PCC_MAAS = PCCSERVER + "/maas"
+PCC_NOTIFICATIONS = PCCSERVER + "/notifications"
 
 ## Login
 def login(url:str, username:str, password:str)->dict:
@@ -875,6 +877,7 @@ def test_kubernetes_rbdmap_cluster(conn:dict, Id:str, rbdId:str)->dict:
     Test Kubernetes RBD Map Cluster
     
     [Args]
+        (dict) conn: Connection dictionary obtained after logging in
         (str) Id: Id (path)
         (str) rbdId: rbdId (path)
 
@@ -890,6 +893,7 @@ def test_kubernetes_stclass_cluster(conn:dict, Id:str, rbdId:str)->dict:
     Test Kubernetes K8s Cluster
 
     [Args]
+        (dict) conn: Connection dictionary obtained after logging in
         (str) Id: Id (path)
         (str) rbdId: rbdId (path)
 
@@ -918,9 +922,8 @@ def modify_kubernetes_by_id(conn:dict, Id:str, data:dict)->dict:
     Modify Kubernetes K8s Cluster
 
     [Args]
-        (dict) Response: Add Kubernetes response (includes any errors)
+        (dict) conn: Connection dictionary obtained after logging in
         (str) Id: Id (path)
-        (str) rbdId: rbdId (path)
         (dict) data: Kubernetes parameters
                     {
                         "rolePolicy": "string",
@@ -963,6 +966,7 @@ def add_kubernetes_app(conn:dict, Id:str, data:dict)->dict:
     Add Kubernetes App
 
     [Args]
+        (dict) conn: Connection dictionary obtained after logging in
         (str) Id: Id (path)
         (dict) data: kapp (body)
                     {
@@ -1014,6 +1018,7 @@ def upgrade_kubernetes_by_id(conn:dict, Id:str, data:dict)->dict:
     Upgrade Kubernetes by Id
 
     [Args]
+        (dict) conn: Connection dictionary obtained after logging in
         (str) Id: Id (path)
         (dict) data: kClusterUpgradeRequest (body)
                     {
@@ -1027,24 +1032,933 @@ def upgrade_kubernetes_by_id(conn:dict, Id:str, data:dict)->dict:
     return post(conn, PCC_KUBERNETES + "/" + Id + "/upgrade", data)
 
 ## Maas
-
-def get_node(conn:dict, Id:str)->dict:
+def add_maas(conn:dict, nodeIDs:list)->dict:
     """
-    Get Kuberbetes Status by Id
+    Post is a trigger for MaaS tenants and hosts script execution
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id of the cluster
+        (list) nodeIDs: Array of node IDs (integers)
 
     [Returns]
-        (dict) Response: Get Kuberbetes response (includes any errors)
-    """
-    return get(conn, PCC_NODE + "/" + Id + "/status")
+        (dict) Response: Add Kubernetes response (includes any errors)
+    """ 
+    return post(conn, PCC_MAAS, nodeIDs)
 
 ## Node
+def get_nodes(conn:dict)->dict:
+    """
+    Get Nodes
 
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Get Nodes response (includes any errors)
+    """
+    return get(conn, PCC_NODE)
+
+def add_node(conn:dict, data:dict)->dict:
+    """
+    Add Node
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: nodeWithAdditionalFields 
+                    {
+                        "ClusterId": 0,
+                        "CreatedAt": 0,
+                        "Host": "string",
+                        "Id": 0,
+                        "Iso_Id": 0,
+                        "Kernel_Id": 0,
+                        "Model": "string",
+                        "ModifiedAt": 0,
+                        "Name": "string",
+                        "PhysPortsDesiredJson": "string",
+                        "SN": "string",
+                        "Site_Id": 0,
+                        "Type_Id": 0,
+                        "Uuid": "string",
+                        "Vendor": "string",
+                        "adminUser": "string",
+                        "bmc": "string",
+                        "bmcKey": "string",
+                        "bmcPassword": "string",
+                        "bmcUser": "string",
+                        "bmcUsers": [
+                            "string"
+                        ],
+                        "console": "string",
+                        "controllers": [
+                            {
+                            "bus_info": "string",
+                            "driver": "string",
+                            "drives": [
+                                {
+                                "drive_config": {
+                                    "fstype": "string",
+                                    "id": 0,
+                                    "lvm": true,
+                                    "node_id": 0,
+                                    "node_uuid": "string",
+                                    "size": 0,
+                                    "wwid": "string"
+                                },
+                                "estimated_lifetime": 0,
+                                "free_capacity": 0,
+                                "id": 0,
+                                "media_type": 0,
+                                "model": "string",
+                                "name": "string",
+                                "online": true,
+                                "partitions": [
+                                    {
+                                    "file_system": {
+                                        "capacity": 0,
+                                        "free": 0,
+                                        "fs_use": 0,
+                                        "id": 0,
+                                        "label": "string",
+                                        "mount_point": "string",
+                                        "name": "string",
+                                        "state": 0,
+                                        "type": "string"
+                                    },
+                                    "id": 0,
+                                    "name": "string",
+                                    "size": 0,
+                                    "volumes": [
+                                        {
+                                        "drives": [
+                                            {
+                                            "drive_config": {
+                                                "fstype": "string",
+                                                "id": 0,
+                                                "lvm": true,
+                                                "node_id": 0,
+                                                "node_uuid": "string",
+                                                "size": 0,
+                                                "wwid": "string"
+                                            },
+                                            "estimated_lifetime": 0,
+                                            "free_capacity": 0,
+                                            "id": 0,
+                                            "media_type": 0,
+                                            "model": "string",
+                                            "name": "string",
+                                            "online": true,
+                                            "partitions": [
+                                                {
+                                                "file_system": {
+                                                    "capacity": 0,
+                                                    "free": 0,
+                                                    "fs_use": 0,
+                                                    "id": 0,
+                                                    "label": "string",
+                                                    "mount_point": "string",
+                                                    "name": "string",
+                                                    "state": 0,
+                                                    "type": "string"
+                                                },
+                                                "id": 0,
+                                                "name": "string",
+                                                "size": 0,
+                                                "volumes": [
+                                                    {
+                                                    "drives": [
+                                                        null
+                                                    ],
+                                                    "file_system": {
+                                                        "capacity": 0,
+                                                        "free": 0,
+                                                        "fs_use": 0,
+                                                        "id": 0,
+                                                        "label": "string",
+                                                        "mount_point": "string",
+                                                        "name": "string",
+                                                        "state": 0,
+                                                        "type": "string"
+                                                    },
+                                                    "id": 0,
+                                                    "label": "string",
+                                                    "name": "string",
+                                                    "size": 0,
+                                                    "type": 0,
+                                                    "uuid": "string"
+                                                    }
+                                                ]
+                                                }
+                                            ],
+                                            "serial_number": "string",
+                                            "tags": [
+                                                "string"
+                                            ],
+                                            "total_capacity": 0,
+                                            "transport": 0,
+                                            "vendor": "string",
+                                            "volumes": [
+                                                {
+                                                "drives": [
+                                                    null
+                                                ],
+                                                "file_system": {
+                                                    "capacity": 0,
+                                                    "free": 0,
+                                                    "fs_use": 0,
+                                                    "id": 0,
+                                                    "label": "string",
+                                                    "mount_point": "string",
+                                                    "name": "string",
+                                                    "state": 0,
+                                                    "type": "string"
+                                                },
+                                                "id": 0,
+                                                "label": "string",
+                                                "name": "string",
+                                                "size": 0,
+                                                "type": 0,
+                                                "uuid": "string"
+                                                }
+                                            ],
+                                            "wwid": "string"
+                                            }
+                                        ],
+                                        "file_system": {
+                                            "capacity": 0,
+                                            "free": 0,
+                                            "fs_use": 0,
+                                            "id": 0,
+                                            "label": "string",
+                                            "mount_point": "string",
+                                            "name": "string",
+                                            "state": 0,
+                                            "type": "string"
+                                        },
+                                        "id": 0,
+                                        "label": "string",
+                                        "name": "string",
+                                        "size": 0,
+                                        "type": 0,
+                                        "uuid": "string"
+                                        }
+                                    ]
+                                    }
+                                ],
+                                "serial_number": "string",
+                                "tags": [
+                                    "string"
+                                ],
+                                "total_capacity": 0,
+                                "transport": 0,
+                                "vendor": "string",
+                                "volumes": [
+                                    {
+                                    "drives": [
+                                        {
+                                        "drive_config": {
+                                            "fstype": "string",
+                                            "id": 0,
+                                            "lvm": true,
+                                            "node_id": 0,
+                                            "node_uuid": "string",
+                                            "size": 0,
+                                            "wwid": "string"
+                                        },
+                                        "estimated_lifetime": 0,
+                                        "free_capacity": 0,
+                                        "id": 0,
+                                        "media_type": 0,
+                                        "model": "string",
+                                        "name": "string",
+                                        "online": true,
+                                        "partitions": [
+                                            {
+                                            "file_system": {
+                                                "capacity": 0,
+                                                "free": 0,
+                                                "fs_use": 0,
+                                                "id": 0,
+                                                "label": "string",
+                                                "mount_point": "string",
+                                                "name": "string",
+                                                "state": 0,
+                                                "type": "string"
+                                            },
+                                            "id": 0,
+                                            "name": "string",
+                                            "size": 0,
+                                            "volumes": [
+                                                {
+                                                "drives": [
+                                                    null
+                                                ],
+                                                "file_system": {
+                                                    "capacity": 0,
+                                                    "free": 0,
+                                                    "fs_use": 0,
+                                                    "id": 0,
+                                                    "label": "string",
+                                                    "mount_point": "string",
+                                                    "name": "string",
+                                                    "state": 0,
+                                                    "type": "string"
+                                                },
+                                                "id": 0,
+                                                "label": "string",
+                                                "name": "string",
+                                                "size": 0,
+                                                "type": 0,
+                                                "uuid": "string"
+                                                }
+                                            ]
+                                            }
+                                        ],
+                                        "serial_number": "string",
+                                        "tags": [
+                                            "string"
+                                        ],
+                                        "total_capacity": 0,
+                                        "transport": 0,
+                                        "vendor": "string",
+                                        "volumes": [
+                                            {
+                                            "drives": [
+                                                null
+                                            ],
+                                            "file_system": {
+                                                "capacity": 0,
+                                                "free": 0,
+                                                "fs_use": 0,
+                                                "id": 0,
+                                                "label": "string",
+                                                "mount_point": "string",
+                                                "name": "string",
+                                                "state": 0,
+                                                "type": "string"
+                                            },
+                                            "id": 0,
+                                            "label": "string",
+                                            "name": "string",
+                                            "size": 0,
+                                            "type": 0,
+                                            "uuid": "string"
+                                            }
+                                        ],
+                                        "wwid": "string"
+                                        }
+                                    ],
+                                    "file_system": {
+                                        "capacity": 0,
+                                        "free": 0,
+                                        "fs_use": 0,
+                                        "id": 0,
+                                        "label": "string",
+                                        "mount_point": "string",
+                                        "name": "string",
+                                        "state": 0,
+                                        "type": "string"
+                                    },
+                                    "id": 0,
+                                    "label": "string",
+                                    "name": "string",
+                                    "size": 0,
+                                    "type": 0,
+                                    "uuid": "string"
+                                    }
+                                ],
+                                "wwid": "string"
+                                }
+                            ],
+                            "id": 0,
+                            "model": "string",
+                            "name": "string",
+                            "online": true,
+                            "tags": [
+                                "string"
+                            ],
+                            "type": "string",
+                            "vendor": "string"
+                            }
+                        ],
+                        "hardwareInventoryId": 0,
+                        "hwAddr": "string",
+                        "invader": true,
+                        "managed": true,
+                        "nodeAvailabilityStatus": {
+                            "connectionStatus": "string",
+                            "cpuUsage": 0,
+                            "memoryUsage": 0,
+                            "nodeId": 0,
+                            "partitionsUsage": {},
+                            "updatedAt": 0,
+                            "usageStatus": "string"
+                        },
+                        "owner": 0,
+                        "provisionStatus": "string",
+                        "ready": true,
+                        "reimage": true,
+                        "roles": [
+                            0
+                        ],
+                        "sshKeys": [
+                            0
+                        ],
+                        "standby": true,
+                        "status": "string",
+                        "tags": [
+                            "string"
+                        ],
+                        "tenant": "string",
+                        "tenants": [
+                            0
+                        ]
+                    }
+    [Returns]
+        (dict) Response: Add Node response (includes any errors)
+    """ 
+    return post(conn, PCC_NODE, data)
+
+def get_node_availability(conn:dict)->dict:
+    """
+    Get Node Availability
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Get Nodes response (includes any errors)
+    """
+    return get(conn, PCC_NODE + "/availability")
+
+def delete_nodes(conn:dict, IDs:list)->dict:
+    """
+    Delete Nodes
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (list) IDs: List of node IDs (integers)
+
+    [Returns]
+        (dict) Response: Get Nodes response (includes any errors)
+    """
+    return post(conn, PCC_NODE, IDs)
+
+def get_node_desired_interface_by_id(conn:dict, Id:str)->dict:
+    """
+    Get Node Desired Interface by Id
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+
+    [Returns]
+        (dict) Response: Get Nodes response (includes any errors)
+    """
+    return get(conn, PCC_NODE + "/ifacesdesired/" + Id)
+
+def get_node_summary_by_id(conn:dict, Id:str)->dict:
+    """
+    Get Node Summary by Id
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+
+    [Returns]
+        (dict) Response: Get Nodes response (includes any errors)
+    """
+    return get(conn, PCC_NODE + "/summary/" + Id)
+
+def modify_node(conn:dict, data:dict)->dict:
+    """
+    Modify Node
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: nodeWithAdditionalFields 
+                    {
+                        "ClusterId": 0,
+                        "CreatedAt": 0,
+                        "Host": "string",
+                        "Id": 0,
+                        "Iso_Id": 0,
+                        "Kernel_Id": 0,
+                        "Model": "string",
+                        "ModifiedAt": 0,
+                        "Name": "string",
+                        "PhysPortsDesiredJson": "string",
+                        "SN": "string",
+                        "Site_Id": 0,
+                        "Type_Id": 0,
+                        "Uuid": "string",
+                        "Vendor": "string",
+                        "adminUser": "string",
+                        "bmc": "string",
+                        "bmcKey": "string",
+                        "bmcPassword": "string",
+                        "bmcUser": "string",
+                        "bmcUsers": [
+                            "string"
+                        ],
+                        "console": "string",
+                        "controllers": [
+                            {
+                            "bus_info": "string",
+                            "driver": "string",
+                            "drives": [
+                                {
+                                "drive_config": {
+                                    "fstype": "string",
+                                    "id": 0,
+                                    "lvm": true,
+                                    "node_id": 0,
+                                    "node_uuid": "string",
+                                    "size": 0,
+                                    "wwid": "string"
+                                },
+                                "estimated_lifetime": 0,
+                                "free_capacity": 0,
+                                "id": 0,
+                                "media_type": 0,
+                                "model": "string",
+                                "name": "string",
+                                "online": true,
+                                "partitions": [
+                                    {
+                                    "file_system": {
+                                        "capacity": 0,
+                                        "free": 0,
+                                        "fs_use": 0,
+                                        "id": 0,
+                                        "label": "string",
+                                        "mount_point": "string",
+                                        "name": "string",
+                                        "state": 0,
+                                        "type": "string"
+                                    },
+                                    "id": 0,
+                                    "name": "string",
+                                    "size": 0,
+                                    "volumes": [
+                                        {
+                                        "drives": [
+                                            {
+                                            "drive_config": {
+                                                "fstype": "string",
+                                                "id": 0,
+                                                "lvm": true,
+                                                "node_id": 0,
+                                                "node_uuid": "string",
+                                                "size": 0,
+                                                "wwid": "string"
+                                            },
+                                            "estimated_lifetime": 0,
+                                            "free_capacity": 0,
+                                            "id": 0,
+                                            "media_type": 0,
+                                            "model": "string",
+                                            "name": "string",
+                                            "online": true,
+                                            "partitions": [
+                                                {
+                                                "file_system": {
+                                                    "capacity": 0,
+                                                    "free": 0,
+                                                    "fs_use": 0,
+                                                    "id": 0,
+                                                    "label": "string",
+                                                    "mount_point": "string",
+                                                    "name": "string",
+                                                    "state": 0,
+                                                    "type": "string"
+                                                },
+                                                "id": 0,
+                                                "name": "string",
+                                                "size": 0,
+                                                "volumes": [
+                                                    {
+                                                    "drives": [
+                                                        null
+                                                    ],
+                                                    "file_system": {
+                                                        "capacity": 0,
+                                                        "free": 0,
+                                                        "fs_use": 0,
+                                                        "id": 0,
+                                                        "label": "string",
+                                                        "mount_point": "string",
+                                                        "name": "string",
+                                                        "state": 0,
+                                                        "type": "string"
+                                                    },
+                                                    "id": 0,
+                                                    "label": "string",
+                                                    "name": "string",
+                                                    "size": 0,
+                                                    "type": 0,
+                                                    "uuid": "string"
+                                                    }
+                                                ]
+                                                }
+                                            ],
+                                            "serial_number": "string",
+                                            "tags": [
+                                                "string"
+                                            ],
+                                            "total_capacity": 0,
+                                            "transport": 0,
+                                            "vendor": "string",
+                                            "volumes": [
+                                                {
+                                                "drives": [
+                                                    null
+                                                ],
+                                                "file_system": {
+                                                    "capacity": 0,
+                                                    "free": 0,
+                                                    "fs_use": 0,
+                                                    "id": 0,
+                                                    "label": "string",
+                                                    "mount_point": "string",
+                                                    "name": "string",
+                                                    "state": 0,
+                                                    "type": "string"
+                                                },
+                                                "id": 0,
+                                                "label": "string",
+                                                "name": "string",
+                                                "size": 0,
+                                                "type": 0,
+                                                "uuid": "string"
+                                                }
+                                            ],
+                                            "wwid": "string"
+                                            }
+                                        ],
+                                        "file_system": {
+                                            "capacity": 0,
+                                            "free": 0,
+                                            "fs_use": 0,
+                                            "id": 0,
+                                            "label": "string",
+                                            "mount_point": "string",
+                                            "name": "string",
+                                            "state": 0,
+                                            "type": "string"
+                                        },
+                                        "id": 0,
+                                        "label": "string",
+                                        "name": "string",
+                                        "size": 0,
+                                        "type": 0,
+                                        "uuid": "string"
+                                        }
+                                    ]
+                                    }
+                                ],
+                                "serial_number": "string",
+                                "tags": [
+                                    "string"
+                                ],
+                                "total_capacity": 0,
+                                "transport": 0,
+                                "vendor": "string",
+                                "volumes": [
+                                    {
+                                    "drives": [
+                                        {
+                                        "drive_config": {
+                                            "fstype": "string",
+                                            "id": 0,
+                                            "lvm": true,
+                                            "node_id": 0,
+                                            "node_uuid": "string",
+                                            "size": 0,
+                                            "wwid": "string"
+                                        },
+                                        "estimated_lifetime": 0,
+                                        "free_capacity": 0,
+                                        "id": 0,
+                                        "media_type": 0,
+                                        "model": "string",
+                                        "name": "string",
+                                        "online": true,
+                                        "partitions": [
+                                            {
+                                            "file_system": {
+                                                "capacity": 0,
+                                                "free": 0,
+                                                "fs_use": 0,
+                                                "id": 0,
+                                                "label": "string",
+                                                "mount_point": "string",
+                                                "name": "string",
+                                                "state": 0,
+                                                "type": "string"
+                                            },
+                                            "id": 0,
+                                            "name": "string",
+                                            "size": 0,
+                                            "volumes": [
+                                                {
+                                                "drives": [
+                                                    null
+                                                ],
+                                                "file_system": {
+                                                    "capacity": 0,
+                                                    "free": 0,
+                                                    "fs_use": 0,
+                                                    "id": 0,
+                                                    "label": "string",
+                                                    "mount_point": "string",
+                                                    "name": "string",
+                                                    "state": 0,
+                                                    "type": "string"
+                                                },
+                                                "id": 0,
+                                                "label": "string",
+                                                "name": "string",
+                                                "size": 0,
+                                                "type": 0,
+                                                "uuid": "string"
+                                                }
+                                            ]
+                                            }
+                                        ],
+                                        "serial_number": "string",
+                                        "tags": [
+                                            "string"
+                                        ],
+                                        "total_capacity": 0,
+                                        "transport": 0,
+                                        "vendor": "string",
+                                        "volumes": [
+                                            {
+                                            "drives": [
+                                                null
+                                            ],
+                                            "file_system": {
+                                                "capacity": 0,
+                                                "free": 0,
+                                                "fs_use": 0,
+                                                "id": 0,
+                                                "label": "string",
+                                                "mount_point": "string",
+                                                "name": "string",
+                                                "state": 0,
+                                                "type": "string"
+                                            },
+                                            "id": 0,
+                                            "label": "string",
+                                            "name": "string",
+                                            "size": 0,
+                                            "type": 0,
+                                            "uuid": "string"
+                                            }
+                                        ],
+                                        "wwid": "string"
+                                        }
+                                    ],
+                                    "file_system": {
+                                        "capacity": 0,
+                                        "free": 0,
+                                        "fs_use": 0,
+                                        "id": 0,
+                                        "label": "string",
+                                        "mount_point": "string",
+                                        "name": "string",
+                                        "state": 0,
+                                        "type": "string"
+                                    },
+                                    "id": 0,
+                                    "label": "string",
+                                    "name": "string",
+                                    "size": 0,
+                                    "type": 0,
+                                    "uuid": "string"
+                                    }
+                                ],
+                                "wwid": "string"
+                                }
+                            ],
+                            "id": 0,
+                            "model": "string",
+                            "name": "string",
+                            "online": true,
+                            "tags": [
+                                "string"
+                            ],
+                            "type": "string",
+                            "vendor": "string"
+                            }
+                        ],
+                        "hardwareInventoryId": 0,
+                        "hwAddr": "string",
+                        "invader": true,
+                        "managed": true,
+                        "nodeAvailabilityStatus": {
+                            "connectionStatus": "string",
+                            "cpuUsage": 0,
+                            "memoryUsage": 0,
+                            "nodeId": 0,
+                            "partitionsUsage": {},
+                            "updatedAt": 0,
+                            "usageStatus": "string"
+                        },
+                        "owner": 0,
+                        "provisionStatus": "string",
+                        "ready": true,
+                        "reimage": true,
+                        "roles": [
+                            0
+                        ],
+                        "sshKeys": [
+                            0
+                        ],
+                        "standby": true,
+                        "status": "string",
+                        "tags": [
+                            "string"
+                        ],
+                        "tenant": "string",
+                        "tenants": [
+                            0
+                        ]
+                    }
+    [Returns]
+        (dict) Response: Modify Node response (includes any errors)
+    """ 
+    return put(conn, PCC_NODE + "/update", data)
+
+
+def modify_node_maas(conn:dict, Id:str)->dict:
+    """
+    Modify Node Maas
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str)  Id: Id
+
+    [Returns]
+        (dict) Response: Modify Node response (includes any errors)
+    """ 
+    data = {}
+    return put(conn, PCC_NODE + "/updateMaas/" + Id, data)
+
+def get_node_by_id(conn:dict, Id:str)->dict:
+    """
+    Get Node by Id
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+
+    [Returns]
+        (dict) Response: Get Node response (includes any errors)
+    """
+    return get(conn, PCC_NODE + "/" + Id)
+
+def delete_node_by_id(conn:dict, Id:str)->dict:
+    """
+    Delete Node by Id
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+
+    [Returns]
+        (dict) Response: Delete Node response (includes any errors)
+    """
+    return delete(conn, PCC_NODE + "/" + Id)
+
+def get_node_apps_by_id(conn:dict, Id:str)->dict:
+    """
+    Get Node Apps by Id
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+
+    [Returns]
+        (dict) Response: Get Node response (includes any errors)
+    """
+    return get(conn, PCC_NODE + "/" + Id + "/apps")
+
+def get_node_interfaces_by_id(conn:dict, Id:str)->dict:
+    """
+    Get Node Interfaces by Id
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+
+    [Returns]
+        (dict) Response: Get Node response (includes any errors)
+    """
+    return get(conn, PCC_NODE + "/" + Id + "/ifsPerXeth")
+
+def modify_node_interfaces_by_id(conn:dict, Id:str, data:dict)->dict:
+    """
+    Modify Node Interfaces by Id
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+        (dict) data: ifsRequest
+                {
+                    "IfsPerXethDesired": [
+                        0
+                    ],
+                    "IfsSpeedsDesired": [
+                        0
+                    ]
+                }
+
+    [Returns]
+        (dict) Response: Modify Node response (includes any errors)
+    """
+    return post(conn, PCC_NODE + "/" + Id + "/ifsPerXeth", data)
+
+def get_node_provision_status_by_id(conn:dict, Id:str)->dict:
+    """
+    Get Node Provision Status by Id
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+
+    [Returns]
+        (dict) Response: Get Node response (includes any errors)
+    """
+    return get(conn, PCC_NODE + "/" + Id + "/provisionStatus")
+
+def get_node_operations_status_by_id(conn:dict, Id:str, operations:str)->dict:
+    """
+    Get Node Operations Status by Id
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+        (str) operations: operations
+
+    [Returns]
+        (dict) Response: Get Node response (includes any errors)
+    """
+    return get(conn, PCC_NODE + "/" + Id + "/status/" + operations)
 
 ## Notification
+def get_notifications(conn:dict)->dict:
+    """
+    Get Notifications
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Get Notifications response (includes any errors)
+    """
+    return get(conn, PCC_NOTIFICATIONS)
 
 
 ## Portus
