@@ -30,6 +30,8 @@ PCC_KUBERNETES = PCCSERVER + "/kubernetes"
 PCC_NODE = PCCSERVER + "/node"
 PCC_MAAS = PCCSERVER + "/maas"
 PCC_NOTIFICATIONS = PCCSERVER + "/notifications"
+PCC_PORTUS = PCCSERVER + "/portus"
+PCC_PROFILE = PCCSERVER + "/profile"
 
 ## Login
 def login(url:str, username:str, password:str)->dict:
@@ -1960,12 +1962,386 @@ def get_notifications(conn:dict)->dict:
     """
     return get(conn, PCC_NOTIFICATIONS)
 
+def add_notification(conn:dict, data:dict)->dict:
+    """
+    Add Notification
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: notification
+                {
+                    "createdAt": 0,
+                    "expireAt": 0,
+                    "hashcode": 0,
+                    "id": 0,
+                    "isConfirmed": true,
+                    "kind": "string",
+                    "level": "string",
+                    "message": "string",
+                    "metadata": {},
+                    "scope": "string",
+                    "targetId": 0,
+                    "targetName": "string",
+                    "type": "string",
+                    "type_id": 0
+                }
+
+    [Returns]
+        (dict) Response: Add Notfication response (includes any errors)
+    """
+    return post(conn, PCC_NOTIFICATIONS, data)
+
+def confirm_notification(conn:dict, data:dict)->dict:
+    """
+    Confirm Notification
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: confirmation
+                {
+                    "notificationIds": [
+                        0
+                    ]
+                }
+
+    [Returns]
+        (dict) Response: Notfication response (includes any errors)
+    """
+    return post(conn, PCC_NOTIFICATIONS + "/confirm", data)
+
+def get_notification_history(conn:dict)->dict:
+    """
+    Get Notification History
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Get Notifications response (includes any errors)
+    """
+    return get(conn, PCC_NOTIFICATIONS + "/history")
+
 
 ## Portus
+def get_portus(conn:dict)->dict:
+    """
+    Get Portus
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Get Portus response (includes any errors)
+    """
+    return get(conn, PCC_PORTUS)
+
+def modify_portus(conn:dict, data:dict)->dict:
+    """
+    Modify Portus
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: portusConfiguration
+                {
+                    "adminState": "string",
+                    "authenticationProfile": {
+                        "id": 0,
+                        "name": "string",
+                        "profile": {},
+                        "tenant": 0,
+                        "type": "string"
+                    },
+                    "authenticationProfileId": 0,
+                    "available": true,
+                    "cephRBDDb": {
+                        "KclusterId": 0,
+                        "ceph_cluster_id": 0,
+                        "ceph_pool_id": 0,
+                        "deploy_status": "string",
+                        "id": 0,
+                        "image_feature": 0,
+                        "mount_path": "string",
+                        "name": "string",
+                        "progressPercentage": 0,
+                        "size": 0,
+                        "size_units": 0,
+                        "status": "string",
+                        "storage_class": "string",
+                        "tags": [
+                        "string"
+                        ]
+                    },
+                    "cephRBDDbId": 0,
+                    "cephRBDRegistry": {
+                        "KclusterId": 0,
+                        "ceph_cluster_id": 0,
+                        "ceph_pool_id": 0,
+                        "deploy_status": "string",
+                        "id": 0,
+                        "image_feature": 0,
+                        "mount_path": "string",
+                        "name": "string",
+                        "progressPercentage": 0,
+                        "size": 0,
+                        "size_units": 0,
+                        "status": "string",
+                        "storage_class": "string",
+                        "tags": [
+                        "string"
+                        ]
+                    },
+                    "cephRBDRegistryId": 0,
+                    "creationDate": 0,
+                    "databaseName": "string",
+                    "databasePassword": "string",
+                    "deleteEnabled": true,
+                    "fullyQualifiedDomainName": "string",
+                    "id": 0,
+                    "name": "string",
+                    "nodeID": 0,
+                    "operationalStatus": "string",
+                    "password": "string",
+                    "port": 0,
+                    "portusInfo": {
+                        "nodeId": 0,
+                        "portusVersion": "string",
+                        "registryVersion": "string",
+                        "running": true,
+                        "timestamp": 0
+                    },
+                    "portusRegistryPort": 0,
+                    "registryCertId": 0,
+                    "registryKeyId": 0,
+                    "secretKeyBase": "string",
+                    "signupEnabled": true,
+                    "storageLocation": "string",
+                    "storageType": "string",
+                    "tenant": 0,
+                    "url": "string"
+                }
+    [Returns]
+        (dict) Response: Modify Portus response (includes any errors)
+    """
+    return put(conn, PCC_PORTUS, data)
+
+
+def add_portus(conn:dict, data:dict)->dict:
+    """
+    Add Portus
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: portusConfiguration
+                    {
+                        "adminState": "string",
+                        "authenticationProfile": {
+                            "id": 0,
+                            "name": "string",
+                            "profile": {},
+                            "tenant": 0,
+                            "type": "string"
+                        },
+                        "authenticationProfileId": 0,
+                        "available": true,
+                        "cephRBDDb": {
+                            "KclusterId": 0,
+                            "ceph_cluster_id": 0,
+                            "ceph_pool_id": 0,
+                            "deploy_status": "string",
+                            "id": 0,
+                            "image_feature": 0,
+                            "mount_path": "string",
+                            "name": "string",
+                            "progressPercentage": 0,
+                            "size": 0,
+                            "size_units": 0,
+                            "status": "string",
+                            "storage_class": "string",
+                            "tags": [
+                            "string"
+                            ]
+                        },
+                        "cephRBDDbId": 0,
+                        "cephRBDRegistry": {
+                            "KclusterId": 0,
+                            "ceph_cluster_id": 0,
+                            "ceph_pool_id": 0,
+                            "deploy_status": "string",
+                            "id": 0,
+                            "image_feature": 0,
+                            "mount_path": "string",
+                            "name": "string",
+                            "progressPercentage": 0,
+                            "size": 0,
+                            "size_units": 0,
+                            "status": "string",
+                            "storage_class": "string",
+                            "tags": [
+                            "string"
+                            ]
+                        },
+                        "cephRBDRegistryId": 0,
+                        "creationDate": 0,
+                        "databaseName": "string",
+                        "databasePassword": "string",
+                        "deleteEnabled": true,
+                        "fullyQualifiedDomainName": "string",
+                        "id": 0,
+                        "name": "string",
+                        "nodeID": 0,
+                        "operationalStatus": "string",
+                        "password": "string",
+                        "port": 0,
+                        "portusInfo": {
+                            "nodeId": 0,
+                            "portusVersion": "string",
+                            "registryVersion": "string",
+                            "running": true,
+                            "timestamp": 0
+                        },
+                        "portusRegistryPort": 0,
+                        "registryCertId": 0,
+                        "registryKeyId": 0,
+                        "secretKeyBase": "string",
+                        "signupEnabled": true,
+                        "storageLocation": "string",
+                        "storageType": "string",
+                        "tenant": 0,
+                        "url": "string"
+                    }
+    [Returns]
+        (dict) Response: Add Portus response (includes any errors)
+    """
+    return post(conn, PCC_PORTUS, data)
+
+def get_portus_by_id(conn:dict, Id:str)->dict:
+    """
+    Get Portus by Id
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+
+    [Returns]
+        (dict) Response: Get Portus response (includes any errors)
+    """
+    return get(conn, PCC_PORTUS + "/" + Id)
+
+def delete_portus_by_id(conn:dict, Id:str)->dict:
+    """
+    Delete Portus by Id
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Delete Portus response (includes any errors)
+    """
+    return delete(conn, PCC_PORTUS + "/" + Id)
 
 
 ## Profile
+def get_authentication_profiles(conn:dict)->dict:
+    """
+    Get Authentication Profiles
 
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Get Authentication Profile response (includes any errors)
+    """
+    return get(conn, PCC_PROFILE)
+
+def modify_authentication_profile(conn:dict, data:dict)->dict:
+    """
+    Modify Authentication Profile
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data:
+
+    [Returns]
+        (dict) Response: Modify Authentication Profile response (includes any errors)
+    """
+    return put(conn, PCC_PROFILE, data)
+
+def add_authentication_profile(conn:dict, data:dict)->dict:
+    """
+    Add Authentication Profile
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data:
+
+    [Returns]
+        (dict) Response: Add Authentication Profile response (includes any errors)
+    """
+    return post(conn, PCC_PROFILE, data)
+
+def get_authentication_profiles_details(conn:dict)->dict:
+    """
+    Get Authentication Profiles Details
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Get Authentication Profile response (includes any errors)
+    """
+    return get(conn, PCC_PROFILE + "/details")
+
+def add_authentication_profile_with_validation(conn:dict, data:dict)->dict:
+    """
+    Add Authentication Profile with Validation
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data:
+
+    [Returns]
+        (dict) Response: Add Authentication Profile response (includes any errors)
+    """
+    return post(conn, PCC_PROFILE + "/validate", data)
+
+def get_authentication_profile_by_id(conn:dict, Id:str)->dict:
+    """
+    Get Authentication Profile by Id
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+
+    [Returns]
+        (dict) Response: Get Authentication Profile response (includes any errors)
+    """
+    return get(conn, PCC_PROFILE + "/" + Id)
+
+def delete_authentication_profile_by_id(conn:dict, Id:str)->dict:
+    """
+    Delete Authentication Profile by Id
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+
+    [Returns]
+        (dict) Response: Delete Authentication Profile response (includes any errors)
+    """
+    return delete(conn, PCC_PROFILE + "/" + Id)
+
+def get_authentication_profile_details_by_id(conn:dict, Id:str)->dict:
+    """
+    Get Authentication Profile Details by Id
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+
+    [Returns]
+        (dict) Response: Get Authentication Profile response (includes any errors)
+    """
+    return get(conn, PCC_PROFILE + "/" + Id + "/details")
 
 ## Provisions (empty)
 
