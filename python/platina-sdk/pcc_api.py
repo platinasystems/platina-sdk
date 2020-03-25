@@ -9,7 +9,6 @@ from utils import get, post, put, delete
 
 REQUESTS_CA_BUNDLE_UBUNTU = "/etc/ssl/certs/ca-certificates.crt"
 PCC_SECURITY_AUTH = "/security/auth"
-PCC_TENANT_LIST = "/user-management/tenant/list"
 
 PCCSERVER = "/pccserver"
 PCC_AGENT = PCCSERVER + "/agent"
@@ -36,6 +35,10 @@ PCC_PROVISIONS = PCCSERVER + "/provisions"
 PCC_ROLES = PCCSERVER + "/roles"
 PCC_SITE = PCCSERVER + "/site"
 PCC_STATUSES = PCCSERVER + "/statuses"
+PCC_STORAGE = PCCSERVER + "/storage"
+PCC_TEMPLATES = PCCSERVER + "/templates"
+PCC_TYPE = PCCSERVER + "/type"
+PCC_TENANT_LIST = "/user-management/tenant/list"
 
 
 ## Login
@@ -2892,28 +2895,239 @@ def modify_status(conn:dict, data:dict)->dict:
     return put(conn, PCC_STATUSES, data)
 
 ## Storage
+def get_ceph_clusters(conn:dict)->dict:
+    """
+    Get Ceph Clusters
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/ceph/cluster")
+
+def get_ceph_cluster_by_id(conn:dict, Id:str)->dict:
+    """
+    Get Ceph Cluster by Id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/ceph/cluster" + Id)
+
+def get_ceph_fs_by_cluster_id(conn:dict, Id:str)->dict:
+    """
+    Get Ceph Fs by Cluster Id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/ceph/cluster" + Id + "/fs")
+
+def get_ceph_fs_available_pools_by_cluster_id(conn:dict, Id:str)->dict:
+    """
+    Get Ceph FS Available Pools by Cluster Id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/ceph/cluster" + Id + "/fs/pools/available")
+
+
 
 
 ## Templates
+def get_templates(conn:dict)->dict:
+    """
+    Get Templates
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response: Get Template response (includes any errors)
+    """
+    return get(conn, PCC_TEMPLATES)
+
+def add_template(conn:dict, data:dict)->dict:
+    """
+    Add Template
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: template
+                {
+                    "apps": [
+                        {
+                        "appId": "string",
+                        "version": "string"
+                        }
+                    ],
+                    "configurations": [
+                        {
+                        "configurationID": 0,
+                        "id": 0,
+                        "priority": 0,
+                        "templateID": 0
+                        }
+                    ],
+                    "description": "string",
+                    "id": 0,
+                    "name": "string",
+                    "roles": [
+                        0
+                    ]
+                }
+    [Returns]
+        (dict) Response: Add Template response (includes any errors)
+    """
+    return post(conn, PCC_TEMPLATES, data)
+
+def get_template_by_id(conn:dict, Id:str)->dict:
+    """
+    Get Template by Id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+
+    [Returns]
+        (dict) Response: Get Template response (includes any errors)
+    """
+    return get(conn, PCC_TEMPLATES + "/" + Id)
+
+def modify_template(conn:dict, data:dict)->dict:
+    """
+    Modify Template
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: template
+                {
+                    "apps": [
+                        {
+                        "appId": "string",
+                        "version": "string"
+                        }
+                    ],
+                    "configurations": [
+                        {
+                        "configurationID": 0,
+                        "id": 0,
+                        "priority": 0,
+                        "templateID": 0
+                        }
+                    ],
+                    "description": "string",
+                    "id": 0,
+                    "name": "string",
+                    "roles": [
+                        0
+                    ]
+                }
+    [Returns]
+        (dict) Response: Add Template response (includes any errors)
+    """
+    return put(conn, PCC_TEMPLATES, data)
+
+def delete_template_by_id(conn:dict, Id:str)->dict:
+    """
+    Delete Template by Id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+
+    [Returns]
+        (dict) Response: Delete Template response (includes any errors)
+    """
+    return delete(conn, PCC_TEMPLATES + "/" + Id)
 
 
 ## Type
+def get_types(conn:dict)->dict:
+    """
+    Get Types
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response: Get Types response (includes any errors)
+    """
+    return get(conn, PCC_TYPE)
 
+def add_type(conn:dict, data:dict)->dict:
+    """
+    Add Type
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: type
+                {
+                    "Airflow": "string",
+                    "CreatedAt": 0,
+                    "Description": "string",
+                    "FrontPanelInterfaces": 0,
+                    "Id": 0,
+                    "ManagementInterfaces": 0,
+                    "ModifiedAt": 0,
+                    "Name": "string",
+                    "RackUnit": "string",
+                    "SpeedFrontPanelInterfaces": "string",
+                    "SpeedType": "string",
+                    "Vendor": "string"
+                }
+    [Returns]
+        (dict) Response: Add Types response (includes any errors)
+    """
+    return post(conn, PCC_TYPE, data)
+
+def delete_type(conn:dict, data:list)->dict:
+    """
+    Delete Type
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: IDs - list of IDs to delete
+    [Returns]
+        (dict) Response: Delete Types response (includes any errors)
+    """
+    return post(conn, PCC_TYPE + "/delete", data)
+
+def modify_type(conn:dict, data:dict)->dict:
+    """
+    Modify Type
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: type
+                {
+                    "Airflow": "string",
+                    "CreatedAt": 0,
+                    "Description": "string",
+                    "FrontPanelInterfaces": 0,
+                    "Id": 0,
+                    "ManagementInterfaces": 0,
+                    "ModifiedAt": 0,
+                    "Name": "string",
+                    "RackUnit": "string",
+                    "SpeedFrontPanelInterfaces": "string",
+                    "SpeedType": "string",
+                    "Vendor": "string"
+                }
+    [Returns]
+        (dict) Response: Modify Types response (includes any errors)
+    """
+    return put(conn, PCC_TYPE, data)
 
 ## Tenant
-def get_tenant_id(conn, Name):
+def get_tenant_id(conn:dict, Name:str)->dict:
     """
     Get Id of tenant with matching Name from PCC
     [Args]
+        (dict) conn: Connection dictionary obtained after logging in
         (str) Name: Name of tenant
     [Returns]
         (int) Id: Id of the matchining tenant, or
             None: if no match found, or
         (dict) Error response: If Exception occured
     """
-
     list_of_tenants = get_tenant_list(conn)['Result']
-
     try:
         for tenant in list_of_tenants:
             if str(tenant['name']) == str(Name):
@@ -2922,11 +3136,11 @@ def get_tenant_id(conn, Name):
     except Exception as e:
         return {"Error": str(e)}
 
-def get_tenant_list(conn):
+def get_tenant_list(conn:dict)->dict:
     """
     Get list of tenants from PCC
     [Args]
-        None
+        (dict) conn: Connection dictionary obtained after logging in
     [Returns]
         (dict) Response dictionary: Including the list of tenants
         (dict) Error response: If Exception occured
