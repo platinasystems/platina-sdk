@@ -35,6 +35,8 @@ PCC_PROFILE = PCCSERVER + "/profile"
 PCC_PROVISIONS = PCCSERVER + "/provisions"
 PCC_ROLES = PCCSERVER + "/roles"
 PCC_SITE = PCCSERVER + "/site"
+PCC_STATUSES = PCCSERVER + "/statuses"
+
 
 ## Login
 def login(url:str, username:str, password:str)->dict:
@@ -2762,7 +2764,7 @@ def modify_site(conn:dict, data:dict)->dict:
 
 def get_site_by_id(conn:dict, Id:str)->dict:
     """
-    Delete Site by Id
+    Get Site by Id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
@@ -2773,8 +2775,121 @@ def get_site_by_id(conn:dict, Id:str)->dict:
     """
     return get(conn, PCC_SITE + "/" + Id)
 
-## Statuses
 
+## Statuses
+def get_statuses(conn:dict)->dict:
+    """
+    Get Statuses
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Get Status response (includes any errors)
+    """
+    return get(conn, PCC_STATUSES)
+
+def add_status(conn:dict, data:dict)->dict:
+    """
+    Add Status
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: status
+                {
+                    "AppID": "string",
+                    "Configuration": {
+                        "AppID": "string",
+                        "Description": "string",
+                        "Files": [
+                        {
+                            "ConfigurationID": 0,
+                            "Content": "string",
+                            "ID": 0,
+                            "Name": "string"
+                        }
+                        ],
+                        "ID": 0,
+                        "Name": "string",
+                        "Versions": [
+                        "string"
+                        ]
+                    },
+                    "ConfigurationID": 0,
+                    "ID": 0,
+                    "Message": "string",
+                    "NodeID": 0,
+                    "Progress": 0,
+                    "ProvisionID": 0,
+                    "Result": "string",
+                    "level": "string",
+                    "metaData": "string",
+                    "operation": "string",
+                    "timeout": 0,
+                    "version": "string"
+                }
+    [Returns]
+        (dict) Response: Add Status response (includes any errors)
+    """
+    return post(conn, PCC_STATUSES, data)
+
+def get_status_by_id(conn:dict, Id:str)->dict:
+    """
+    Get Status by Id
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+
+    [Returns]
+        (dict) Response: Get Status response (includes any errors)
+    """
+    return get(conn, PCC_STATUSES + "/" + Id)
+
+
+def modify_status(conn:dict, data:dict)->dict:
+    """
+    Modify Status
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: status
+                {
+                    "AppID": "string",
+                    "Configuration": {
+                        "AppID": "string",
+                        "Description": "string",
+                        "Files": [
+                        {
+                            "ConfigurationID": 0,
+                            "Content": "string",
+                            "ID": 0,
+                            "Name": "string"
+                        }
+                        ],
+                        "ID": 0,
+                        "Name": "string",
+                        "Versions": [
+                        "string"
+                        ]
+                    },
+                    "ConfigurationID": 0,
+                    "ID": 0,
+                    "Message": "string",
+                    "NodeID": 0,
+                    "Progress": 0,
+                    "ProvisionID": 0,
+                    "Result": "string",
+                    "level": "string",
+                    "metaData": "string",
+                    "operation": "string",
+                    "timeout": 0,
+                    "version": "string"
+                }
+    [Returns]
+        (dict) Response: Modify Status response (includes any errors)
+    """
+    return put(conn, PCC_STATUSES, data)
 
 ## Storage
 
