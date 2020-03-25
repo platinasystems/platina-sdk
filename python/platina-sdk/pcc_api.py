@@ -2938,6 +2938,18 @@ def get_ceph_fs_available_pools_by_cluster_id(conn:dict, Id:str)->dict:
     """
     return get(conn, PCC_STORAGE + "/ceph/cluster" + Id + "/fs/pools/available")
 
+def get_ceph_pools_by_cluster_id(conn:dict, Id:str)->dict:
+    """
+    Get Ceph Pools by Cluster Id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/ceph/cluster" + Id + "/pools")
+
+
 
 
 
