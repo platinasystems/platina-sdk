@@ -33,7 +33,8 @@ PCC_NOTIFICATIONS = PCCSERVER + "/notifications"
 PCC_PORTUS = PCCSERVER + "/portus"
 PCC_PROFILE = PCCSERVER + "/profile"
 PCC_PROVISIONS = PCCSERVER + "/provisions"
-
+PCC_ROLES = PCCSERVER + "/roles"
+PCC_SITE = PCCSERVER + "/site"
 
 ## Login
 def login(url:str, username:str, password:str)->dict:
@@ -2585,7 +2586,6 @@ def add_provision_by_id(conn:dict, Id:str, data:dict):
     """
     return post(conn, PCC_PROVISIONS + "/" + Id, data)
 
-
 def get_provision_status_by_id(conn:dict, Id:str)->dict:
     """
     Get Provision Status by Id
@@ -2600,12 +2600,178 @@ def get_provision_status_by_id(conn:dict, Id:str)->dict:
     return get(conn, PCC_PROVISIONS + "/" + Id + "/statuses")
 
 
-
 ## Roles
+def get_roles(conn:dict)->dict:
+    """
+    Get Roles
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Get Roles response (includes any errors)
+    """
+    return get(conn, PCC_ROLES)
+
+def add_role(conn:dict, data:dict)->dict:
+    """
+    Add Role
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: role
+                {
+                    "description": "string",
+                    "id": 0,
+                    "name": "string",
+                    "owner": 0,
+                    "owners": [
+                        0
+                    ],
+                    "templateIDs": [
+                        0
+                    ],
+                    "templateNames": [
+                        "string"
+                    ]
+                }
+    [Returns]
+        (dict) Response: Add Roles response (includes any errors)
+    """
+    return post(conn, PCC_ROLES, data)
+
+def get_role_by_id(conn:dict, Id:str)->dict:
+    """
+    Get Roles by Id
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+
+    [Returns]
+        (dict) Response: Get Roles response (includes any errors)
+    """
+    return get(conn, PCC_ROLES + "/" + Id)
+
+def modify_role(conn:dict, Id:str, data:dict)->dict:
+    """
+    Modify Role
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+        (dict) data: role
+                {
+                    "description": "string",
+                    "id": 0,
+                    "name": "string",
+                    "owner": 0,
+                    "owners": [
+                        0
+                    ],
+                    "templateIDs": [
+                        0
+                    ],
+                    "templateNames": [
+                        "string"
+                    ]
+                }
+    [Returns]
+        (dict) Response: Modify Roles response (includes any errors)
+    """
+    return put(conn, PCC_ROLES + "/" + Id, data)
+
+def delete_role_by_id(conn:dict, Id:str)->dict:
+    """
+    Delete Role by Id
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+
+    [Returns]
+        (dict) Response: Delete Roles response (includes any errors)
+    """
+    return delete(conn, PCC_ROLES + "/" + Id)
 
 
 ## Site
+def get_sites(conn:dict)->dict:
+    """
+    Get Sites
 
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Get Site response (includes any errors)
+    """
+    return get(conn, PCC_SITE)
+
+def add_site(conn:dict, data:dict)->dict:
+    """
+    Add Site
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: site object
+                {
+                    "CreatedAt": 0,
+                    "Description": "string",
+                    "Id": 0,
+                    "ModifiedAt": 0,
+                    "Name": "string",
+                    "owner": 0
+                }
+    [Returns]
+        (dict) Response: Add Site response (includes any errors)
+    """
+    return post(conn, PCC_SITE + "/add", data)
+
+def delete_sites(conn:dict, data:dict)->dict:
+    """
+    Delete Sites
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (list) data: IDs - array of site IDs to delete
+    [Returns]
+        (dict) Response: Delete Site response (includes any errors)
+    """
+    return post(conn, PCC_SITE + "/delete", data)
+
+def modify_site(conn:dict, data:dict)->dict:
+    """
+    Modify Site
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: site object
+                {
+                    "CreatedAt": 0,
+                    "Description": "string",
+                    "Id": 0,
+                    "ModifiedAt": 0,
+                    "Name": "string",
+                    "owner": 0
+                }
+    [Returns]
+        (dict) Response: Modify Site response (includes any errors)
+    """
+    return put(conn, PCC_SITE + "/update", data)
+
+def get_site_by_id(conn:dict, Id:str)->dict:
+    """
+    Delete Site by Id
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+
+    [Returns]
+        (dict) Response: Get Site response (includes any errors)
+    """
+    return get(conn, PCC_SITE + "/" + Id)
 
 ## Statuses
 
