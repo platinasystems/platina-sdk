@@ -1,6 +1,0 @@
-setup.py
-platina-sdk/platina_sdk.egg-info/PKG-INFO
-platina-sdk/platina_sdk.egg-info/SOURCES.txt
-platina-sdk/platina_sdk.egg-info/dependency_links.txt
-platina-sdk/platina_sdk.egg-info/requires.txt
-platina-sdk/platina_sdk.egg-info/top_level.txt
