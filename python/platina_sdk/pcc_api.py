@@ -5,7 +5,7 @@ import urllib3
 import json
 import distro
 
-from utils import get, post, put, delete
+from platina_sdk.utils import get, post, put, delete
 
 REQUESTS_CA_BUNDLE_UBUNTU = "/etc/ssl/certs/ca-certificates.crt"
 PCC_SECURITY_AUTH = "/security/auth"
