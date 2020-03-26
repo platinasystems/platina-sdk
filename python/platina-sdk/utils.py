@@ -16,7 +16,7 @@ def get(conn, url_path):
     response = conn['session'].get(url, headers=headers)
     return _serialize_response(time.time(), response)
 
-def delete(conn, url_path):
+def delete(conn, url_path, data=None):
     # DISABLE SSL error
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 

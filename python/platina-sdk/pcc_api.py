@@ -2905,6 +2905,1021 @@ def get_ceph_clusters(conn:dict)->dict:
     """
     return get(conn, PCC_STORAGE + "/ceph/cluster")
 
+def modify_ceph_clusters(conn:dict, data:dict)->dict:
+    """
+    Modify Ceph Cluster
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: cephCluster
+                {
+                    "cluster_network": "string",
+                    "containerized": true,
+                    "controlCIDR": "string",
+                    "deploy_status": "string",
+                    "id": 0,
+                    "igwPolicy": "string",
+                    "ip_version": "string",
+                    "monitor_address_block": "string",
+                    "name": "string",
+                    "nodes": [
+                        {
+                        "ceph_cluster_id": 0,
+                        "controlIP": "string",
+                        "drives": [
+                            {
+                            "drive_config": {
+                                "fstype": "string",
+                                "id": 0,
+                                "lvm": true,
+                                "node_id": 0,
+                                "node_uuid": "string",
+                                "size": 0,
+                                "wwid": "string"
+                            },
+                            "estimated_lifetime": 0,
+                            "free_capacity": 0,
+                            "id": 0,
+                            "media_type": 0,
+                            "model": "string",
+                            "name": "string",
+                            "online": true,
+                            "partitions": [
+                                {
+                                "file_system": {
+                                    "capacity": 0,
+                                    "free": 0,
+                                    "fs_use": 0,
+                                    "id": 0,
+                                    "label": "string",
+                                    "mount_point": "string",
+                                    "name": "string",
+                                    "state": 0,
+                                    "type": "string"
+                                },
+                                "id": 0,
+                                "name": "string",
+                                "size": 0,
+                                "volumes": [
+                                    {
+                                    "drives": [
+                                        {
+                                        "drive_config": {
+                                            "fstype": "string",
+                                            "id": 0,
+                                            "lvm": true,
+                                            "node_id": 0,
+                                            "node_uuid": "string",
+                                            "size": 0,
+                                            "wwid": "string"
+                                        },
+                                        "estimated_lifetime": 0,
+                                        "free_capacity": 0,
+                                        "id": 0,
+                                        "media_type": 0,
+                                        "model": "string",
+                                        "name": "string",
+                                        "online": true,
+                                        "partitions": [
+                                            {
+                                            "file_system": {
+                                                "capacity": 0,
+                                                "free": 0,
+                                                "fs_use": 0,
+                                                "id": 0,
+                                                "label": "string",
+                                                "mount_point": "string",
+                                                "name": "string",
+                                                "state": 0,
+                                                "type": "string"
+                                            },
+                                            "id": 0,
+                                            "name": "string",
+                                            "size": 0,
+                                            "volumes": [
+                                                {
+                                                "drives": [
+                                                    null
+                                                ],
+                                                "file_system": {
+                                                    "capacity": 0,
+                                                    "free": 0,
+                                                    "fs_use": 0,
+                                                    "id": 0,
+                                                    "label": "string",
+                                                    "mount_point": "string",
+                                                    "name": "string",
+                                                    "state": 0,
+                                                    "type": "string"
+                                                },
+                                                "id": 0,
+                                                "label": "string",
+                                                "name": "string",
+                                                "size": 0,
+                                                "type": 0,
+                                                "uuid": "string"
+                                                }
+                                            ]
+                                            }
+                                        ],
+                                        "serial_number": "string",
+                                        "tags": [
+                                            "string"
+                                        ],
+                                        "total_capacity": 0,
+                                        "transport": 0,
+                                        "vendor": "string",
+                                        "volumes": [
+                                            {
+                                            "drives": [
+                                                null
+                                            ],
+                                            "file_system": {
+                                                "capacity": 0,
+                                                "free": 0,
+                                                "fs_use": 0,
+                                                "id": 0,
+                                                "label": "string",
+                                                "mount_point": "string",
+                                                "name": "string",
+                                                "state": 0,
+                                                "type": "string"
+                                            },
+                                            "id": 0,
+                                            "label": "string",
+                                            "name": "string",
+                                            "size": 0,
+                                            "type": 0,
+                                            "uuid": "string"
+                                            }
+                                        ],
+                                        "wwid": "string"
+                                        }
+                                    ],
+                                    "file_system": {
+                                        "capacity": 0,
+                                        "free": 0,
+                                        "fs_use": 0,
+                                        "id": 0,
+                                        "label": "string",
+                                        "mount_point": "string",
+                                        "name": "string",
+                                        "state": 0,
+                                        "type": "string"
+                                    },
+                                    "id": 0,
+                                    "label": "string",
+                                    "name": "string",
+                                    "size": 0,
+                                    "type": 0,
+                                    "uuid": "string"
+                                    }
+                                ]
+                                }
+                            ],
+                            "serial_number": "string",
+                            "tags": [
+                                "string"
+                            ],
+                            "total_capacity": 0,
+                            "transport": 0,
+                            "vendor": "string",
+                            "volumes": [
+                                {
+                                "drives": [
+                                    {
+                                    "drive_config": {
+                                        "fstype": "string",
+                                        "id": 0,
+                                        "lvm": true,
+                                        "node_id": 0,
+                                        "node_uuid": "string",
+                                        "size": 0,
+                                        "wwid": "string"
+                                    },
+                                    "estimated_lifetime": 0,
+                                    "free_capacity": 0,
+                                    "id": 0,
+                                    "media_type": 0,
+                                    "model": "string",
+                                    "name": "string",
+                                    "online": true,
+                                    "partitions": [
+                                        {
+                                        "file_system": {
+                                            "capacity": 0,
+                                            "free": 0,
+                                            "fs_use": 0,
+                                            "id": 0,
+                                            "label": "string",
+                                            "mount_point": "string",
+                                            "name": "string",
+                                            "state": 0,
+                                            "type": "string"
+                                        },
+                                        "id": 0,
+                                        "name": "string",
+                                        "size": 0,
+                                        "volumes": [
+                                            {
+                                            "drives": [
+                                                null
+                                            ],
+                                            "file_system": {
+                                                "capacity": 0,
+                                                "free": 0,
+                                                "fs_use": 0,
+                                                "id": 0,
+                                                "label": "string",
+                                                "mount_point": "string",
+                                                "name": "string",
+                                                "state": 0,
+                                                "type": "string"
+                                            },
+                                            "id": 0,
+                                            "label": "string",
+                                            "name": "string",
+                                            "size": 0,
+                                            "type": 0,
+                                            "uuid": "string"
+                                            }
+                                        ]
+                                        }
+                                    ],
+                                    "serial_number": "string",
+                                    "tags": [
+                                        "string"
+                                    ],
+                                    "total_capacity": 0,
+                                    "transport": 0,
+                                    "vendor": "string",
+                                    "volumes": [
+                                        {
+                                        "drives": [
+                                            null
+                                        ],
+                                        "file_system": {
+                                            "capacity": 0,
+                                            "free": 0,
+                                            "fs_use": 0,
+                                            "id": 0,
+                                            "label": "string",
+                                            "mount_point": "string",
+                                            "name": "string",
+                                            "state": 0,
+                                            "type": "string"
+                                        },
+                                        "id": 0,
+                                        "label": "string",
+                                        "name": "string",
+                                        "size": 0,
+                                        "type": 0,
+                                        "uuid": "string"
+                                        }
+                                    ],
+                                    "wwid": "string"
+                                    }
+                                ],
+                                "file_system": {
+                                    "capacity": 0,
+                                    "free": 0,
+                                    "fs_use": 0,
+                                    "id": 0,
+                                    "label": "string",
+                                    "mount_point": "string",
+                                    "name": "string",
+                                    "state": 0,
+                                    "type": "string"
+                                },
+                                "id": 0,
+                                "label": "string",
+                                "name": "string",
+                                "size": 0,
+                                "type": 0,
+                                "uuid": "string"
+                                }
+                            ],
+                            "wwid": "string"
+                            }
+                        ],
+                        "id": 0,
+                        "lvm_config": [
+                            {
+                            "data": "string",
+                            "data_vg": "string",
+                            "journal": "string",
+                            "journal_vg": "string"
+                            }
+                        ],
+                        "roles": [
+                            "string"
+                        ],
+                        "tags": [
+                            "string"
+                        ],
+                        "total_osds": 0
+                        }
+                    ],
+                    "osd_auto_discovery": true,
+                    "osd_object_store": "string",
+                    "osd_scenario": "string",
+                    "progressPercentage": 0,
+                    "public_network": "string",
+                    "secure_cluster": true,
+                    "secure_cluster_flags": [
+                        "string"
+                    ],
+                    "status": "string",
+                    "tags": [
+                        "string"
+                    ],
+                    "version": "string"
+                }
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return put(conn, PCC_STORAGE + "/ceph/cluster", data)
+
+def add_ceph_cluster(conn:dict, data:dict)->dict:
+    """
+    Add Ceph Cluster
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: cephCluster
+                {
+                    "cluster_network": "string",
+                    "containerized": true,
+                    "controlCIDR": "string",
+                    "deploy_status": "string",
+                    "id": 0,
+                    "igwPolicy": "string",
+                    "ip_version": "string",
+                    "monitor_address_block": "string",
+                    "name": "string",
+                    "nodes": [
+                        {
+                        "ceph_cluster_id": 0,
+                        "controlIP": "string",
+                        "drives": [
+                            {
+                            "drive_config": {
+                                "fstype": "string",
+                                "id": 0,
+                                "lvm": true,
+                                "node_id": 0,
+                                "node_uuid": "string",
+                                "size": 0,
+                                "wwid": "string"
+                            },
+                            "estimated_lifetime": 0,
+                            "free_capacity": 0,
+                            "id": 0,
+                            "media_type": 0,
+                            "model": "string",
+                            "name": "string",
+                            "online": true,
+                            "partitions": [
+                                {
+                                "file_system": {
+                                    "capacity": 0,
+                                    "free": 0,
+                                    "fs_use": 0,
+                                    "id": 0,
+                                    "label": "string",
+                                    "mount_point": "string",
+                                    "name": "string",
+                                    "state": 0,
+                                    "type": "string"
+                                },
+                                "id": 0,
+                                "name": "string",
+                                "size": 0,
+                                "volumes": [
+                                    {
+                                    "drives": [
+                                        {
+                                        "drive_config": {
+                                            "fstype": "string",
+                                            "id": 0,
+                                            "lvm": true,
+                                            "node_id": 0,
+                                            "node_uuid": "string",
+                                            "size": 0,
+                                            "wwid": "string"
+                                        },
+                                        "estimated_lifetime": 0,
+                                        "free_capacity": 0,
+                                        "id": 0,
+                                        "media_type": 0,
+                                        "model": "string",
+                                        "name": "string",
+                                        "online": true,
+                                        "partitions": [
+                                            {
+                                            "file_system": {
+                                                "capacity": 0,
+                                                "free": 0,
+                                                "fs_use": 0,
+                                                "id": 0,
+                                                "label": "string",
+                                                "mount_point": "string",
+                                                "name": "string",
+                                                "state": 0,
+                                                "type": "string"
+                                            },
+                                            "id": 0,
+                                            "name": "string",
+                                            "size": 0,
+                                            "volumes": [
+                                                {
+                                                "drives": [
+                                                    null
+                                                ],
+                                                "file_system": {
+                                                    "capacity": 0,
+                                                    "free": 0,
+                                                    "fs_use": 0,
+                                                    "id": 0,
+                                                    "label": "string",
+                                                    "mount_point": "string",
+                                                    "name": "string",
+                                                    "state": 0,
+                                                    "type": "string"
+                                                },
+                                                "id": 0,
+                                                "label": "string",
+                                                "name": "string",
+                                                "size": 0,
+                                                "type": 0,
+                                                "uuid": "string"
+                                                }
+                                            ]
+                                            }
+                                        ],
+                                        "serial_number": "string",
+                                        "tags": [
+                                            "string"
+                                        ],
+                                        "total_capacity": 0,
+                                        "transport": 0,
+                                        "vendor": "string",
+                                        "volumes": [
+                                            {
+                                            "drives": [
+                                                null
+                                            ],
+                                            "file_system": {
+                                                "capacity": 0,
+                                                "free": 0,
+                                                "fs_use": 0,
+                                                "id": 0,
+                                                "label": "string",
+                                                "mount_point": "string",
+                                                "name": "string",
+                                                "state": 0,
+                                                "type": "string"
+                                            },
+                                            "id": 0,
+                                            "label": "string",
+                                            "name": "string",
+                                            "size": 0,
+                                            "type": 0,
+                                            "uuid": "string"
+                                            }
+                                        ],
+                                        "wwid": "string"
+                                        }
+                                    ],
+                                    "file_system": {
+                                        "capacity": 0,
+                                        "free": 0,
+                                        "fs_use": 0,
+                                        "id": 0,
+                                        "label": "string",
+                                        "mount_point": "string",
+                                        "name": "string",
+                                        "state": 0,
+                                        "type": "string"
+                                    },
+                                    "id": 0,
+                                    "label": "string",
+                                    "name": "string",
+                                    "size": 0,
+                                    "type": 0,
+                                    "uuid": "string"
+                                    }
+                                ]
+                                }
+                            ],
+                            "serial_number": "string",
+                            "tags": [
+                                "string"
+                            ],
+                            "total_capacity": 0,
+                            "transport": 0,
+                            "vendor": "string",
+                            "volumes": [
+                                {
+                                "drives": [
+                                    {
+                                    "drive_config": {
+                                        "fstype": "string",
+                                        "id": 0,
+                                        "lvm": true,
+                                        "node_id": 0,
+                                        "node_uuid": "string",
+                                        "size": 0,
+                                        "wwid": "string"
+                                    },
+                                    "estimated_lifetime": 0,
+                                    "free_capacity": 0,
+                                    "id": 0,
+                                    "media_type": 0,
+                                    "model": "string",
+                                    "name": "string",
+                                    "online": true,
+                                    "partitions": [
+                                        {
+                                        "file_system": {
+                                            "capacity": 0,
+                                            "free": 0,
+                                            "fs_use": 0,
+                                            "id": 0,
+                                            "label": "string",
+                                            "mount_point": "string",
+                                            "name": "string",
+                                            "state": 0,
+                                            "type": "string"
+                                        },
+                                        "id": 0,
+                                        "name": "string",
+                                        "size": 0,
+                                        "volumes": [
+                                            {
+                                            "drives": [
+                                                null
+                                            ],
+                                            "file_system": {
+                                                "capacity": 0,
+                                                "free": 0,
+                                                "fs_use": 0,
+                                                "id": 0,
+                                                "label": "string",
+                                                "mount_point": "string",
+                                                "name": "string",
+                                                "state": 0,
+                                                "type": "string"
+                                            },
+                                            "id": 0,
+                                            "label": "string",
+                                            "name": "string",
+                                            "size": 0,
+                                            "type": 0,
+                                            "uuid": "string"
+                                            }
+                                        ]
+                                        }
+                                    ],
+                                    "serial_number": "string",
+                                    "tags": [
+                                        "string"
+                                    ],
+                                    "total_capacity": 0,
+                                    "transport": 0,
+                                    "vendor": "string",
+                                    "volumes": [
+                                        {
+                                        "drives": [
+                                            null
+                                        ],
+                                        "file_system": {
+                                            "capacity": 0,
+                                            "free": 0,
+                                            "fs_use": 0,
+                                            "id": 0,
+                                            "label": "string",
+                                            "mount_point": "string",
+                                            "name": "string",
+                                            "state": 0,
+                                            "type": "string"
+                                        },
+                                        "id": 0,
+                                        "label": "string",
+                                        "name": "string",
+                                        "size": 0,
+                                        "type": 0,
+                                        "uuid": "string"
+                                        }
+                                    ],
+                                    "wwid": "string"
+                                    }
+                                ],
+                                "file_system": {
+                                    "capacity": 0,
+                                    "free": 0,
+                                    "fs_use": 0,
+                                    "id": 0,
+                                    "label": "string",
+                                    "mount_point": "string",
+                                    "name": "string",
+                                    "state": 0,
+                                    "type": "string"
+                                },
+                                "id": 0,
+                                "label": "string",
+                                "name": "string",
+                                "size": 0,
+                                "type": 0,
+                                "uuid": "string"
+                                }
+                            ],
+                            "wwid": "string"
+                            }
+                        ],
+                        "id": 0,
+                        "lvm_config": [
+                            {
+                            "data": "string",
+                            "data_vg": "string",
+                            "journal": "string",
+                            "journal_vg": "string"
+                            }
+                        ],
+                        "roles": [
+                            "string"
+                        ],
+                        "tags": [
+                            "string"
+                        ],
+                        "total_osds": 0
+                        }
+                    ],
+                    "osd_auto_discovery": true,
+                    "osd_object_store": "string",
+                    "osd_scenario": "string",
+                    "progressPercentage": 0,
+                    "public_network": "string",
+                    "secure_cluster": true,
+                    "secure_cluster_flags": [
+                        "string"
+                    ],
+                    "status": "string",
+                    "tags": [
+                        "string"
+                    ],
+                    "version": "string"
+                }
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return post(conn, PCC_STORAGE + "/ceph/cluster", data)
+
+def modify_ceph_cluster_by_id(conn:dict, Id:str, data:dict)->dict:
+    """
+    Modify Ceph Cluster by Id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+        (dict) data: cephCluster
+                {
+                    "cluster_network": "string",
+                    "containerized": true,
+                    "controlCIDR": "string",
+                    "deploy_status": "string",
+                    "id": 0,
+                    "igwPolicy": "string",
+                    "ip_version": "string",
+                    "monitor_address_block": "string",
+                    "name": "string",
+                    "nodes": [
+                        {
+                        "ceph_cluster_id": 0,
+                        "controlIP": "string",
+                        "drives": [
+                            {
+                            "drive_config": {
+                                "fstype": "string",
+                                "id": 0,
+                                "lvm": true,
+                                "node_id": 0,
+                                "node_uuid": "string",
+                                "size": 0,
+                                "wwid": "string"
+                            },
+                            "estimated_lifetime": 0,
+                            "free_capacity": 0,
+                            "id": 0,
+                            "media_type": 0,
+                            "model": "string",
+                            "name": "string",
+                            "online": true,
+                            "partitions": [
+                                {
+                                "file_system": {
+                                    "capacity": 0,
+                                    "free": 0,
+                                    "fs_use": 0,
+                                    "id": 0,
+                                    "label": "string",
+                                    "mount_point": "string",
+                                    "name": "string",
+                                    "state": 0,
+                                    "type": "string"
+                                },
+                                "id": 0,
+                                "name": "string",
+                                "size": 0,
+                                "volumes": [
+                                    {
+                                    "drives": [
+                                        {
+                                        "drive_config": {
+                                            "fstype": "string",
+                                            "id": 0,
+                                            "lvm": true,
+                                            "node_id": 0,
+                                            "node_uuid": "string",
+                                            "size": 0,
+                                            "wwid": "string"
+                                        },
+                                        "estimated_lifetime": 0,
+                                        "free_capacity": 0,
+                                        "id": 0,
+                                        "media_type": 0,
+                                        "model": "string",
+                                        "name": "string",
+                                        "online": true,
+                                        "partitions": [
+                                            {
+                                            "file_system": {
+                                                "capacity": 0,
+                                                "free": 0,
+                                                "fs_use": 0,
+                                                "id": 0,
+                                                "label": "string",
+                                                "mount_point": "string",
+                                                "name": "string",
+                                                "state": 0,
+                                                "type": "string"
+                                            },
+                                            "id": 0,
+                                            "name": "string",
+                                            "size": 0,
+                                            "volumes": [
+                                                {
+                                                "drives": [
+                                                    null
+                                                ],
+                                                "file_system": {
+                                                    "capacity": 0,
+                                                    "free": 0,
+                                                    "fs_use": 0,
+                                                    "id": 0,
+                                                    "label": "string",
+                                                    "mount_point": "string",
+                                                    "name": "string",
+                                                    "state": 0,
+                                                    "type": "string"
+                                                },
+                                                "id": 0,
+                                                "label": "string",
+                                                "name": "string",
+                                                "size": 0,
+                                                "type": 0,
+                                                "uuid": "string"
+                                                }
+                                            ]
+                                            }
+                                        ],
+                                        "serial_number": "string",
+                                        "tags": [
+                                            "string"
+                                        ],
+                                        "total_capacity": 0,
+                                        "transport": 0,
+                                        "vendor": "string",
+                                        "volumes": [
+                                            {
+                                            "drives": [
+                                                null
+                                            ],
+                                            "file_system": {
+                                                "capacity": 0,
+                                                "free": 0,
+                                                "fs_use": 0,
+                                                "id": 0,
+                                                "label": "string",
+                                                "mount_point": "string",
+                                                "name": "string",
+                                                "state": 0,
+                                                "type": "string"
+                                            },
+                                            "id": 0,
+                                            "label": "string",
+                                            "name": "string",
+                                            "size": 0,
+                                            "type": 0,
+                                            "uuid": "string"
+                                            }
+                                        ],
+                                        "wwid": "string"
+                                        }
+                                    ],
+                                    "file_system": {
+                                        "capacity": 0,
+                                        "free": 0,
+                                        "fs_use": 0,
+                                        "id": 0,
+                                        "label": "string",
+                                        "mount_point": "string",
+                                        "name": "string",
+                                        "state": 0,
+                                        "type": "string"
+                                    },
+                                    "id": 0,
+                                    "label": "string",
+                                    "name": "string",
+                                    "size": 0,
+                                    "type": 0,
+                                    "uuid": "string"
+                                    }
+                                ]
+                                }
+                            ],
+                            "serial_number": "string",
+                            "tags": [
+                                "string"
+                            ],
+                            "total_capacity": 0,
+                            "transport": 0,
+                            "vendor": "string",
+                            "volumes": [
+                                {
+                                "drives": [
+                                    {
+                                    "drive_config": {
+                                        "fstype": "string",
+                                        "id": 0,
+                                        "lvm": true,
+                                        "node_id": 0,
+                                        "node_uuid": "string",
+                                        "size": 0,
+                                        "wwid": "string"
+                                    },
+                                    "estimated_lifetime": 0,
+                                    "free_capacity": 0,
+                                    "id": 0,
+                                    "media_type": 0,
+                                    "model": "string",
+                                    "name": "string",
+                                    "online": true,
+                                    "partitions": [
+                                        {
+                                        "file_system": {
+                                            "capacity": 0,
+                                            "free": 0,
+                                            "fs_use": 0,
+                                            "id": 0,
+                                            "label": "string",
+                                            "mount_point": "string",
+                                            "name": "string",
+                                            "state": 0,
+                                            "type": "string"
+                                        },
+                                        "id": 0,
+                                        "name": "string",
+                                        "size": 0,
+                                        "volumes": [
+                                            {
+                                            "drives": [
+                                                null
+                                            ],
+                                            "file_system": {
+                                                "capacity": 0,
+                                                "free": 0,
+                                                "fs_use": 0,
+                                                "id": 0,
+                                                "label": "string",
+                                                "mount_point": "string",
+                                                "name": "string",
+                                                "state": 0,
+                                                "type": "string"
+                                            },
+                                            "id": 0,
+                                            "label": "string",
+                                            "name": "string",
+                                            "size": 0,
+                                            "type": 0,
+                                            "uuid": "string"
+                                            }
+                                        ]
+                                        }
+                                    ],
+                                    "serial_number": "string",
+                                    "tags": [
+                                        "string"
+                                    ],
+                                    "total_capacity": 0,
+                                    "transport": 0,
+                                    "vendor": "string",
+                                    "volumes": [
+                                        {
+                                        "drives": [
+                                            null
+                                        ],
+                                        "file_system": {
+                                            "capacity": 0,
+                                            "free": 0,
+                                            "fs_use": 0,
+                                            "id": 0,
+                                            "label": "string",
+                                            "mount_point": "string",
+                                            "name": "string",
+                                            "state": 0,
+                                            "type": "string"
+                                        },
+                                        "id": 0,
+                                        "label": "string",
+                                        "name": "string",
+                                        "size": 0,
+                                        "type": 0,
+                                        "uuid": "string"
+                                        }
+                                    ],
+                                    "wwid": "string"
+                                    }
+                                ],
+                                "file_system": {
+                                    "capacity": 0,
+                                    "free": 0,
+                                    "fs_use": 0,
+                                    "id": 0,
+                                    "label": "string",
+                                    "mount_point": "string",
+                                    "name": "string",
+                                    "state": 0,
+                                    "type": "string"
+                                },
+                                "id": 0,
+                                "label": "string",
+                                "name": "string",
+                                "size": 0,
+                                "type": 0,
+                                "uuid": "string"
+                                }
+                            ],
+                            "wwid": "string"
+                            }
+                        ],
+                        "id": 0,
+                        "lvm_config": [
+                            {
+                            "data": "string",
+                            "data_vg": "string",
+                            "journal": "string",
+                            "journal_vg": "string"
+                            }
+                        ],
+                        "roles": [
+                            "string"
+                        ],
+                        "tags": [
+                            "string"
+                        ],
+                        "total_osds": 0
+                        }
+                    ],
+                    "osd_auto_discovery": true,
+                    "osd_object_store": "string",
+                    "osd_scenario": "string",
+                    "progressPercentage": 0,
+                    "public_network": "string",
+                    "secure_cluster": true,
+                    "secure_cluster_flags": [
+                        "string"
+                    ],
+                    "status": "string",
+                    "tags": [
+                        "string"
+                    ],
+                    "version": "string"
+                }
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return put(conn, PCC_STORAGE + "/ceph/cluster/" + Id, data)
+
+def delete_ceph_cluster_by_id(conn:dict, Id:str, data:dict)->dict:
+    """
+    Delete Ceph Cluster by Id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+        (dict) data: (boolean) forceRemove
+    [Returns]
+        (dict) Response: Delete Ceph response (includes any errors)
+    """
+    return delete(conn, PCC_STORAGE + "/ceph/cluster/" + Id, data)
+
 def get_ceph_cluster_by_id(conn:dict, Id:str)->dict:
     """
     Get Ceph Cluster by Id
@@ -2949,8 +3964,1008 @@ def get_ceph_pools_by_cluster_id(conn:dict, Id:str)->dict:
     """
     return get(conn, PCC_STORAGE + "/ceph/cluster" + Id + "/pools")
 
+def get_ceph_rdb_available_pools_by_cluster_id(conn:dict, Id:str)->dict:
+    """
+    Get Ceph RDB Available Pools by Cluster Id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/ceph/cluster" + Id + "/rdb/pools/available")
+
+def get_ceph_rdbs_by_cluster_id(conn:dict, Id:str)->dict:
+    """
+    Get Ceph RDBs by Cluster Id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/ceph/cluster" + Id + "/rdbs")
+
+def get_ceph_fs(conn:dict)->dict:
+    """
+    Get Ceph FS
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/ceph/fs")
+
+def modify_ceph_fs(conn:dict, data:dict)->dict:
+    """
+    Modify Ceph FS
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: cephFS
+                {
+                    "ceph_cluster_id": 0,
+                    "data_pools": [
+                        {
+                        "KclusterId": 0,
+                        "ceph_cluster_id": 0,
+                        "deploy_status": "string",
+                        "failure_domain": 0,
+                        "id": 0,
+                        "name": "string",
+                        "pg_num": 0,
+                        "pool_type": 0,
+                        "progressPercentage": 0,
+                        "quota": 0,
+                        "quota_unit": 0,
+                        "rbds": [
+                            {
+                            "KclusterId": 0,
+                            "ceph_cluster_id": 0,
+                            "ceph_pool_id": 0,
+                            "deploy_status": "string",
+                            "id": 0,
+                            "image_feature": 0,
+                            "mount_path": "string",
+                            "name": "string",
+                            "progressPercentage": 0,
+                            "size": 0,
+                            "size_units": 0,
+                            "status": "string",
+                            "storage_class": "string",
+                            "tags": [
+                                "string"
+                            ]
+                            }
+                        ],
+                        "size": 0,
+                        "status": "string",
+                        "tags": [
+                            "string"
+                        ]
+                        }
+                    ],
+                    "default_pool": {
+                        "KclusterId": 0,
+                        "ceph_cluster_id": 0,
+                        "deploy_status": "string",
+                        "failure_domain": 0,
+                        "id": 0,
+                        "name": "string",
+                        "pg_num": 0,
+                        "pool_type": 0,
+                        "progressPercentage": 0,
+                        "quota": 0,
+                        "quota_unit": 0,
+                        "rbds": [
+                        {
+                            "KclusterId": 0,
+                            "ceph_cluster_id": 0,
+                            "ceph_pool_id": 0,
+                            "deploy_status": "string",
+                            "id": 0,
+                            "image_feature": 0,
+                            "mount_path": "string",
+                            "name": "string",
+                            "progressPercentage": 0,
+                            "size": 0,
+                            "size_units": 0,
+                            "status": "string",
+                            "storage_class": "string",
+                            "tags": [
+                            "string"
+                            ]
+                        }
+                        ],
+                        "size": 0,
+                        "status": "string",
+                        "tags": [
+                        "string"
+                        ]
+                    },
+                    "deploy_status": "string",
+                    "id": 0,
+                    "max_mds": 0,
+                    "metadata_pool": {
+                        "KclusterId": 0,
+                        "ceph_cluster_id": 0,
+                        "deploy_status": "string",
+                        "failure_domain": 0,
+                        "id": 0,
+                        "name": "string",
+                        "pg_num": 0,
+                        "pool_type": 0,
+                        "progressPercentage": 0,
+                        "quota": 0,
+                        "quota_unit": 0,
+                        "rbds": [
+                        {
+                            "KclusterId": 0,
+                            "ceph_cluster_id": 0,
+                            "ceph_pool_id": 0,
+                            "deploy_status": "string",
+                            "id": 0,
+                            "image_feature": 0,
+                            "mount_path": "string",
+                            "name": "string",
+                            "progressPercentage": 0,
+                            "size": 0,
+                            "size_units": 0,
+                            "status": "string",
+                            "storage_class": "string",
+                            "tags": [
+                            "string"
+                            ]
+                        }
+                        ],
+                        "size": 0,
+                        "status": "string",
+                        "tags": [
+                        "string"
+                        ]
+                    },
+                    "name": "string",
+                    "progressPercentage": 0,
+                    "status": "string",
+                    "tags": [
+                        "string"
+                    ]
+                }
+    [Returns]
+        (dict) Response: Modify Ceph response (includes any errors)
+    """
+    return put(conn, PCC_STORAGE + "/ceph/fs", data)
+
+def add_ceph_fs(conn:dict, data:dict)->dict:
+    """
+    Add Ceph FS
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: cephFS
+                {
+                    "ceph_cluster_id": 0,
+                    "data_pools": [
+                        {
+                        "KclusterId": 0,
+                        "ceph_cluster_id": 0,
+                        "deploy_status": "string",
+                        "failure_domain": 0,
+                        "id": 0,
+                        "name": "string",
+                        "pg_num": 0,
+                        "pool_type": 0,
+                        "progressPercentage": 0,
+                        "quota": 0,
+                        "quota_unit": 0,
+                        "rbds": [
+                            {
+                            "KclusterId": 0,
+                            "ceph_cluster_id": 0,
+                            "ceph_pool_id": 0,
+                            "deploy_status": "string",
+                            "id": 0,
+                            "image_feature": 0,
+                            "mount_path": "string",
+                            "name": "string",
+                            "progressPercentage": 0,
+                            "size": 0,
+                            "size_units": 0,
+                            "status": "string",
+                            "storage_class": "string",
+                            "tags": [
+                                "string"
+                            ]
+                            }
+                        ],
+                        "size": 0,
+                        "status": "string",
+                        "tags": [
+                            "string"
+                        ]
+                        }
+                    ],
+                    "default_pool": {
+                        "KclusterId": 0,
+                        "ceph_cluster_id": 0,
+                        "deploy_status": "string",
+                        "failure_domain": 0,
+                        "id": 0,
+                        "name": "string",
+                        "pg_num": 0,
+                        "pool_type": 0,
+                        "progressPercentage": 0,
+                        "quota": 0,
+                        "quota_unit": 0,
+                        "rbds": [
+                        {
+                            "KclusterId": 0,
+                            "ceph_cluster_id": 0,
+                            "ceph_pool_id": 0,
+                            "deploy_status": "string",
+                            "id": 0,
+                            "image_feature": 0,
+                            "mount_path": "string",
+                            "name": "string",
+                            "progressPercentage": 0,
+                            "size": 0,
+                            "size_units": 0,
+                            "status": "string",
+                            "storage_class": "string",
+                            "tags": [
+                            "string"
+                            ]
+                        }
+                        ],
+                        "size": 0,
+                        "status": "string",
+                        "tags": [
+                        "string"
+                        ]
+                    },
+                    "deploy_status": "string",
+                    "id": 0,
+                    "max_mds": 0,
+                    "metadata_pool": {
+                        "KclusterId": 0,
+                        "ceph_cluster_id": 0,
+                        "deploy_status": "string",
+                        "failure_domain": 0,
+                        "id": 0,
+                        "name": "string",
+                        "pg_num": 0,
+                        "pool_type": 0,
+                        "progressPercentage": 0,
+                        "quota": 0,
+                        "quota_unit": 0,
+                        "rbds": [
+                        {
+                            "KclusterId": 0,
+                            "ceph_cluster_id": 0,
+                            "ceph_pool_id": 0,
+                            "deploy_status": "string",
+                            "id": 0,
+                            "image_feature": 0,
+                            "mount_path": "string",
+                            "name": "string",
+                            "progressPercentage": 0,
+                            "size": 0,
+                            "size_units": 0,
+                            "status": "string",
+                            "storage_class": "string",
+                            "tags": [
+                            "string"
+                            ]
+                        }
+                        ],
+                        "size": 0,
+                        "status": "string",
+                        "tags": [
+                        "string"
+                        ]
+                    },
+                    "name": "string",
+                    "progressPercentage": 0,
+                    "status": "string",
+                    "tags": [
+                        "string"
+                    ]
+                }
+    [Returns]
+        (dict) Response: Add Ceph response (includes any errors)
+    """
+    return post(conn, PCC_STORAGE + "/ceph/fs", data)
+
+def get_ceph_fs_by_id(conn:dict, Id:str)->dict:
+    """
+    Get Ceph FS by Id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/ceph/cluster/fs/" + Id)
 
 
+def modify_ceph_fs_by(conn:dict, Id:str, data:dict)->dict:
+    """
+    Modify Ceph FS by Id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+        (dict) data: cephFS
+                {
+                    "ceph_cluster_id": 0,
+                    "data_pools": [
+                        {
+                        "KclusterId": 0,
+                        "ceph_cluster_id": 0,
+                        "deploy_status": "string",
+                        "failure_domain": 0,
+                        "id": 0,
+                        "name": "string",
+                        "pg_num": 0,
+                        "pool_type": 0,
+                        "progressPercentage": 0,
+                        "quota": 0,
+                        "quota_unit": 0,
+                        "rbds": [
+                            {
+                            "KclusterId": 0,
+                            "ceph_cluster_id": 0,
+                            "ceph_pool_id": 0,
+                            "deploy_status": "string",
+                            "id": 0,
+                            "image_feature": 0,
+                            "mount_path": "string",
+                            "name": "string",
+                            "progressPercentage": 0,
+                            "size": 0,
+                            "size_units": 0,
+                            "status": "string",
+                            "storage_class": "string",
+                            "tags": [
+                                "string"
+                            ]
+                            }
+                        ],
+                        "size": 0,
+                        "status": "string",
+                        "tags": [
+                            "string"
+                        ]
+                        }
+                    ],
+                    "default_pool": {
+                        "KclusterId": 0,
+                        "ceph_cluster_id": 0,
+                        "deploy_status": "string",
+                        "failure_domain": 0,
+                        "id": 0,
+                        "name": "string",
+                        "pg_num": 0,
+                        "pool_type": 0,
+                        "progressPercentage": 0,
+                        "quota": 0,
+                        "quota_unit": 0,
+                        "rbds": [
+                        {
+                            "KclusterId": 0,
+                            "ceph_cluster_id": 0,
+                            "ceph_pool_id": 0,
+                            "deploy_status": "string",
+                            "id": 0,
+                            "image_feature": 0,
+                            "mount_path": "string",
+                            "name": "string",
+                            "progressPercentage": 0,
+                            "size": 0,
+                            "size_units": 0,
+                            "status": "string",
+                            "storage_class": "string",
+                            "tags": [
+                            "string"
+                            ]
+                        }
+                        ],
+                        "size": 0,
+                        "status": "string",
+                        "tags": [
+                        "string"
+                        ]
+                    },
+                    "deploy_status": "string",
+                    "id": 0,
+                    "max_mds": 0,
+                    "metadata_pool": {
+                        "KclusterId": 0,
+                        "ceph_cluster_id": 0,
+                        "deploy_status": "string",
+                        "failure_domain": 0,
+                        "id": 0,
+                        "name": "string",
+                        "pg_num": 0,
+                        "pool_type": 0,
+                        "progressPercentage": 0,
+                        "quota": 0,
+                        "quota_unit": 0,
+                        "rbds": [
+                        {
+                            "KclusterId": 0,
+                            "ceph_cluster_id": 0,
+                            "ceph_pool_id": 0,
+                            "deploy_status": "string",
+                            "id": 0,
+                            "image_feature": 0,
+                            "mount_path": "string",
+                            "name": "string",
+                            "progressPercentage": 0,
+                            "size": 0,
+                            "size_units": 0,
+                            "status": "string",
+                            "storage_class": "string",
+                            "tags": [
+                            "string"
+                            ]
+                        }
+                        ],
+                        "size": 0,
+                        "status": "string",
+                        "tags": [
+                        "string"
+                        ]
+                    },
+                    "name": "string",
+                    "progressPercentage": 0,
+                    "status": "string",
+                    "tags": [
+                        "string"
+                    ]
+                }
+    [Returns]
+        (dict) Response: Modify Ceph response (includes any errors)
+    """
+    return put(conn, PCC_STORAGE + "/ceph/fs/" + Id, data)
+
+def delete_ceph_fs_by_id(conn:dict, Id:str)->dict:
+    """
+    Delete Ceph Fs by Id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+    [Returns]
+        (dict) Response: Delete Ceph response (includes any errors)
+    """
+    return delete(conn, PCC_STORAGE + "/ceph/fs/" + Id)
+
+def get_ceph_pools(conn:dict)->dict:
+    """
+    Get Ceph Pools
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/ceph/pool")
+
+def modify_ceph_pool(conn:dict, data:dict)->dict:
+    """
+    Modify Ceph Pool
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: cephPool
+                {
+                    "KclusterId": 0,
+                    "ceph_cluster_id": 0,
+                    "deploy_status": "string",
+                    "failure_domain": 0,
+                    "id": 0,
+                    "name": "string",
+                    "pg_num": 0,
+                    "pool_type": 0,
+                    "progressPercentage": 0,
+                    "quota": 0,
+                    "quota_unit": 0,
+                    "rbds": [
+                        {
+                        "KclusterId": 0,
+                        "ceph_cluster_id": 0,
+                        "ceph_pool_id": 0,
+                        "deploy_status": "string",
+                        "id": 0,
+                        "image_feature": 0,
+                        "mount_path": "string",
+                        "name": "string",
+                        "progressPercentage": 0,
+                        "size": 0,
+                        "size_units": 0,
+                        "status": "string",
+                        "storage_class": "string",
+                        "tags": [
+                            "string"
+                        ]
+                        }
+                    ],
+                    "size": 0,
+                    "status": "string",
+                    "tags": [
+                        "string"
+                    ]
+                }
+    [Returns]
+        (dict) Response: Modify Ceph response (includes any errors)
+    """
+    return put(conn, PCC_STORAGE + "/ceph/pool", data)
+
+def add_ceph_pool(conn:dict, data:dict)->dict:
+    """
+    Add Ceph Pool
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: cephPool
+                {
+                    "KclusterId": 0,
+                    "ceph_cluster_id": 0,
+                    "deploy_status": "string",
+                    "failure_domain": 0,
+                    "id": 0,
+                    "name": "string",
+                    "pg_num": 0,
+                    "pool_type": 0,
+                    "progressPercentage": 0,
+                    "quota": 0,
+                    "quota_unit": 0,
+                    "rbds": [
+                        {
+                        "KclusterId": 0,
+                        "ceph_cluster_id": 0,
+                        "ceph_pool_id": 0,
+                        "deploy_status": "string",
+                        "id": 0,
+                        "image_feature": 0,
+                        "mount_path": "string",
+                        "name": "string",
+                        "progressPercentage": 0,
+                        "size": 0,
+                        "size_units": 0,
+                        "status": "string",
+                        "storage_class": "string",
+                        "tags": [
+                            "string"
+                        ]
+                        }
+                    ],
+                    "size": 0,
+                    "status": "string",
+                    "tags": [
+                        "string"
+                    ]
+                }
+    [Returns]
+        (dict) Response: Add Ceph response (includes any errors)
+    """
+    return post(conn, PCC_STORAGE + "/ceph/pool", data)
+
+def get_ceph_pool_types(conn:dict)->dict:
+    """
+    Get Ceph Pool Types
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/ceph/pool/types")
+
+def get_ceph_pool_by_id(conn:dict, Id:str)->dict:
+    """
+    Get Ceph Pool by Id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/ceph/pool/" + Id)
+
+def modify_ceph_pool_by_id(conn:dict, Id:str, data:dict)->dict:
+    """
+    Modify Ceph Pool by Id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+        (dict) data: cephPool
+                {
+                    "KclusterId": 0,
+                    "ceph_cluster_id": 0,
+                    "deploy_status": "string",
+                    "failure_domain": 0,
+                    "id": 0,
+                    "name": "string",
+                    "pg_num": 0,
+                    "pool_type": 0,
+                    "progressPercentage": 0,
+                    "quota": 0,
+                    "quota_unit": 0,
+                    "rbds": [
+                        {
+                        "KclusterId": 0,
+                        "ceph_cluster_id": 0,
+                        "ceph_pool_id": 0,
+                        "deploy_status": "string",
+                        "id": 0,
+                        "image_feature": 0,
+                        "mount_path": "string",
+                        "name": "string",
+                        "progressPercentage": 0,
+                        "size": 0,
+                        "size_units": 0,
+                        "status": "string",
+                        "storage_class": "string",
+                        "tags": [
+                            "string"
+                        ]
+                        }
+                    ],
+                    "size": 0,
+                    "status": "string",
+                    "tags": [
+                        "string"
+                    ]
+                }
+    [Returns]
+        (dict) Response: Modify Ceph response (includes any errors)
+    """
+    return put(conn, PCC_STORAGE + "/ceph/pool/" + Id, data)
+
+
+def delete_ceph_pool_by_id(conn:dict, Id:str)->dict:
+    """
+    Delete Ceph Pool ID
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+    [Returns]
+        (dict) Response: Delete Ceph response (includes any errors)
+    """
+    return delete(conn, PCC_STORAGE + "/ceph/pool/" + Id)
+
+def get_ceph_rdb_by_pool_id(conn:dict, Id:str)->dict:
+    """
+    Get Ceph RDB by Pool ID
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/ceph/pool/" + Id + "/rdbs")
+
+def get_ceph_quota_units(conn:dict)->dict:
+    """
+    Get Ceph Quota Units
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/ceph/quota/units")
+
+def get_ceph_rbds(conn:dict)->dict:
+    """
+    Get Ceph RBDs
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/ceph/rbd")
+
+def modify_ceph_rbds(conn:dict, data:dict)->dict:
+    """
+    Modify Ceph RBDs
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict): data  cephRBD
+                {
+                    "KclusterId": 0,
+                    "ceph_cluster_id": 0,
+                    "ceph_pool_id": 0,
+                    "deploy_status": "string",
+                    "id": 0,
+                    "image_feature": 0,
+                    "mount_path": "string",
+                    "name": "string",
+                    "progressPercentage": 0,
+                    "size": 0,
+                    "size_units": 0,
+                    "status": "string",
+                    "storage_class": "string",
+                    "tags": [
+                        "string"
+                    ]
+                }
+    [Returns]
+        (dict) Response: Modify Ceph response (includes any errors)
+    """
+    return put(conn, PCC_STORAGE + "/ceph/rbd", data)
+
+def add_ceph_rbds(conn:dict, data:dict)->dict:
+    """
+    Add Ceph RBDs
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict): data  cephRBD
+                {
+                    "KclusterId": 0,
+                    "ceph_cluster_id": 0,
+                    "ceph_pool_id": 0,
+                    "deploy_status": "string",
+                    "id": 0,
+                    "image_feature": 0,
+                    "mount_path": "string",
+                    "name": "string",
+                    "progressPercentage": 0,
+                    "size": 0,
+                    "size_units": 0,
+                    "status": "string",
+                    "storage_class": "string",
+                    "tags": [
+                        "string"
+                    ]
+                }
+    [Returns]
+        (dict) Response: Add Ceph response (includes any errors)
+    """
+    return post(conn, PCC_STORAGE + "/ceph/rbd", data)
+
+def delete_ceph_rbd_mountpath_by_id(conn:dict, Id:str)->dict:
+    """
+    Delete Ceph RBD Mountpath by Id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+    [Returns]
+        (dict) Response: Delete Ceph response (includes any errors)
+    """
+    return delete(conn, PCC_STORAGE + "/ceph/rbd/mountpath/" + Id)
+
+def get_ceph_rdb_by_id(conn:dict, Id:str)->dict:
+    """
+    Get Ceph RDB by ID
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/ceph/rbd/" + Id)
+
+def modify_ceph_rdb_by_id(conn:dict, Id:str, data:dict)->dict:
+    """
+    Modify Ceph RDB by ID
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+        (dict) data: cephRBD
+                {
+                    "KclusterId": 0,
+                    "ceph_cluster_id": 0,
+                    "ceph_pool_id": 0,
+                    "deploy_status": "string",
+                    "id": 0,
+                    "image_feature": 0,
+                    "mount_path": "string",
+                    "name": "string",
+                    "progressPercentage": 0,
+                    "size": 0,
+                    "size_units": 0,
+                    "status": "string",
+                    "storage_class": "string",
+                    "tags": [
+                        "string"
+                    ]
+                }
+    [Returns]
+        (dict) Response: Modify Ceph response (includes any errors)
+    """
+    return put(conn, PCC_STORAGE + "/ceph/rbd/" + Id, data)
+
+def delete_ceph_rdb_by_id(conn:dict, Id:str)->dict:
+    """
+    Delete Ceph RDB by ID
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+    [Returns]
+        (dict) Response: Delete Ceph response (includes any errors)
+    """
+    return delete(conn, PCC_STORAGE + "/ceph/rbd/" + Id)
+
+def get_ceph_topologies(conn:dict)->dict:
+    """
+    Get Ceph Topologies
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/cephnetworking/topology")
+
+def get_ceph_controllers(conn:dict)->dict:
+    """
+    Get Ceph Controllers
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/controller")
+
+def get_ceph_controller_by_id(conn:dict, Id:str)->dict:
+    """
+    Get Ceph Controller by Id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/controller/" + Id)
+
+def get_drive(conn:dict)->dict:
+    """
+    Get Drive
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/drive")
+
+def get_drive_nodes(conn:dict)->dict:
+    """
+    Get Drive Nodes
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/drive/node")
+
+def get_drive_node_by_id(conn:dict, Id:str)->dict:
+    """
+    Get Drive Node by Id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/drive/node/" + Id)
+
+def get_drive_by_id(conn:dict, Id:str)->dict:
+    """
+    Get Drive by Id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/drive/" + Id)
+
+def get_filesystems(conn:dict)->dict:
+    """
+    Get Filesystems
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/filesystem")
+
+def get_filesystem_by_id(conn:dict, Id:str)->dict:
+    """
+    Get Filesystem by Id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/filesystem/" + Id)
+
+def get_storage_controllers(conn:dict)->dict:
+    """
+    Get Storage Controllers
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/node")
+
+def get_storage_controller_by_node_id(conn:dict, Id:str)->dict:
+    """
+    Get Storage Controller by Node Id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/node/" + Id)
+
+def get_storage_partitions(conn:dict)->dict:
+    """
+    Get Storage Partitions
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/partition")
+
+def get_storage_partition_by_id(conn:dict, Id:str)->dict:
+    """
+    Get Storage Partition by Id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/partition/" + Id)
+
+def get_storage_tags(conn:dict)->dict:
+    """
+    Get Storage Tags
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/tag")
+
+def get_storage_tester(conn:dict)->dict:
+    """
+    Get Storage Tester
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/tester")
+
+def get_storage_quota_units(conn:dict)->dict:
+    """
+    Get Storage Quota Units
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/units")
+
+def get_storage_volumes(conn:dict)->dict:
+    """
+    Get Storage Volumes
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/volume")
+
+def get_storage_volume_by_id(conn:dict, Id:str)->dict:
+    """
+    Get Storage Volume by Id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/volume/" + Id)
 
 
 ## Templates
@@ -3052,7 +5067,7 @@ def delete_template_by_id(conn:dict, Id:str)->dict:
     [Returns]
         (dict) Response: Delete Template response (includes any errors)
     """
-    return delete(conn, PCC_TEMPLATES + "/" + Id)
+    return delete(conn, PCC_TEMPLATES + "/" + Id) 
 
 
 ## Type
