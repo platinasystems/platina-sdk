@@ -14,6 +14,7 @@ Programming Language :: Python :: 3
 '''.strip().splitlines()
 
 REQUIREMENTS = [
+    'distro >= 1.4.0',
     'requests >= 2.21',
     'urllib3 >= 1.24'
     ]
