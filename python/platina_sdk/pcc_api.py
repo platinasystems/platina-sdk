@@ -35,12 +35,14 @@ PCC_TENANT_LIST = "/user-management/tenant/list"
 
 
 ## Login
-def login(url:str, username:str, password:str)->dict:
+def login(url:str, username:str, password:str, proxy:str=None, insecure:bool=False)->dict:
     """
     [Args]
         url: URL of the PCC being tested
         username: PCC Username (default: admin)
         password: PCC Password (default: admin)
+        proxy: URL for HTTPS proxy (default: none)
+        insecure: Suppress warnings about bad TLS certificates (default: False)
 
     [Returns]
         conn: Dictionary containing session and token
@@ -55,15 +57,24 @@ def login(url:str, username:str, password:str)->dict:
             session.verify = False
         else:
             raise Exception("Linux distribution: %s not supported" % distro_name)
-    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+    if insecure:
+        urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
     headers = {'Content Type': 'application/json'}
     payload = {'username': username, 'password': password}
 
-    response = session.post(url + PCC_SECURITY_AUTH, json=payload, headers=headers)
+    proxies = {}
+    if proxy:
+        # We don't allow HTTP today, but will likely add a redirect from port
+        # 80 to port 443 in the future. At that point, we'll need the proxy for
+        # that to succeed too.
+        proxies['http'] = proxy
+        proxies['https'] = proxy
+
+    response = session.post(url + PCC_SECURITY_AUTH, json=payload, headers=headers, proxies=proxies)
     result = json.loads(response.text)
     token = result['token']
 
-    return {'session': session, 'token': token, 'url': url}
+    return {'session': session, 'token': token, 'url': url, 'proxies': proxies, 'options': {'insecure': insecure}}
 
 
 ## Apps
