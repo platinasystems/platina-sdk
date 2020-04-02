@@ -5,12 +5,14 @@ DEFAULT_PCC_LOGIN_PASSWORD = "admin"
 ## Login
 def login(url:str, 
           username:str=DEFAULT_PCC_LOGIN_USERNAME,
-          password:str=DEFAULT_PCC_LOGIN_PASSWORD)->dict:
-    return pcc.login(url, username, password)
+          password:str=DEFAULT_PCC_LOGIN_PASSWORD,
+          proxy:str=None,
+          insecure:bool=False)->dict:
+    return pcc.login(url, username, password, proxy, insecure)
 
 
 def add_node_group(**kwargs)->dict:
-    if "Desctiption" not in kwargs:
+    if "Description" not in kwargs:
         kwargs["Description"] = None
     try:
         data = {
