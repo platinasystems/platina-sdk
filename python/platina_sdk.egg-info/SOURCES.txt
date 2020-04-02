@@ -3,6 +3,8 @@ setup.py
 platina_sdk/__init__.py
 platina_sdk/get_version.py
 platina_sdk/pcc_api.py
+platina_sdk/pcc_easy_api.py
+platina_sdk/pcc_internal_api.py
 platina_sdk/utils.py
 platina_sdk.egg-info/PKG-INFO
 platina_sdk.egg-info/SOURCES.txt
