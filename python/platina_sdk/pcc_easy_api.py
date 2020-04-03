@@ -7,8 +7,9 @@ def login(url:str,
           username:str=DEFAULT_PCC_LOGIN_USERNAME,
           password:str=DEFAULT_PCC_LOGIN_PASSWORD,
           proxy:str=None,
-          insecure:bool=False)->dict:
-    return pcc.login(url, username, password, proxy, insecure)
+          insecure:bool=False,
+          use_session:bool=True)->dict:
+    return pcc.login(url, username, password, proxy, insecure, use_session)
 
 
 def add_node_group(**kwargs)->dict:
