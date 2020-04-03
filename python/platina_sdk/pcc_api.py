@@ -35,7 +35,7 @@ PCC_TENANT_LIST = "/user-management/tenant/list"
 
 
 ## Login
-def login(url:str, username:str, password:str, proxy:str=None, insecure:bool=False)->dict:
+def login(url:str, username:str, password:str, proxy:str=None, insecure:bool=False, use_session:bool=True)->dict:
     """
     [Args]
         url: URL of the PCC being tested
@@ -43,6 +43,7 @@ def login(url:str, username:str, password:str, proxy:str=None, insecure:bool=Fal
         password: PCC Password (default: admin)
         proxy: URL for HTTPS proxy (default: none)
         insecure: Suppress warnings about bad TLS certificates (default: False)
+        use_session: Use Python requests Session objects to maintain session (default: True)
 
     [Returns]
         conn: Dictionary containing session and token
@@ -74,7 +75,11 @@ def login(url:str, username:str, password:str, proxy:str=None, insecure:bool=Fal
     result = json.loads(response.text)
     token = result['token']
 
-    return {'session': session, 'token': token, 'url': url, 'proxies': proxies, 'options': {'insecure': insecure}}
+    user_session = ""
+    if use_session:
+        user_session = session
+
+    return {'session': user_session, 'token': token, 'url': url, 'proxies': proxies, 'options': {'insecure': insecure, 'use_session': use_session}}
 
 
 ## Apps

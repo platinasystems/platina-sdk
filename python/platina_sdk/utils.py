@@ -14,7 +14,14 @@ def get(conn, url_path):
         'Authorization': 'Bearer %s' % conn['token']
     }
     url = conn['url'] + url_path
-    response = conn['session'].get(url, headers=headers, proxies=conn['proxies'])
+    obj = {}
+    if "options" in conn and "use_session" in conn["options"] and conn["options"]["use_session"] == False:
+        # We're not using a session object here, just the token in the headers.
+        obj = requests
+    else:
+        obj = conn['session']
+
+    response = obj.get(url, headers=headers, proxies=conn['proxies'])
     return _serialize_response(time.time(), response)
 
 def delete(conn, url_path, data=None):
@@ -27,7 +34,14 @@ def delete(conn, url_path, data=None):
         'Authorization': 'Bearer %s' % conn['token']
     }
     url = conn['url'] + url_path
-    response = conn['session'].delete(url, headers=headers, proxies=conn['proxies'])
+    obj = {}
+    if "options" in conn and "use_session" in conn["options"] and conn["options"]["use_session"] == False:
+        # We're not using a session object here, just the token in the headers.
+        obj = requests
+    else:
+        obj = conn['session']
+
+    response = obj.delete(url, headers=headers, proxies=conn['proxies'])
     return _serialize_response(time.time(), response)
 
 def post(conn, url_path, payload):
@@ -40,7 +54,14 @@ def post(conn, url_path, payload):
         'Authorization': 'Bearer %s' % conn['token']
     }
     url = conn['url'] + url_path
-    response = conn['session'].post(url, json=payload, headers=headers, proxies=conn['proxies'])
+    obj = {}
+    if "options" in conn and "use_session" in conn["options"] and conn["options"]["use_session"] == False:
+        # We're not using a session object here, just the token in the headers.
+        obj = requests
+    else:
+        obj = conn['session']
+
+    response = obj.post(url, json=payload, headers=headers, proxies=conn['proxies'])
     return _serialize_response(time.time(), response)
 
 def put(conn, url_path, payload):
@@ -53,7 +74,14 @@ def put(conn, url_path, payload):
         'Authorization': 'Bearer %s' % conn['token']
     }
     url = conn['url'] + url_path
-    response = conn['session'].put(url, json=payload, headers=headers, proxies=conn['proxies'])
+    obj = {}
+    if "options" in conn and "use_session" in conn["options"] and conn["options"]["use_session"] == False:
+        # We're not using a session object here, just the token in the headers.
+        obj = requests
+    else:
+        obj = conn['session']
+
+    response = obj.put(url, json=payload, headers=headers, proxies=conn['proxies'])
     return _serialize_response(time.time(), response)
 
 def _serialize_response(start_time, response):
