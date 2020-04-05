@@ -165,26 +165,6 @@ def modify_cluster_by_id(conn:dict, Id:int, data:dict)->dict:
     """
     return put(conn, PCC_CLUSTER_ADD + "/" + str(Id), data)
 
-def get_cluster_id_by_name(conn:dict, Name:str)->int:
-    """
-    Get Cluster (Node Group) Id
-    [Args]
-        (dict) conn: Connection dictionary obtained after logging in
-        (str) Name: Name of the Cluster 
-    [Returns]
-        (int) Id: Id of the matchining Cluster, or
-            None: if no match found, or
-        (dict) Error response: If Exception occured
-    """
-    cluster_list = get_clusters(conn)['Result']['Data']
-    try:
-        for cluster in cluster_list:
-            if str(cluster['Name']) == str(Name):
-                return cluster['Id']
-        return None
-    except Exception as e:
-        return {"Error": str(e)}
-
 def get_cluster_by_id(conn:dict, id:int)->dict:
     """
     Get Cluster (Node Group) by Id
