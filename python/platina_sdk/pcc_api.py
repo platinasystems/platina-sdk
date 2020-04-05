@@ -4726,26 +4726,6 @@ def wait_until_ceph_cluster_ready(conn:dict, name:str)->dict:
     return "OK"
 
 ## Tenant
-def get_tenant_id(conn:dict, Name:str)->dict:
-    """
-    Get Id of tenant with matching Name from PCC
-    [Args]
-        (dict) conn: Connection dictionary obtained after logging in
-        (str) Name: Name of tenant
-    [Returns]
-        (int) Id: Id of the matchining tenant, or
-            None: if no match found, or
-        (dict) Error response: If Exception occured
-    """
-    list_of_tenants = get_tenant_list(conn)['Result']
-    try:
-        for tenant in list_of_tenants:
-            if str(tenant['name']) == str(Name):
-                return tenant['id']
-        return None
-    except Exception as e:
-        return {"Error": str(e)}
-
 def get_tenant_list(conn:dict)->dict:
     """
     Get list of tenants from PCC
