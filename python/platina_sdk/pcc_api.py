@@ -190,23 +190,6 @@ def delete_cluster_by_id(conn:dict, Id:int)->dict:
     """
     return delete(conn, PCC_CLUSTER + "/" + str(Id))
 
-def delete_cluster_by_name(conn:dict, Name:str)->dict:
-    """
-    Delete Cluster (Node Group) from PCC using Name
-    [Args]
-        (dict) conn: Connection dictionary obtained after logging in
-        (str) Name: Name of the Cluster to be deleted
-
-    [Returns]
-        (dict) Response: Delete Cluster response (includes any errors)
-    """
-    Id = get_cluster_id_by_name(conn, Name)
-
-    if Id is None:
-        return None
-    else:
-        return delete_cluster_by_id(conn, Id)
-
 
 ## Topology
 def get_connectivity_by_id(conn:dict, Id:int)->dict:
