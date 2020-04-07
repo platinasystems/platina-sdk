@@ -254,6 +254,83 @@ def delete_node_role_by_name(conn:dict, Name:str)->dict:
     Id = get_node_role_id_by_name(conn, Name)
     return pcc.delete_role_by_id(conn, Id)
 
+## Sites
+def add_site(**kwargs)->dict:
+    """
+    Add Site
+
+    [Args in kwargs]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Name
+        (str) Description
+    [Returns]
+        (dict) Response: Add Site response (includes any errors)
+    """
+    if "Description" not in kwargs:
+        kwargs["Description"] = None
+    data = {
+        "Name": kwargs["Name"],
+        "Description": kwargs["Description"]
+        }
+    return pcc.add_site(kwargs["conn"], data)
+
+def modify_site(**kwargs)->dict:
+    """
+    Modify Site
+
+    [Args in kwargs]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id
+        (str) Name
+        (str) Description
+    [Returns]
+        (dict) Response: Add Site response (includes any errors)
+    """
+    if "Description" not in kwargs:
+        kwargs["Description"] = None
+    if "Name" not in kwargs:
+        kwargs["Description"] = None 
+
+    data = {
+        "Id": kwargs["Id"],
+        "Name": kwargs["Name"],
+        "Description": kwargs["Description"]
+    }
+
+    return pcc.add_site(kwargs["conn"], data)
+
+def get_site_id_by_name(conn:dict, Name:str)->dict:
+    """
+    Get Id of Site with matching Name 
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Name: Name of Site
+    [Returns]
+        (int) Id: Id of the matchining Site, or
+            None: if no match found, or
+        (dict) Error response: If Exception occured
+    """
+    site_list = pcc.get_sites(conn)['Result']['Data']
+    try:
+        for site in site_list:
+            if str(site['Name'].lower()) == str(Name).lower():
+                return site['Id']
+        return None
+    except Exception as e:
+        return {"Error": str(e)}
+
+def delete_site_by_name(conn:dict, Name:str)->dict:
+    """
+    Delete Site with matching Name 
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Name: Name of Site
+    [Returns]
+        (dict) Delete Site response
+    """
+    Id = get_site_id_by_name(conn, Name)
+    return pcc.delete_sites(conn, [Id])
+
 ## Applications
 def get_app_id_by_name(conn:dict, Name:str)->dict:
     """
@@ -262,7 +339,7 @@ def get_app_id_by_name(conn:dict, Name:str)->dict:
         (dict) conn: Connection dictionary obtained after logging in
         (str) Name: Name of the Application
     [Returns]
-        (int) Id: Id of the matchining tenant, or
+        (int) Id: Id of the matchining Application, or
             None: if no match found, or
         (dict) Error response: If Exception occured
     """

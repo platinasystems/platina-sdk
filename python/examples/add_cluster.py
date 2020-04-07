@@ -13,9 +13,8 @@ def main():
     # obtain connection to PCC server
     conn = pcc.login(url=PCC_URL, username=PCC_USER, password=PCC_PASSWORD)
 
-    response = pcc.get_node_roles(conn=conn)
+    response = pcc.delete_site_by_name(conn=conn, Name="Dummy")
     print(response)
-
 
 if __name__ == "__main__":
     main()
