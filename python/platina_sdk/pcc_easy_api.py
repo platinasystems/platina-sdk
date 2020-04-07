@@ -1,7 +1,7 @@
 from platina_sdk import pcc_api as pcc
 
 ## Login
-def login(kwargs)->dict:
+def login(**kwargs)->dict:
     """
     Login to PCC
 
@@ -29,7 +29,7 @@ def login(kwargs)->dict:
         kwargs["password"], 
         kwargs["proxy"], 
         kwargs["insecure"], 
-        kwargs["use_session")
+        kwargs["use_session"])
 
 ## Node Group (Cluster)
 def get_node_groups(**kwargs)->dict:
@@ -141,8 +141,142 @@ def delete_node_group_by_name(conn:dict, Name:str)->dict:
     else:
         return pcc.delete_cluster_by_id(conn, Id)
 
+## Node Roles
+def get_node_roles(**kwargs)->dict:
+    """
+    Get Node Roles
+
+    [Args in kwargs]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Get Roles response (includes any errors)
+    """
+    return pcc.get_roles(kwargs["conn"])
+
+def add_node_role(**kwargs)->dict:
+    """
+    Add Node Role
+
+    [Args in kwargs]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Name
+        (str) Description
+        (list) Applications
+        (list) Tenants
+    [Returns]
+        (dict) Response: Add Node Roles response (includes any errors)
+    """
+    if "Description" not in kwargs:
+        kwargs["Description"] = None
+
+    templateIDs = []
+    for application_name in kwargs["Applications"]:
+        templateIDs.append(get_app_id_by_name(kwargs["conn"], application_name))
+
+    owners = []
+    for tenant_name in kwargs["Tenants"]:
+        owners.append(get_tenant_id_by_name(kwargs["conn"], tenant_name))
+
+    data = {
+        "name": kwargs["Name"],
+        "description": kwargs["Description"],
+        "owners": owners,
+        "templateIDs": templateIDs
+        }
+    return pcc.add_role(kwargs["conn"], data)
+
+
+def modify_node_role(**kwargs)->dict:
+    """
+    Modify Node Role
+
+    [Args in kwargs]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id
+        (str) Name
+        (str) Description
+        (list) Applications
+        (list) Tenants
+    [Returns]
+        (dict) Response: Add Node Roles response (includes any errors)
+    """
+    if "Description" not in kwargs:
+        kwargs["Description"] = None
+
+    templateIDs = []
+    for application_name in kwargs["Applications"]:
+        templateIDs.append(get_app_id_by_name(kwargs["conn"], application_name))
+
+    owners = []
+    for tenant_name in kwargs["Tenants"]:
+        owners.append(get_tenant_id_by_name(kwargs["conn"], tenant_name))
+
+    data = {
+        "name": kwargs["Name"],
+        "description": kwargs["Description"],
+        "owners": owners,
+        "templateIDs": templateIDs
+        }
+    return pcc.modify_role(kwargs["conn"], kwargs["Id"], data)
+
+def get_node_role_id_by_name(conn:dict, Name:str)->dict:
+    """
+    Get Node Role Id with matching Name 
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Name: Name of the Application
+    [Returns]
+        (int) Id: Id of the matchining Node Role, or
+            None: if no match found, or
+        (dict) Error response: If Exception occured
+    """
+    node_role_list = pcc.get_roles(conn)
+    try:
+        for node_role in node_role_list:
+            if str(node_role['name'].lower()) == str(Name).lower():
+                return node_role['id']
+        return None
+    except Exception as e:
+        return {"Error": str(e)}
+
+def delete_node_role_by_name(conn:dict, Name:str)->dict:
+    """
+    Delete Node Role by Name
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Name
+
+    [Returns]
+        (dict) Response: Delete Roles response (includes any errors)
+    """
+    Id = get_node_role_id_by_name(conn, Name)
+    return pcc.delete_role_by_id(conn, Id)
+
+## Applications
+def get_app_id_by_name(conn:dict, Name:str)->dict:
+    """
+    Get Id of Application with matching Name 
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Name: Name of the Application
+    [Returns]
+        (int) Id: Id of the matchining tenant, or
+            None: if no match found, or
+        (dict) Error response: If Exception occured
+    """
+    app_list = pcc.get_apps(conn)['Result']['Data']
+    try:
+        for app in app_list:
+            if str(app['name'].lower()) == str(Name).lower():
+                return app['id']
+        return None
+    except Exception as e:
+        return {"Error": str(e)}
+
 ## Tenant
-def get_tenant_id(conn:dict, Name:str)->dict:
+def get_tenant_id_by_name(conn:dict, Name:str)->dict:
     """
     Get Id of tenant with matching Name from PCC
     [Args]

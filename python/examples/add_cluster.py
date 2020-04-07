@@ -7,13 +7,15 @@ PCC_USER = "admin"
 PCC_PASSWORD = "admin"
 
 from platina_sdk import pcc_easy_api as pcc
+from platina_sdk import pcc_api as api
 
 def main():
     # obtain connection to PCC server
     conn = pcc.login(url=PCC_URL, username=PCC_USER, password=PCC_PASSWORD)
 
-    response = pcc.add_node_group(conn=conn, Name="Node Group #1")
+    response = pcc.get_node_roles(conn=conn)
     print(response)
+
 
 if __name__ == "__main__":
     main()
