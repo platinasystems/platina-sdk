@@ -30,6 +30,26 @@ def login(**kwargs)->dict:
         kwargs["proxy"], 
         kwargs["insecure"], 
         kwargs["use_session"])
+## Node
+def get_node_id_by_name(conn:dict, Name:str)->int:
+    """
+    Get Node Id by Name
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Name: Name of the Node 
+    [Returns]
+        (int) Id: Id of the matchining Node, or
+            None: if no match found, or
+        (dict) Error response: If Exception occured
+    """
+    node_list = pcc.get_nodes(conn)['Result']['Data']
+    try:
+        for node in node_list:
+            if str(node['Name']) == str(Name):
+                return node['Id']
+        return None
+    except Exception as e:
+        return {"Error": str(e)}
 
 ## Node Group (Cluster)
 def get_node_groups(**kwargs)->dict:
