@@ -1,4 +1,7 @@
+import time
 from platina_sdk import pcc_api as pcc
+
+PCC_TIMEOUT = 60*5  # 5 min
 
 ## Login
 def login(**kwargs)->dict:
@@ -30,7 +33,61 @@ def login(**kwargs)->dict:
         kwargs["proxy"], 
         kwargs["insecure"], 
         kwargs["use_session"])
+
 ## Node
+def wait_until_node_deleted(conn:dict, Name:str)->int:
+    """
+    Wait Until Node Deleted
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Name: Name of the Node 
+    [Returns]
+        (dict) Wait time 
+        (dict) Error response: If Exception occured
+    """
+    found = True
+    time_waited = 0
+    timeout = time.time() + PCC_TIMEOUT
+    while found:
+        found = False
+        node_list = pcc.get_nodes(conn)['Result']['Data']
+        for node in node_list:
+            if str(node['Name']) == str(Name):
+                found = True
+        if time.time() > timeout:
+            return {"Error": "Timeout"}
+        if not found:
+            time.sleep(5)
+            time_waited += 5
+    return {"OK": "%s" % time_waited}
+
+def wait_until_node_ready(conn:dict, Name:str)->int:
+    """
+    Wait Until Node Ready
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Name: Name of the Node 
+    [Returns]
+        (dict) Wait Time 
+        (dict) Error response: If Exception occured
+    """
+    ready = False
+    time_waited = 0
+    timeout = time.time() + PCC_TIMEOUT
+    while not ready:
+        ready = False
+        node_list = pcc.get_nodes(conn)['Result']['Data']
+        for node in node_list:
+            if str(node['Name']) == str(Name):
+                if node['provisionStatus'] == 'Ready':
+                    ready = True
+        if time.time() > timeout:
+            return {"Error": "Timeout"}
+        if not ready:
+            time.sleep(5)
+            time_waited += 5
+    return {"OK": "%s" % time_waited}
+
 def get_node_id_by_name(conn:dict, Name:str)->int:
     """
     Get Node Id by Name
