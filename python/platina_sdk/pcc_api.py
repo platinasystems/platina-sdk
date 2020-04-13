@@ -5,7 +5,7 @@ import json
 import urllib3
 import requests
 
-from platina_sdk.utils import get, post, put, delete
+from platina_sdk.utils import get, post, put, delete, post_multipart
 
 REQUESTS_CA_BUNDLE_UBUNTU = "/etc/ssl/certs/ca-certificates.crt"
 PCC_SECURITY_AUTH = "/security/auth"
@@ -32,7 +32,7 @@ PCC_STATUSES = PCCSERVER + "/statuses"
 PCC_STORAGE = PCCSERVER + "/storage"
 PCC_TEMPLATES = PCCSERVER + "/templates"
 PCC_TENANT_LIST = "/user-management/tenant/list"
-
+PCC_CERTIFICATE = "/key-manager/certificates/"
 
 ## Login
 def login(url:str, username:str, password:str, proxy:str=None, insecure:bool=False, use_session:bool=True)->dict:
@@ -4719,3 +4719,31 @@ def get_tenant_list(conn:dict)->dict:
         (dict) Error response: If Exception occured
     """
     return get(conn, PCC_TENANT_LIST)
+
+
+## Certificates
+def add_certificate(conn:dict, Alias:str, Description:str, filename_path:str)->dict:
+    """
+    Add Certificate
+        [Args]
+            (str) Alias: 
+            (str) Filename_path:
+            (str) Description:
+        [Returns]
+            (dict) Response: Add Certificate response
+    """
+    multipart_data = {'file': open(filename_path, 'rb'), 'description':(None, Description)}
+    url  = PCC_CERTIFICATE + "/upload/" + Alias
+    return post_multipart(conn, url, multipart_data)
+
+def delete_certificate_by_id(conn:dict, Alias:str)->dict:
+    """
+    Delete Certificate by Id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Alias: Id
+
+    [Returns]
+        (dict) Response: Delete Certificate response (includes any errors)
+    """
+    return delete(conn, PCC_TEMPLATES + "/" + Alias) 
