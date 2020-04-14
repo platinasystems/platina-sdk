@@ -1,4 +1,6 @@
 import time
+from fabric.connection import Connection
+from invoke import run
 from platina_sdk import pcc_api as pcc
 
 PCC_TIMEOUT = 60*5  # 5 min
@@ -447,5 +449,23 @@ def get_tenant_id_by_name(conn:dict, Name:str)->dict:
             if str(tenant['name']) == str(Name):
                 return tenant['id']
         return None
+    except Exception as e:
+        return {"Error": str(e)}
+
+## CLI
+def cli_run(host_ip:str, linux_user:str, linux_password:str, cmd:str)->dict:
+    """
+    CLI Run - Run a Linux command 
+    [Args]
+        (str) host_ip: 
+        (str) linux_user: 
+        (str) linux_password: 
+        (str) cmd: 
+    [Returns]
+        (dict) CLI Run response
+    """
+    try:
+        c = Connection(linux_user + "@" + host_ip, connect_kwargs={'password':linux_password})
+        return c.run(cmd, warn=True)
     except Exception as e:
         return {"Error": str(e)}
