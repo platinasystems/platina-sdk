@@ -3529,7 +3529,7 @@ def delete_ceph_cluster_by_id(conn:dict, Id:str)->dict:
     [Returns]
         (dict) Response: Delete Ceph response (includes any errors)
     """
-    return delete(conn, PCC_STORAGE + "/ceph/cluster/" + Id, data)
+    return delete(conn, PCC_STORAGE + "/ceph/cluster/" + Id)
 
 def get_ceph_cluster_by_id(conn:dict, Id:str)->dict:
     """
