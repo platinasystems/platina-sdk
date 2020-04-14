@@ -23,8 +23,8 @@ PCC_KUBERNETES = PCCSERVER + "/kubernetes"
 PCC_NODE = PCCSERVER + "/node"
 PCC_MAAS = PCCSERVER + "/maas"
 PCC_NOTIFICATIONS = PCCSERVER + "/notifications"
-PCC_PORTUS = PCCSERVER + "/portus"
-PCC_PROFILE = PCCSERVER + "/profile"
+PCC_PORTUS = PCCSERVER + "/v1/portus"
+PCC_PROFILE = PCCSERVER + "/v1/profile"
 PCC_PROVISIONS = PCCSERVER + "/provisions"
 PCC_ROLES = PCCSERVER + "/roles"
 PCC_SITE = PCCSERVER + "/site"
@@ -32,7 +32,9 @@ PCC_STATUSES = PCCSERVER + "/statuses"
 PCC_STORAGE = PCCSERVER + "/storage"
 PCC_TEMPLATES = PCCSERVER + "/templates"
 PCC_TENANT_LIST = "/user-management/tenant/list"
+PCC_UPDATE_NODE_WITH_TENANT = "/user-management/tenant/nodes/update"
 PCC_CERTIFICATE = "/key-manager/certificates/"
+
 
 ## Login
 def login(url:str, username:str, password:str, proxy:str=None, insecure:bool=False, use_session:bool=True)->dict:
@@ -4731,6 +4733,20 @@ def get_tenant_list(conn:dict)->dict:
     """
     return get(conn, PCC_TENANT_LIST)
 
+def assigning_tenant_to_node(conn:dict , data:dict)->dict:
+    """
+    Assign tenant user to node
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: template
+                node_payload = {"tenant" : self.tenant_id,
+                   "ids" : [self.ids]
+                  }
+    [Returns]
+        (dict) Response: Assign tenant to Node response (includes any errors)
+    """
+    
+    return post(conn, PCC_UPDATE_NODE_WITH_TENANT, data)
 
 ## Certificates
 def add_certificate(conn:dict, Alias:str, Description:str, filename_path:str)->dict:

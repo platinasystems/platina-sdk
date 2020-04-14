@@ -550,4 +550,67 @@ def get_ceph_fs_id_by_name(conn:dict, Name:str)->int:
         return None
     except Exception as e:
         return {"Error": str(e)}
+        
+## Portus
+def get_portus_id_by_name(conn:dict, Name:str)->int:
+    """
+    Get Portus Id by Name
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Name: Name of the Container Registry 
+    [Returns]
+        (int) Id: Id of the matchining Container Registry, or
+            None: if no match found, or
+        (dict) Error response: If Exception occured
+    """
+    portus_list = pcc.get_portus(conn)['Result']['Data']
+    try:
+        for portus in portus_list:
+            if str(portus['name']) == str(Name):
+                return portus['id']
+        return None
+    except Exception as e:
+        return {"Error": str(e)}
+        
+        
+        
+def get_server_id_used_by_portus(conn:dict, Name:str)->int:
+    """
+    Get Server Id used by Portus by Name
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Name: Name of the Container Registry 
+    [Returns]
+        (int) Id: Id of the server used by Container Registry, or
+            None: if no match found, or
+        (dict) Error response: If Exception occured
+    """
+    portus_list = pcc.get_portus(conn)['Result']['Data']
+    try:
+        for portus in portus_list:
+            if str(portus['name']) == str(Name):
+                return portus['nodeID']
+        return None
+    except Exception as e:
+        return {"Error": str(e)}        
 
+## Profile
+def get_profile_id_by_name(conn:dict, Name:str)->int:
+    """
+    Get Profile Id by Name
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Name: Name of the Auth Profile 
+    [Returns]
+        (int) Id: Id of the matchining Auth Profile, or
+            None: if no match found, or
+        (dict) Error response: If Exception occured
+    """
+    profile_list = pcc.get_authentication_profiles(conn)['Result']['Data']
+    try:
+        for profile in profile_list:
+            if str(profile['name']) == str(Name):
+                return profile['id']
+        return None
+    except Exception as e:
+        return {"Error": str(e)}
