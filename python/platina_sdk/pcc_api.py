@@ -3519,7 +3519,7 @@ def modify_ceph_cluster_by_id(conn:dict, Id:str, data:dict)->dict:
     """
     return put(conn, PCC_STORAGE + "/ceph/cluster/" + Id, data)
 
-def delete_ceph_cluster_by_id(conn:dict, Id:str, data:dict)->dict:
+def delete_ceph_cluster_by_id(conn:dict, Id:str)->dict:
     """
     Delete Ceph Cluster by Id
     [Args]
@@ -4338,6 +4338,17 @@ def delete_ceph_rbd_mountpath_by_id(conn:dict, Id:str)->dict:
         (dict) Response: Delete Ceph response (includes any errors)
     """
     return delete(conn, PCC_STORAGE + "/ceph/rbd/mountpath/" + Id)
+
+def delete_ceph_rbd_by_id(conn:dict, Id:str)->dict:
+    """
+    Delete Ceph RBD Mountpath by Id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+    [Returns]
+        (dict) Response: Delete Ceph response (includes any errors)
+    """
+    return delete(conn, PCC_STORAGE + "/ceph/rbd/" + Id)
 
 def get_ceph_rdb_by_id(conn:dict, Id:str)->dict:
     """
