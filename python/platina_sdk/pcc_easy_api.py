@@ -469,3 +469,148 @@ def cli_run(host_ip:str, linux_user:str, linux_password:str, cmd:str)->dict:
         return c.run(cmd, warn=True)
     except Exception as e:
         return {"Error": str(e)}
+
+## Storage
+def get_ceph_cluster_id_by_name(conn:dict, Name:str)->int:
+    """
+    Get Id of Ceph Cluster with matching Name from PCC
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Name: Name of Ceph Cluster
+    [Returns]
+        (int) Id: Id of the matchining tenant, or
+            None: if no match found, or
+        (dict) Error response: If Exception occured
+    """
+    try:
+        list_of_ceph_cluster = pcc.get_ceph_clusters(conn)['Result']['Data']
+        for ceph_cluster in list_of_ceph_cluster:
+            if str(ceph_cluster['name']) == str(Name):
+                return ceph_cluster['id']
+        return None
+    except Exception as e:
+        return {"Error": str(e)}
+
+def get_ceph_pool_id_by_name(conn:dict, Name:str)->int:
+    """
+    Get Id of Ceph Pool with matching Name from PCC
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Name: Name of Ceph Pool
+    [Returns]
+        (int) Id: Id of the matchining tenant, or
+            None: if no match found, or
+        (dict) Error response: If Exception occured
+    """
+    try:
+        list_of_ceph_pools = pcc.get_ceph_pools(conn)['Result']['Data']
+        for ceph_pool in list_of_ceph_pools:
+            if str(ceph_pool['name']) == str(Name):
+                return ceph_pool['id']
+        return None
+    except Exception as e:
+        return {"Error": str(e)}
+
+def get_ceph_rbd_id_by_name(conn:dict, Name:str)->int:
+    """
+    Get Id of Ceph Rbd with matching Name from PCC
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Name: Name of Ceph Rbd
+    [Returns]
+        (int) Id: Id of the matchining tenant, or
+            None: if no match found, or
+        (dict) Error response: If Exception occured
+    """
+    try:
+        list_of_ceph_rbds = pcc.get_ceph_rbds(conn)['Result']['Data']
+        for ceph_rbd in list_of_ceph_rbds:
+            if str(ceph_rbd['name']) == str(Name):
+                return ceph_rbd['id']
+        return None
+    except Exception as e:
+        return {"Error": str(e)}
+
+def get_ceph_fs_id_by_name(conn:dict, Name:str)->int:
+    """
+    Get Id of Ceph Fs with matching Name from PCC
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Name: Name of Ceph Fs
+    [Returns]
+        (int) Id: Id of the matchining tenant, or
+            None: if no match found, or
+        (dict) Error response: If Exception occured
+    """
+    try:
+        list_of_ceph_fs = pcc.get_ceph_fs(conn)['Result']['Data']
+        for ceph_fs in list_of_ceph_fs:
+            if str(ceph_fs['name']) == str(Name):
+                return ceph_fs['id']
+        return None
+    except Exception as e:
+        return {"Error": str(e)}
+        
+## Portus
+def get_portus_id_by_name(conn:dict, Name:str)->int:
+    """
+    Get Portus Id by Name
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Name: Name of the Container Registry 
+    [Returns]
+        (int) Id: Id of the matchining Container Registry, or
+            None: if no match found, or
+        (dict) Error response: If Exception occured
+    """
+    portus_list = pcc.get_portus(conn)['Result']['Data']
+    try:
+        for portus in portus_list:
+            if str(portus['name']) == str(Name):
+                return portus['id']
+        return None
+    except Exception as e:
+        return {"Error": str(e)}
+        
+        
+        
+def get_server_id_used_by_portus(conn:dict, Name:str)->int:
+    """
+    Get Server Id used by Portus by Name
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Name: Name of the Container Registry 
+    [Returns]
+        (int) Id: Id of the server used by Container Registry, or
+            None: if no match found, or
+        (dict) Error response: If Exception occured
+    """
+    portus_list = pcc.get_portus(conn)['Result']['Data']
+    try:
+        for portus in portus_list:
+            if str(portus['name']) == str(Name):
+                return portus['nodeID']
+        return None
+    except Exception as e:
+        return {"Error": str(e)}        
+
+## Profile
+def get_profile_id_by_name(conn:dict, Name:str)->int:
+    """
+    Get Profile Id by Name
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Name: Name of the Auth Profile 
+    [Returns]
+        (int) Id: Id of the matchining Auth Profile, or
+            None: if no match found, or
+        (dict) Error response: If Exception occured
+    """
+    profile_list = pcc.get_authentication_profiles(conn)['Result']['Data']
+    try:
+        for profile in profile_list:
+            if str(profile['name']) == str(Name):
+                return profile['id']
+        return None
+    except Exception as e:
+        return {"Error": str(e)}
