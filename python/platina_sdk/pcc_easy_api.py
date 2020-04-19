@@ -470,6 +470,24 @@ def cli_run(host_ip:str, linux_user:str, linux_password:str, cmd:str)->dict:
     except Exception as e:
         return {"Error": str(e)}
 
+def cli_truncate_pcc_logs(host_ip:str, linux_user:str, linux_password:str)->dict:
+    """
+    CLI Truncate PCC Logs
+    Linux user must sudo without password
+
+    [Args]
+        (str) host_ip: 
+        (str) linux_user: 
+        (str) linux_password: 
+    [Returns]
+        (dict) CLI Run response
+    """
+    try:
+        cmd = "sudo docker exec pccserver sh -c 'rm logs/*.log.*; truncate -s 0 logs/*.log'"
+        return cli_run(host_ip, linux_user, linux_password, cmd)
+    except Exception as e:
+        return {"Error": str(e)}
+
 ## Storage
 def get_ceph_cluster_id_by_name(conn:dict, Name:str)->int:
     """
@@ -571,8 +589,6 @@ def get_portus_id_by_name(conn:dict, Name:str)->int:
         return None
     except Exception as e:
         return {"Error": str(e)}
-        
-        
         
 def get_server_id_used_by_portus(conn:dict, Name:str)->int:
     """
