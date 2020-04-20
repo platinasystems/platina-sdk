@@ -41,7 +41,11 @@ def delete(conn, url_path, data=None):
     else:
         obj = conn['session']
 
-    response = obj.delete(url, headers=headers, proxies=conn['proxies'])
+    if data!=None:
+        response = obj.delete(url, json=data , headers=headers, proxies=conn['proxies'])
+    else:
+        response = obj.delete(url, headers=headers, proxies=conn['proxies'])
+
     return _serialize_response(time.time(), response)
 
 def post(conn, url_path, payload):

@@ -684,3 +684,45 @@ def get_profile_id_by_name(conn:dict, Name:str)->int:
         return None
     except Exception as e:
         return {"Error": str(e)}
+
+##Kubernetes
+def get_k8s_cluster_id_by_name(conn:dict, Name:str)->int:
+    """
+    Get Id of K8s Cluster with matching Name from PCC
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Name: Name of K8s Cluster
+    [Returns]
+        (int) Id: Id of the matchining tenant, or
+            None: if no match found, or
+        (dict) Error response: If Exception occured
+    """
+    try:
+        list_of_k8s = pcc.get_kubernetes(conn)['Result']['Data']
+        for k8s in list_of_k8s:
+            if str(k8s['name']) == str(Name):
+                return k8s['ID']
+        return None
+    except Exception as e:
+        return {"Error": str(e)}
+
+def get_k8s_app_id_by_name(conn:dict, Name:str)->int:
+    """
+    Get Id of K8s App with matching Name from PCC
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Name: Name of K8s App
+    [Returns]
+        (int) Id: Id of the matchining tenant, or
+            None: if no match found, or
+        (dict) Error response: If Exception occured
+    """
+    try:
+        list_of_k8s_apps = pcc.get_kubernetes(conn)['Result']['Data']
+        for data in list_of_k8s_apps:
+            for app in data['apps']:
+                if str(app['appName']) == str(Name):
+                    return app['ID']
+        return None
+    except Exception as e:
+        return {"Error": str(e)}
