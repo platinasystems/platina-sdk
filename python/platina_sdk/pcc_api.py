@@ -33,8 +33,7 @@ PCC_STORAGE = PCCSERVER + "/storage"
 PCC_TEMPLATES = PCCSERVER + "/templates"
 PCC_TENANT_LIST = "/user-management/tenant/list"
 PCC_UPDATE_NODE_WITH_TENANT = "/user-management/tenant/nodes/update"
-PCC_CERTIFICATE = "/key-manager/certificates/"
-
+PCC_KEY_MANAGER = "/key-manager"
 
 ## Login
 def login(url:str, username:str, password:str, proxy:str=None, insecure:bool=False, use_session:bool=True)->dict:
@@ -4748,6 +4747,31 @@ def assigning_tenant_to_node(conn:dict , data:dict)->dict:
     
     return post(conn, PCC_UPDATE_NODE_WITH_TENANT, data)
 
+## OpenSSHKey
+def add_openssh_key(conn:dict, Alias:str, Description:str, filename_path:str)->dict:
+    """
+    Add OpenSSH Key
+        [Args]
+            (str) Alias: 
+            (str) Filename_path:
+            (str) Description:
+        [Returns]
+            (dict) Response: Add Key response
+    """
+    multipart_data = {'file': open(filename_path, 'rb'), 'description':(None, Description)}
+    url  = PCC_KEY_MANAGER + "/upload/public/" + Alias
+    return post_multipart(conn, url, multipart_data)
+
+def delete_openssh_key(conn:dict, Alias:str)->dict:
+    """
+    Add OpenSSH Key
+        [Args]
+            (str) Alias: 
+        [Returns]
+            (dict) Response: Delete Key response
+    """
+    return delete(conn, PCC_KEY_MANAGER + "/keys/" + Alias)
+
 ## Certificates
 def add_certificate(conn:dict, Alias:str, Description:str, filename_path:str)->dict:
     """
@@ -4757,10 +4781,10 @@ def add_certificate(conn:dict, Alias:str, Description:str, filename_path:str)->d
             (str) Filename_path:
             (str) Description:
         [Returns]
-            (dict) Response: Add Certificate response
+            (dict) Response: Add Key response
     """
     multipart_data = {'file': open(filename_path, 'rb'), 'description':(None, Description)}
-    url  = PCC_CERTIFICATE + "/upload/" + Alias
+    url  = PCC_KEY_MANAGER + "/certificates/upload/" + Alias
     return post_multipart(conn, url, multipart_data)
 
 def delete_certificate_by_id(conn:dict, Alias:str)->dict:
@@ -4774,3 +4798,4 @@ def delete_certificate_by_id(conn:dict, Alias:str)->dict:
         (dict) Response: Delete Certificate response (includes any errors)
     """
     return delete(conn, PCC_TEMPLATES + "/" + Alias) 
+
