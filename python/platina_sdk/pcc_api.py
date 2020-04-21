@@ -654,7 +654,7 @@ def add_kubernetes_app(conn:dict, Id:str, data:dict)->dict:
     """ 
     return post(conn, PCC_KUBERNETES + "/" + Id + "/app", data)
 
-def delete_kubernetes_app_by_id(conn:dict, Id:str)->dict:
+def delete_kubernetes_app_by_id(conn:dict, Id:str, data:dict)->dict:
     """
     Delete Kuberbetes App by Id
 
@@ -665,7 +665,7 @@ def delete_kubernetes_app_by_id(conn:dict, Id:str)->dict:
     [Returns]
         (dict) Response: Delete Kuberbetes response (includes any errors)
     """
-    return delete(conn, PCC_KUBERNETES + "/" + Id + "/app")
+    return delete(conn, PCC_KUBERNETES + "/" + Id + "/app/", data)
 
 def get_kubernetes_status_by_id(conn:dict, Id:str)->dict:
     """
