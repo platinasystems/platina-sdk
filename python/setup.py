@@ -28,6 +28,7 @@ with open(join(CURRENT_DIR, SOURCE_DIR, '__init__.py')) as init_py:
             break
         else:
             VERSION = "1.0.0"
+
 DOWNLOAD_URL = PROJECT_GIT_URL + "/archive/master.zip"
 print("VERSION=%s" % VERSION) 
 setup(

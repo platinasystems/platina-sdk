@@ -726,3 +726,68 @@ def get_k8s_app_id_by_name(conn:dict, Name:str)->int:
         return None
     except Exception as e:
         return {"Error": str(e)}
+
+# Roles
+def add_role(conn, Name:str, Description:str, owner:int, groupOperationsText:list)->dict:
+    """
+    Add Role
+    [Args]
+        (str) Name: Name of the Role
+        (str) Description: of the Role
+        (list) groupOperations: List of dictionaries containing ids of ops
+        (int) owner
+
+    [Returns]
+        (dict) Response: Add Role response (includes any errors)
+    """
+    groupOperationIds = {
+        "Telemetry_R":{"id":1},
+        "Telemetry_RW":{"id":2},
+        "Infrastructure_R":{"id":3}, 
+        "Infrastructure_RW":{"id":4}, 
+        "AppManagement_R":{"id":5}, 
+        "AppManagement_RW":{"id":6}, 
+        "AccountManagement_R":{"id":7}, 
+        "AccountManagement_RW":{"id":8}, 
+        "ServiceManagement_R":{"id":9},
+        "ServiceManagement_RW":{"id":10}
+    }
+    try:
+        groupOperations = []
+        for groupOperation in groupOperationsText:
+            groupOperations.append(
+                groupOperationIds[groupOperation]
+            )
+    except Exception as e:
+        raise Exception("[add_role] Invalid group operation: %s" % e)
+
+    try:
+        payload = {
+                "description": Description,
+                "name": Name,
+                "owner": owner,
+                "groupOperations": groupOperations
+        }
+        return pcc.add_role(conn, payload)
+    except Exception as e:
+        return {"Error": str(e)}
+
+def get_role_id_by_name(conn:dict, Name:str)->int:
+    """
+    Get Role Id by Name
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Name: Name of the Role 
+    [Returns]
+        (int) Id: Id of the matchining Role, or
+            None: if no match found, or
+        (dict) Error response: If Exception occured
+    """
+    role_list = pcc.get_roles(conn)['Result']['Data']
+    try:
+        for role in role_list:
+            if str(role['Name']) == str(Name):
+                return role['Id']
+        return None
+    except Exception as e:
+        return {"Error": str(e)}
