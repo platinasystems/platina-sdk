@@ -312,7 +312,7 @@ def get_node_role_id_by_name(conn:dict, Name:str)->dict:
             None: if no match found, or
         (dict) Error response: If Exception occured
     """
-    node_role_list = pcc.get_roles(conn)
+    node_role_list = pcc.get_roles(conn)['Result']['Data']
     try:
         for node_role in node_role_list:
             if str(node_role['name'].lower()) == str(Name).lower():
