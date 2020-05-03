@@ -34,6 +34,10 @@ PCC_TEMPLATES = PCCSERVER + "/templates"
 PCC_TENANT_LIST = "/user-management/tenant/list"
 PCC_UPDATE_NODE_WITH_TENANT = "/user-management/tenant/nodes/update"
 PCC_KEY_MANAGER = "/key-manager"
+PCC_OPENSSH_KEYS = "/key-manager/keys"
+PCC_CERTIFICATE = "/key-manager/certificates"
+PCC_IMAGES= "/maas/images"
+OS_DEPLOYMENT = "/maas/deployments"
 
 ## Login
 def login(url:str, username:str, password:str, proxy:str=None, insecure:bool=False, use_session:bool=True)->dict:
@@ -4732,6 +4736,7 @@ def get_tenant_list(conn:dict)->dict:
     """
     return get(conn, PCC_TENANT_LIST)
 
+
 def assigning_tenant_to_node(conn:dict , data:dict)->dict:
     """
     Assign tenant user to node
@@ -4747,31 +4752,6 @@ def assigning_tenant_to_node(conn:dict , data:dict)->dict:
     
     return post(conn, PCC_UPDATE_NODE_WITH_TENANT, data)
 
-## OpenSSHKey
-def add_openssh_key(conn:dict, Alias:str, Description:str, filename_path:str)->dict:
-    """
-    Add OpenSSH Key
-        [Args]
-            (str) Alias: 
-            (str) Filename_path:
-            (str) Description:
-        [Returns]
-            (dict) Response: Add Key response
-    """
-    multipart_data = {'file': open(filename_path, 'rb'), 'description':(None, Description)}
-    url  = PCC_KEY_MANAGER + "/upload/public/" + Alias
-    return post_multipart(conn, url, multipart_data)
-
-def delete_openssh_key(conn:dict, Alias:str)->dict:
-    """
-    Add OpenSSH Key
-        [Args]
-            (str) Alias: 
-        [Returns]
-            (dict) Response: Delete Key response
-    """
-    return delete(conn, PCC_KEY_MANAGER + "/keys/" + Alias)
-
 ## Certificates
 def add_certificate(conn:dict, Alias:str, Description:str, filename_path:str)->dict:
     """
@@ -4781,21 +4761,108 @@ def add_certificate(conn:dict, Alias:str, Description:str, filename_path:str)->d
             (str) Filename_path:
             (str) Description:
         [Returns]
-            (dict) Response: Add Key response
+            (dict) Response: Add Certificate response
     """
     multipart_data = {'file': open(filename_path, 'rb'), 'description':(None, Description)}
-    url  = PCC_KEY_MANAGER + "/certificates/upload/" + Alias
+    url  = PCC_CERTIFICATE + "/upload/" + Alias
     return post_multipart(conn, url, multipart_data)
+    
+def get_certificates(conn:dict)->dict:
+    """
+    Get list of certificates from PCC
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response dictionary: Including the list of certificates
+        (dict) Error response: If Exception occured
+    """
+    return get(conn, PCC_CERTIFICATE + "/describe")    
 
-def delete_certificate_by_id(conn:dict, Alias:str)->dict:
+
+def delete_certificate_by_id(conn:dict, Id:str)->dict:
     """
     Delete Certificate by Id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Alias: Id
+        (str) Id: Id
 
     [Returns]
         (dict) Response: Delete Certificate response (includes any errors)
     """
-    return delete(conn, PCC_TEMPLATES + "/" + Alias) 
+    return delete(conn, PCC_CERTIFICATE + "/" + Id) 
+    
+    
+## OpenSSH Keys
+def add_openSSH_keys(conn:dict, Type:str, Alias:str, Description:str, filename_path:str)->dict:
+    """
+    Add OpenSSH Keys
+        [Args]
+            (str) Alias: Key Name
+            (str) Type: Type of Key 
+            (str) Filename_path: Path of file to be uploaded
+            (str) Description: Description of the keys
+        [Returns]
+            (dict) Response: Add OpenSSH Keys response
+    """
+    multipart_data = {'file': open(filename_path, 'rb'), 'description':(None, Description)}
+    if Type == "Private":
+        url = PCC_OPENSSH_KEYS + "/upload/private/" + Alias
+    else:
+        url = PCC_OPENSSH_KEYS + "/upload/public/" + Alias
+    return post_multipart(conn, url, multipart_data)
+    
+def get_openSSH_keys(conn:dict)->dict:
+    """
+    Get list of certificates from PCC
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response dictionary: Including the list of openSSH keys
+        (dict) Error response: If Exception occured
+    """
+    return get(conn, PCC_OPENSSH_KEYS + "/describe")
+    
+def delete_openSSH_keys_by_id(conn:dict, Id:str)->dict:
+    """
+    Delete OpenSSH_keys by Id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
 
+    [Returns]
+        (dict) Response: Delete OpenSSH_keys response (includes any errors)
+    """
+    return delete(conn, PCC_OPENSSH_KEYS + "/" + Id)
+    
+## OS Deployment
+
+def update_OS_deployment(conn:dict, data:dict)->dict:
+    """
+    Modify Node
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: OS deployment fields
+                    {"nodes":[nodeID(in strings)],
+                  "image":image_name(in string),
+                  "locale":locale_name(in string),
+                  "timezone":timezone(in string),
+                  "adminUser":admin_user(in string),
+                  "sshKeys":[ssh_keys(in string)]
+                  }
+    [Returns]
+        (dict) Response: Update OS response (includes any errors)
+    """ 
+    return post(conn, OS_DEPLOYMENT, data)
+    
+## OS Images
+def get_OS_images(conn:dict)->dict:
+    """
+    Get list of OS images from PCC
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response dictionary: Including the list of OS images
+        (dict) Error response: If Exception occured
+    """
+    return get(conn, PCC_IMAGES)

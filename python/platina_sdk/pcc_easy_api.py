@@ -791,3 +791,88 @@ def get_role_id_by_name(conn:dict, Name:str)->int:
         return None
     except Exception as e:
         return {"Error": str(e)}
+        
+## Certificate        
+def get_certificate_id_by_name(conn:dict, Name:str)->int:
+    """
+    Get Certificate Id by Name
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Name: Name of the Certificate
+    [Returns]
+        (int) Id: Id of the matchining Certificate, or
+            None: if no match found, or
+        (dict) Error response: If Exception occured
+    """
+    profile_list = pcc.get_certificates(conn)['Result']['Data']
+    try:
+        for certificate in certificate_list:
+            if str(certificate['name']) == str(Name):
+                return certificate['id']
+        return None
+    except Exception as e:
+        return {"Error": str(e)}
+        
+        
+## OpenSSH Keys        
+def get_openSSH_keys_id_by_name(conn:dict, Name:str)->int:
+    """
+    Get Certificate Id by Name
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Name: Name of the Certificate
+    [Returns]
+        (int) Id: Id of the matchining Certificate, or
+            None: if no match found, or
+        (dict) Error response: If Exception occured
+    """
+    profile_list = pcc.get_openSSH_keys(conn)['Result']['Data']
+    try:
+        for get_openSSH_keys in get_openSSH_keys_list:
+            if str(get_openSSH_keys['name']) == str(Name):
+                return get_openSSH_keys['id']
+        return None
+    except Exception as e:
+        return {"Error": str(e)}
+        
+## Interface        
+def get_interface_id_by_name(conn:dict, Name:str)->int:
+    """
+    Get Certificate Id by Name
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Name: Name of the Certificate
+    [Returns]
+        (int) Id: Id of the matchining Certificate, or
+            None: if no match found, or
+        (dict) Error response: If Exception occured
+    """
+    interface_list = pcc.get_all_interfaces(conn)['Result']['Data']
+    try:
+        for interface in interface_list:
+            if str(interface['name']) == str(Name):
+                return interface['id']
+        return None
+    except Exception as e:
+        return {"Error": str(e)}
+        
+## OS Images
+def get_OS_label_by_name(conn:dict, Name:str)->str:
+    """
+    Get OS label by Name
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Name: Name of the OS
+    [Returns]
+        (string) Label: Label of the matchining OS, or
+            None: if no match found, or
+        (dict) Error response: If Exception occured
+    """
+    OS_list = pcc.get_OS_images(conn)['Result']['Data']
+    try:
+        for OS in OS_list:
+            if str(OS['name']) == str(Name):
+                return OS['label']
+        return None
+    except Exception as e:
+        return {"Error": str(e)}
