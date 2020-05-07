@@ -63,7 +63,7 @@ def wait_until_node_deleted(conn:dict, Name:str)->int:
         if not found:
             time.sleep(5)
             time_waited += 5
-    return {"OK": "%s" % time_waited}
+    return "OK"
 
 def wait_until_node_ready(conn:dict, Name:str)->int:
     """
@@ -90,7 +90,7 @@ def wait_until_node_ready(conn:dict, Name:str)->int:
         if not ready:
             time.sleep(5)
             time_waited += 5
-    return {"OK": "%s" % time_waited}
+    return "OK"
 
 def get_node_id_by_name(conn:dict, Name:str)->int:
     """
