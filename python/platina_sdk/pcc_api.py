@@ -168,7 +168,7 @@ def modify_cluster_by_id(conn:dict, Id:int, data:dict)->dict:
     [Returns]
         (dict) Response: Add Cluster response (includes any errors)
     """
-    return put(conn, PCC_CLUSTER_ADD + "/" + str(Id), data)
+    return put(conn, PCC_CLUSTER + "/" + str(Id), data)
 
 def get_cluster_by_id(conn:dict, id:int)->dict:
     """

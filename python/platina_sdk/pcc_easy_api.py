@@ -151,40 +151,6 @@ def add_node_group(**kwargs)->dict:
     except Exception as e:
         return "Exception %s" % e
 
-def modify_node_group_by_id(**kwargs)->dict:
-    """
-    Modify Node Group by Id
-    [Args in kwargs]
-        (dict) conn: Connection dictionary obtained after logging in
-        (int) Id: Id of the cluster to be modified
-        (string) Name: 
-        (string) Description: 
-        (int) owner: Tenant ID
-        (int) CreatedAt: 
-        (int) ModifiedAt: 
-    [Returns]
-        (dict) Response: Add Cluster response (includes any errors)
-    """
-    if "Description" not in kwargs:
-        kwargs["Description"] = None
-    elif "owner" not in kwargs:
-        kwargs["owner"] = 0  # default to ROOT
-    elif "CreatedAt" not in kwargs:
-        kwargs["CreatedAt"] = None
-    elif "ModifiedAt" not in kwargs:
-        kwargs["ModifiedAt"] = None
-    try:
-        data = {
-            "Name": kwargs["Name"],
-            "Description": kwargs["Description"],
-            "owner": kwargs["owner"],
-            "CreatedAt": kwargs["CreatedAt"],
-            "ModifiedAt": kwargs["ModifiedAt"]
-        }
-        return pcc.modify_cluster_by_id(kwargs["conn"], kwargs["Id"], data)
-    except Exception as e:
-        return "Exception %s" % e
-
 def get_node_group_id_by_name(conn:dict, Name:str)->int:
     """
     Get Node Group Id by Name
@@ -222,6 +188,50 @@ def delete_node_group_by_name(conn:dict, Name:str)->dict:
     else:
         return pcc.delete_cluster_by_id(conn, Id)
 
+def validate_node_group_by_name(conn:dict, Name:str)->str:
+    """
+    Validate Node Group by Name
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Name: Name of the Cluster
+
+    [Returns]
+        "OK": If node group present in PCC
+        else: "Node group not available" : If node group not present in PCC
+        
+    """
+    cluster_list = pcc.get_clusters(conn)['Result']['Data']
+    try:
+        for cluster in cluster_list:
+            if str(cluster['Name']) == str(Name):
+                return "OK"
+        return "Node group not available"
+    except Exception as e:
+        return {"Error": str(e)}
+        
+def validate_node_group_description_by_name(conn:dict, Name:str, Description:str)->str:
+    """
+    Validate Node Group by Name
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Name: Name of the Cluster
+        (str) Description: Description of the Cluster
+
+    [Returns]
+        "OK": If node group description matches
+        else: "Description does not match" : If node group not present in PCC
+        
+    """
+    cluster_list = pcc.get_clusters(conn)['Result']['Data']
+    try:
+        for cluster in cluster_list:
+            if str(cluster['Name']) == str(Name):
+                if str(cluster['Description']) == str(Description):
+                    return "OK"
+        return "Description does not match"
+    except Exception as e:
+        return {"Error": str(e)}
+        
 ## Node Roles
 def get_node_roles(**kwargs)->dict:
     """
