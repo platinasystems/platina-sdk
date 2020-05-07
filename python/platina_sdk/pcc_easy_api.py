@@ -2,8 +2,6 @@ import time
 import os
 from fabric.connection import Connection
 from fabric.transfer import Transfer
-
-
 from invoke import run
 from platina_sdk import pcc_api as pcc
 
@@ -485,14 +483,11 @@ def cli_copy_from_remote_to_local(host_ip:str, linux_user:str, linux_password:st
     [Returns]
         (dict) CLI Run response
     """
-    print("Remote:"+str(remote_source))
-    print("Destination:"+str(local_destination))
     try:
         c = Connection(linux_user + "@" + host_ip, connect_kwargs={'password':linux_password})
         t = Transfer(c)
-        var= t.get(remote=remote_source, local=local_destination, preserve_mode=True)
-        print("Var:"+str(var))
-        return var
+        return t.get(remote=remote_source, local=local_destination, preserve_mode=True)
+        
     except Exception as e:
         return {"Error": str(e)}
         
