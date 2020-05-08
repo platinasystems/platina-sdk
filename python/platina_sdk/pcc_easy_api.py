@@ -231,6 +231,30 @@ def validate_node_group_description_by_name(conn:dict, Name:str, Description:str
         return "Description does not match"
     except Exception as e:
         return {"Error": str(e)}
+
+def validate_node_group_assigned_to_node(conn:dict, Name:str, Id:int)->str:
+    """
+    Validate Node Group assigned to Node
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Name: Name of the Node
+        (str) Id : Id of the node group
+
+    [Returns]
+        "OK": If node group assigned to Node
+        else: "Not assigned" : If node group not assigned to node
+        
+    """
+    nodes_response = pcc.get_nodes(conn)['Result']['Data']
+    try:
+        for node in nodes_response:
+            if str(node['Name']) == str(Name):
+                if node['ClusterId'] == Id:
+                    return "OK"
+        return "Not assigned"
+    except Exception as e:
+        return {"Error": str(e)}       
+
         
 ## Node Roles
 def get_node_roles(**kwargs)->dict:
