@@ -31,7 +31,7 @@ PCC_SITE = PCCSERVER + "/site"
 PCC_STATUSES = PCCSERVER + "/statuses"
 PCC_STORAGE = PCCSERVER + "/storage"
 PCC_TEMPLATES = PCCSERVER + "/templates"
-PCC_TENANT_LIST = "/user-management/tenant/list"
+PCC_TENANT = "/user-management/tenant"
 PCC_UPDATE_NODE_WITH_TENANT = "/user-management/tenant/nodes/update"
 PCC_KEY_MANAGER = "/key-manager"
 PCC_OPENSSH_KEYS = "/key-manager/keys"
@@ -4725,6 +4725,59 @@ def wait_until_ceph_cluster_ready(conn:dict, name:str)->dict:
     return "OK"
 
 ## Tenant
+def add_tenant(conn:dict, data:dict)->dict:
+    """
+    Add Tenant
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: tenant
+                {   
+                  "name":"string",  # Name of the Tenant
+                  "description":"string", # Description of the Tenant
+                  "parent":"int"  #Id of the Tenant user , if ROOT is the parent- then the input will be 1.
+                
+                }
+    [Returns]
+        (dict) Response: Add Tenant response (includes any errors)
+    """
+    return post(conn, PCC_TENANT + "/register", data)
+    
+def modify_tenant(conn:dict, data:dict)->dict:
+    """
+    Modify Tenant
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: tenant
+                {  
+                  "id": "int",            # Id of the Tenant
+                  "name":"string",        # Name of the Tenant
+                  "description":"string", # Description of the Tenant
+                  "parent":"int"          # Id of the Parent , if ROOT is the parent- then the parent Id will be 1.
+                
+                }
+    [Returns]
+        (dict) Response: Modify Tenant response (includes any errors)
+    """
+    return post(conn, PCC_TENANT + "/update", data)
+    
+def delete_tenant_by_id(conn:dict, data:dict)->dict:
+    """
+    Delete Template by Id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) data: Id of tenant
+              
+              {
+                "id": "int"    # Id of the Tenant
+              }
+
+    [Returns]
+        (dict) Response: Delete Template response (includes any errors)
+    """
+    return post(conn, PCC_TENANT + "/delete", data) 
+
+
+
 def get_tenant_list(conn:dict)->dict:
     """
     Get list of tenants from PCC
@@ -4734,7 +4787,7 @@ def get_tenant_list(conn:dict)->dict:
         (dict) Response dictionary: Including the list of tenants
         (dict) Error response: If Exception occured
     """
-    return get(conn, PCC_TENANT_LIST)
+    return get(conn, PCC_TENANT + "/list")
 
 
 def assigning_tenant_to_node(conn:dict , data:dict)->dict:

@@ -488,6 +488,75 @@ def get_tenant_id_by_name(conn:dict, Name:str)->dict:
     except Exception as e:
         return {"Error": str(e)}
 
+
+def validate_tenant_by_name(conn:dict, Name:str)->str:
+    """
+    Validate Tenant by Name
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Name: Name of the Tenant
+
+    [Returns]
+        "OK": If Tenant present in PCC
+        else: "Tenant not available" : If Tenant not present in PCC
+        
+    """
+    tenant_list = pcc.get_tenant_list(conn)['Result']
+    print("tenant_list: ",tenant_list)
+    try:
+        for tenant in tenant_list:
+            if str(tenant['name']) == str(Name):
+                return "OK"
+        return "Tenant not available"
+    except Exception as e:
+        return {"Error": str(e)}
+    
+        
+def validate_tenant_description_by_name(conn:dict, Name:str, Description:str)->str:
+    """
+    Validate Tenant Desciption by Name
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Name: Name of the Tenant
+        (str) Description: Description of the Tenant
+
+    [Returns]
+        "OK": If Tenant description matches
+        else: "Description does not match" 
+        
+    """
+    tenant_list = pcc.get_tenant_list(conn)['Result']
+    try:
+        for tenant in tenant_list:
+            if str(tenant['name']) == str(Name):
+                if str(tenant['description']) == str(Description):
+                    return "OK"
+        return "Description does not match"
+    except Exception as e:
+        return {"Error": str(e)}
+
+def validate_tenant_assigned_to_node(conn:dict, Name:str, Tenant_Name:str)->str:
+    """
+    Validate tenant assigned to Node
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Name: Name of the Node
+        (str) Tenant_Name : Name of the tenant
+
+    [Returns]
+        "OK": If tenant assigned to Node
+        else: "Not assigned" : If tenant not assigned to node
+        
+    """
+    nodes_response = pcc.get_nodes(conn)['Result']['Data']
+    try:
+        for node in nodes_response:
+            if str(node['Name']) == str(Name):
+                if node['tenant'] == str(Tenant_Name):
+                    return "OK"
+        return "Not assigned"
+    except Exception as e:
+        return {"Error": str(e)} 
 ## CLI
 def cli_run(host_ip:str, linux_user:str, linux_password:str, cmd:str)->dict:
     """
