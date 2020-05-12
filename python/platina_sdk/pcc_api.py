@@ -2405,7 +2405,7 @@ def delete_sites(conn:dict, data:dict)->dict:
     """
     return post(conn, PCC_SITE + "/delete", data)
 
-def modify_site(conn:dict, data:dict)->dict:
+def modify_site(conn:dict,Id:str,data:dict)->dict:
     """
     Modify Site
 
@@ -2423,7 +2423,7 @@ def modify_site(conn:dict, data:dict)->dict:
     [Returns]
         (dict) Response: Modify Site response (includes any errors)
     """
-    return put(conn, PCC_SITE + "/update", data)
+    return put(conn, PCC_SITE + "/" + Id, data)
 
 def get_site_by_id(conn:dict, Id:str)->dict:
     """
