@@ -367,7 +367,51 @@ def delete_node_role_by_name(conn:dict, Name:str)->dict:
         (dict) Response: Delete Roles response (includes any errors)
     """
     Id = get_node_role_id_by_name(conn, Name)
-    return pcc.delete_role_by_id(conn, Id)
+    return pcc.delete_role_by_id(conn, Id=str(Id))
+    
+def validate_node_role_by_name(conn:dict, Name:str)->str:
+    """
+    Validate Node Role by Name
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Name: Name of the Node Role
+
+    [Returns]
+        "OK": If node role present in PCC
+        else: "Node role not available" : If node role not present in PCC
+        
+    """
+    noderoles_list = pcc.get_roles(conn)['Result']['Data']
+    try:
+        for noderole in noderoles_list:
+            if str(noderole['name']) == str(Name):
+                return "OK"
+        return "Node role not available"
+    except Exception as e:
+        return {"Error": str(e)}
+        
+def validate_node_role_description_by_name(conn:dict, Name:str, Description:str)->str:
+    """
+    Validate Node Role by Name
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Name: Name of the Node Role
+        (str) Description: Description of the Node role
+
+    [Returns]
+        "OK": If node role description matches
+        else: "Description does not match" 
+        
+    """
+    noderoles_list = pcc.get_roles(conn)['Result']['Data']
+    try:
+        for noderole in noderoles_list:
+            if str(noderole['name']) == str(Name):
+                if str(noderole['description']) == str(Description):
+                    return "OK"
+        return "Description does not match"
+    except Exception as e:
+        return {"Error": str(e)}
 
 ## Sites
 def add_site(**kwargs)->dict:
