@@ -112,6 +112,26 @@ def get_node_id_by_name(conn:dict, Name:str)->int:
     except Exception as e:
         return {"Error": str(e)}
 
+    def check_node_exists(conn:dict, IP:str)->str:
+    """
+    Check if node already exists and provision status is Ready
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) IP: IP of the Node
+    [Returns]
+        (bool) True: if IP matches the node host in the list of nodes
+            else False: if doesnot exists
+        (dict) Error response: If Exception occured
+    """
+    node_list = pcc.get_nodes(conn)['Result']['Data']
+    try:
+        for node in node_list:
+            if (str(node['Host']) == str(IP)) and (str(node['provisionStatus']) == 'Ready'):
+                return True
+        return False
+    except Exception as e:
+        return {"Error": str(e)}
+    
 ## Node Group (Cluster)
 def get_node_groups(**kwargs)->dict:
     """
