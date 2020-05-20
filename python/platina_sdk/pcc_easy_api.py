@@ -112,7 +112,7 @@ def get_node_id_by_name(conn:dict, Name:str)->int:
     except Exception as e:
         return {"Error": str(e)}
 
-    def check_node_exists(conn:dict, IP:str)->str:
+def check_node_exists(conn:dict, IP:str)->str:
     """
     Check if node already exists and provision status is Ready
     [Args]
