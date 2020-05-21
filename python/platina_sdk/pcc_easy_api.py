@@ -1030,12 +1030,12 @@ def get_certificate_id_by_name(conn:dict, Name:str)->int:
 ## OpenSSH Keys        
 def get_openSSH_keys_id_by_name(conn:dict, Name:str)->int:
     """
-    Get Certificate Id by Name
+    Get OpenSSH Keys Id by Name
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Name: Name of the Certificate
+        (str) Name: Name of the OpenSSH Key
     [Returns]
-        (int) Id: Id of the matching Certificate, or
+        (int) Id: Id of the matching OpenSSH key, or
             None: if no match found, or
         (dict) Error response: If Exception occured
     """
