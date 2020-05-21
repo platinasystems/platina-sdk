@@ -1012,14 +1012,15 @@ def get_certificate_id_by_name(conn:dict, Name:str)->int:
         (dict) conn: Connection dictionary obtained after logging in
         (str) Name: Name of the Certificate
     [Returns]
-        (int) Id: Id of the matchining Certificate, or
+        (int) Id: Id of the matching Certificate, or
             None: if no match found, or
         (dict) Error response: If Exception occured
     """
-    profile_list = pcc.get_certificates(conn)['Result']['Data']
+    
+    certificate_list = pcc.get_certificates(conn)['Result']
     try:
         for certificate in certificate_list:
-            if str(certificate['name']) == str(Name):
+            if str(certificate['alias']) == str(Name):
                 return certificate['id']
         return None
     except Exception as e:
@@ -1034,7 +1035,7 @@ def get_openSSH_keys_id_by_name(conn:dict, Name:str)->int:
         (dict) conn: Connection dictionary obtained after logging in
         (str) Name: Name of the Certificate
     [Returns]
-        (int) Id: Id of the matchining Certificate, or
+        (int) Id: Id of the matching Certificate, or
             None: if no match found, or
         (dict) Error response: If Exception occured
     """
