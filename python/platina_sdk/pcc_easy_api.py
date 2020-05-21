@@ -1039,10 +1039,10 @@ def get_openSSH_keys_id_by_name(conn:dict, Name:str)->int:
             None: if no match found, or
         (dict) Error response: If Exception occured
     """
-    profile_list = pcc.get_openSSH_keys(conn)['Result']['Data']
+    get_openSSH_keys_list = pcc.get_openSSH_keys(conn)['Result']
     try:
         for get_openSSH_keys in get_openSSH_keys_list:
-            if str(get_openSSH_keys['name']) == str(Name):
+            if str(get_openSSH_keys['alias']) == str(Name):
                 return get_openSSH_keys['id']
         return None
     except Exception as e:
