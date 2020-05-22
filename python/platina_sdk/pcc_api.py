@@ -37,7 +37,7 @@ PCC_KEY_MANAGER = "/key-manager"
 PCC_OPENSSH_KEYS = "/key-manager/keys"
 PCC_CERTIFICATE = "/key-manager/certificates"
 PCC_IMAGES= "/maas/images"
-OS_DEPLOYMENT = "/maas/deployments"
+PCC_OS_DEPLOYMENT = "/maas/deployments"
 
 ## Login
 def login(url:str, username:str, password:str, proxy:str=None, insecure:bool=False, use_session:bool=True)->dict:
@@ -4906,7 +4906,7 @@ def update_OS_deployment(conn:dict, data:dict)->dict:
     [Returns]
         (dict) Response: Update OS response (includes any errors)
     """ 
-    return post(conn, OS_DEPLOYMENT, data)
+    return post(conn, PCC_OS_DEPLOYMENT, data)
     
 ## OS Images
 def get_OS_images(conn:dict)->dict:
