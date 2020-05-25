@@ -4875,9 +4875,9 @@ def get_openSSH_keys(conn:dict)->dict:
     """
     return get(conn, PCC_OPENSSH_KEYS + "/describe")
     
-def delete_openSSH_keys_by_id(conn:dict, Id:str)->dict:
+def delete_openSSH_keys_by_alias(conn:dict, Alias:str)->dict:
     """
-    Delete OpenSSH_keys by Id
+    Delete OpenSSH_keys by Alias
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
         (str) Id: Id
@@ -4885,7 +4885,7 @@ def delete_openSSH_keys_by_id(conn:dict, Id:str)->dict:
     [Returns]
         (dict) Response: Delete OpenSSH_keys response (includes any errors)
     """
-    return delete(conn, PCC_OPENSSH_KEYS + "/" + Id)
+    return delete(conn, PCC_OPENSSH_KEYS + "/" + Alias)
     
 ## OS Deployment
 
