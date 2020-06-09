@@ -4919,3 +4919,16 @@ def get_OS_images(conn:dict)->dict:
         (dict) Error response: If Exception occured
     """
     return get(conn, PCC_IMAGES)
+
+##Network Manager
+def add_network_manager(conn:dict, data:dict)->dict:
+    return post(conn, PCC_NETWORK_MANAGER, data)
+
+def delete_network_manager_by_id(conn:dict, Id:str)->dict:
+    return delete(conn, PCC_NETWORK_MANAGER +"/"+ Id)
+
+def get_network_manager(conn:dict)->dict:
+    return get(conn, PCC_NETWORK_MANAGER)
+
+def modify_network_manager(conn:dict, data:dict)->dict:
+    return put(conn, PCC_NETWORK_MANAGER, data) 
