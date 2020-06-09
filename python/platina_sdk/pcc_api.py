@@ -38,6 +38,7 @@ PCC_OPENSSH_KEYS = "/key-manager/keys"
 PCC_CERTIFICATE = "/key-manager/certificates"
 PCC_IMAGES= "/maas/images"
 PCC_OS_DEPLOYMENT = "/maas/deployments"
+PCC_NETWORK_MANAGER = PCCSERVER + "/network/cluster"
 
 ## Login
 def login(url:str, username:str, password:str, proxy:str=None, insecure:bool=False, use_session:bool=True)->dict:
