@@ -77,7 +77,10 @@ def login(url:str, username:str, password:str, proxy:str=None, insecure:bool=Fal
         proxies['http'] = proxy
         proxies['https'] = proxy
 
-    response = session.post(url + PCC_SECURITY_AUTH, json=payload, headers=headers, proxies=proxies)
+    #response = session.post(url + PCC_SECURITY_AUTH, json=payload, headers=headers, proxies=proxies)
+    response = session.post(url + PCC_SECURITY_AUTH, json=payload)
+    print("Payload:"+str(payload))
+    print("Response:"+str(response))
     result = json.loads(response.text)
     token = result['token']
 
