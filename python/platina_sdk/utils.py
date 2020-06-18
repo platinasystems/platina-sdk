@@ -10,7 +10,7 @@ def get(conn, url_path):
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
     headers = {
-        'Content Type': 'application/json',
+        #'Content Type': 'application/json',
         'Authorization': 'Bearer %s' % conn['token']
     }
     url = conn['url'] + url_path
@@ -30,7 +30,7 @@ def delete(conn, url_path, data=None):
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
     headers = {
-        'Content Type': 'application/json',
+        #'Content Type': 'application/json',
         'Authorization': 'Bearer %s' % conn['token']
     }
     url = conn['url'] + url_path
@@ -54,7 +54,7 @@ def post(conn, url_path, payload):
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
     headers = {
-        'Content Type': 'application/json',
+        #'Content Type': 'application/json',
         'Authorization': 'Bearer %s' % conn['token']
     }
     url = conn['url'] + url_path
@@ -74,7 +74,7 @@ def put(conn, url_path, payload):
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
     headers = {
-        'Content Type': 'application/json',
+        #'Content Type': 'application/json',
         'Authorization': 'Bearer %s' % conn['token']
     }
     url = conn['url'] + url_path
@@ -94,7 +94,7 @@ def post_multipart(conn, url_path, multipart_data):
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
     headers = {
-        'Content Type': 'application/json',
+        #'Content Type': 'application/json',
         'Authorization': 'Bearer %s' % conn['token']
     }
     url = conn['url'] + url_path
