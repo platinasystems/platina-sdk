@@ -5,91 +5,7 @@ import json
 import urllib3
 import requests
 
-from platina_sdk.utils import get, post, put, delete, post_multipart
-
-REQUESTS_CA_BUNDLE_UBUNTU = "/etc/ssl/certs/ca-certificates.crt"
-PCC_SECURITY_AUTH = "/security/auth"
-
-PCCSERVER = "/pccserver"
-PCC_TIMEOUT = 20*60     # 20 minutes
-
-PCC_APPS = PCCSERVER + "/apps"
-PCC_CLUSTER = "/pccserver/cluster"
-PCC_CLUSTER_ADD = PCC_CLUSTER + "/add" 
-PCC_CONNECTIVITY =  PCCSERVER + "/connectivity"
-PCC_TOPOLOGY =  PCCSERVER + "/topology"
-PCC_INTERFACE = PCCSERVER + "/interface"
-PCC_KUBERNETES = PCCSERVER + "/kubernetes"
-PCC_NODE = PCCSERVER + "/node"
-PCC_MAAS = PCCSERVER + "/maas"
-PCC_NOTIFICATIONS = PCCSERVER + "/notifications"
-PCC_PORTUS = PCCSERVER + "/v1/portus"
-PCC_PROFILE = PCCSERVER + "/v1/profile"
-PCC_PROVISIONS = PCCSERVER + "/provisions"
-PCC_ROLES = PCCSERVER + "/roles"
-PCC_SITE = PCCSERVER + "/site"
-PCC_STATUSES = PCCSERVER + "/statuses"
-PCC_STORAGE = PCCSERVER + "/storage"
-PCC_TEMPLATES = PCCSERVER + "/templates"
-PCC_TENANT = "/user-management/tenant"
-PCC_UPDATE_NODE_WITH_TENANT = "/user-management/tenant/nodes/update"
-PCC_KEY_MANAGER = "/key-manager"
-PCC_OPENSSH_KEYS = "/key-manager/keys"
-PCC_CERTIFICATE = "/key-manager/certificates"
-PCC_IMAGES= "/maas/images"
-PCC_OS_DEPLOYMENT = "/maas/deployments"
-PCC_NETWORK_MANAGER = PCCSERVER + "/network/cluster"
-
-## Login
-def login(url:str, username:str, password:str, proxy:str=None, insecure:bool=False, use_session:bool=True)->dict:
-    """
-    [Args]
-        url: URL of the PCC being tested
-        username: PCC Username (default: admin)
-        password: PCC Password (default: admin)
-        proxy: URL for HTTPS proxy (default: none)
-        insecure: Suppress warnings about bad TLS certificates (default: False)
-        use_session: Use Python requests Session objects to maintain session (default: True)
-
-    [Returns]
-        conn: Dictionary containing session and token
-    """
-    session = requests.Session()
-
-    if sys.platform == "win32":
-        raise Exception("Windows not (yet) supported")    
-    elif 'linux' in sys.platform:
-        distro_name = distro.linux_distribution(full_distribution_name=False)[0]
-        if distro_name == "ubuntu" or distro_name == "debian":
-            session.verify = False
-        else:
-            raise Exception("Linux distribution: %s not supported" % distro_name)
-    if insecure:
-        urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-    headers = {'Content Type': 'application/json'}
-    payload = {'username': username, 'password': password}
-
-    proxies = {}
-    if proxy:
-        # We don't allow HTTP today, but will likely add a redirect from port
-        # 80 to port 443 in the future. At that point, we'll need the proxy for
-        # that to succeed too.
-        proxies['http'] = proxy
-        proxies['https'] = proxy
-
-    #response = session.post(url + PCC_SECURITY_AUTH, json=payload, headers=headers, proxies=proxies)
-    response = session.post(url + PCC_SECURITY_AUTH, json=payload)
-    print("Payload:"+str(payload))
-    print("Response:"+str(response))
-    result = json.loads(response.text)
-    token = result['token']
-
-    user_session = ""
-    if use_session:
-        user_session = session
-
-    return {'session': user_session, 'token': token, 'url': url, 'proxies': proxies, 'options': {'insecure': insecure, 'use_session': use_session}}
-
+from platina_sdk import pcc_internal_api as private 
 
 ## Apps
 def get_apps(conn:dict)->dict:
@@ -102,20 +18,20 @@ def get_apps(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Apps response (includes any errors)
     """
-    return get(conn, PCC_APPS)
+    return private._get_apps(conn)
 
 def get_app_by_id(conn:dict, id:str)->dict:
     """
-    Get App by Id
+    Get App by id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) id: App Id  (for example 'collector')
+        (str) id: App id  (for example 'collector')
 
     [Returns]
         (dict) Response: Get Apps response (includes any errors)
     """
-    return get(conn, PCC_APPS + "/" + id)
+    return private._get_app_by_id(conn,id)
 
 
 ## Cluster (NodeGroups)
@@ -129,7 +45,7 @@ def get_clusters(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Clusters response (includes any errors)
     """
-    return get(conn, PCC_CLUSTER)
+    return private._get_clusters(conn)
 
 def add_cluster(conn:dict, data:dict)->dict:
     """
@@ -143,7 +59,7 @@ def add_cluster(conn:dict, data:dict)->dict:
                             "owner": 0,
 
                             # optional 
-                            "Id": 0,
+                            "id": 0,
                             "CreatedAt": 0,
                             "ModifiedAt": 0
                         }
@@ -151,20 +67,20 @@ def add_cluster(conn:dict, data:dict)->dict:
     [Returns]
         (dict) Response: Add Cluster response (includes any errors)
     """
-    return post(conn, PCC_CLUSTER_ADD, data)
+    return private._add_cluster(conn,data)
 
-def modify_cluster_by_id(conn:dict, Id:int, data:dict)->dict:
+def modify_cluster_by_id(conn:dict, id:int, data:dict)->dict:
     """
-    Modify Cluster (NodeGroup) by Id
+    Modify Cluster (NodeGroup) by id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (int) Id: Id of the cluster to be modified
+        (int) id: id of the cluster to be modified
         (dict) data: Cluster parameters:
                         {
                             "Name": "string",
                             "Description": "string",
                             "owner": 0,
-                            "Id": 0,
+                            "id": 0,
                             "CreatedAt": 0,
                             "ModifiedAt": 0
                         }
@@ -172,11 +88,11 @@ def modify_cluster_by_id(conn:dict, Id:int, data:dict)->dict:
     [Returns]
         (dict) Response: Add Cluster response (includes any errors)
     """
-    return put(conn, PCC_CLUSTER + "/" + str(Id), data)
+    return private._modify_cluster_by_id(conn, id, data)
 
 def get_cluster_by_id(conn:dict, id:int)->dict:
     """
-    Get Cluster (Node Group) by Id
+    Get Cluster (Node Group) by id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
@@ -185,35 +101,36 @@ def get_cluster_by_id(conn:dict, id:int)->dict:
     [Returns]
         (dict) Response: Get Cluster response (includes any errors)
     """
-    return get(conn, PCC_CLUSTER + "/" + str(id))
+    return private._get_cluster_by_id(conn, id)
 
-def delete_cluster_by_id(conn:dict, Id:int)->dict:
+def delete_cluster_by_id(conn:dict, id:int)->dict:
     """
-    Delete Cluster (Node Group) from PCC using Id
+    Delete Cluster (Node Group) from PCC using id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (int) Id: Id of the Cluster to be deleted
+        (int) id: id of the Cluster to be deleted
 
     [Returns]
         (dict) Response: Delete Cluster response (includes any errors)
     """
-    return delete(conn, PCC_CLUSTER + "/" + str(Id))
+    return private._delete_cluster_by_id(conn, id)
 
 
-## Topology
-def get_connectivity_by_id(conn:dict, Id:int)->dict:
+## Connectivity
+def get_connectivity_by_id(conn:dict, id:int)->dict:
     """
-    Get Connectivity by Id
+    Get Connectivity by id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (int) Id: Id of the Connectivity
+        (int) id: id of the Connectivity
 
     [Returns]
         (dict) Response: Get Configurations response (includes any errors)
     """
-    return get(conn, PCC_CONNECTIVITY + "/" + str(Id))
+    return private._get_connectivity_by_id(conn, id)
 
+##Topology
 def get_topologies(conn:dict)->dict:
     """
     Get Topologies
@@ -224,35 +141,35 @@ def get_topologies(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Topologis response (includes any errors)
     """
-    return get(conn, PCC_TOPOLOGY)
+    return private._get_topologies(conn)
 
-def get_topology_by_id(conn:dict, Id:int)->dict:
+def get_topology_by_id(conn:dict, id:int)->dict:
     """
-    Get Topology by Id
+    Get Topology by id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (int) Id: Id of the Topology
+        (int) id: id of the Topology
 
     [Returns]
         (dict) Response: Get Topologies response (includes any errors)
     """
-    return get(conn, PCC_TOPOLOGY + "/" + str(Id))
+    return private._get_topology_by_id(conn, id)
 
 
 ## Interface
-def get_all_interfaces_by_id(conn:dict, Id:str)->dict:
+def get_all_interfaces_by_id(conn:dict, id:str)->dict:
     """
-    Get All Interfaces by Id (path)
+    Get All Interfaces by id (path)
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id (path) of the interface
+        (str) id: id (path) of the interface
 
     [Returns]
         (dict) Response: Get Interfaces response (includes any errors)
     """
-    return get(conn, PCC_INTERFACE + "/all/" + Id)
+    return private._get_all_interfaces_by_id(conn,id)
 
 def get_interfaces(conn:dict)->dict:
     """
@@ -264,7 +181,7 @@ def get_interfaces(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Interfaces response (includes any errors)
     """
-    return get(conn, PCC_INTERFACE)
+    return private._get_interfaces(conn)
 
 def get_all_interfaces(conn:dict)->dict:
     """
@@ -276,7 +193,7 @@ def get_all_interfaces(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Interfaces response (includes any errors)
     """
-    return get(conn, PCC_INTERFACE + "/all")
+    return private._get_all_interfaces(conn)
 
 def apply_interface(conn:dict, data:dict)->dict:
     """
@@ -289,7 +206,7 @@ def apply_interface(conn:dict, data:dict)->dict:
     [Returns]
         (dict) Response: Apply Interface response (includes any errors)
     """
-    return post(conn, PCC_INTERFACE, data)
+    return private._apply_interface(conn, data)
 
 def get_custom_interface(conn:dict)->dict:
     """
@@ -301,20 +218,20 @@ def get_custom_interface(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Interfaces response (includes any errors)
     """
-    return get(conn, PCC_INTERFACE + "/custom")
+    return private._get_custom_interface(conn)
 
-def get_custom_interface_by_id(conn:dict, Id:str)->dict:
+def get_custom_interface_by_id(conn:dict, id:str)->dict:
     """
-    Get Custom Interface by Id
+    Get Custom Interface by id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id of the interface (path)
+        (str) id: id of the interface (path)
 
     [Returns]
         (dict) Response: Get Interfaces response (includes any errors)
     """
-    return get(conn, PCC_INTERFACE + "/custom/" + Id)
+    return private._get_custom_interface_by_id(conn, id)
 
 def down_interface(conn:dict, data:dict)->dict:
     """
@@ -331,7 +248,7 @@ def down_interface(conn:dict, data:dict)->dict:
                         "fecType": "string",
                         "gateway": "string",
                         "ifName": "string",
-                        "interfaceId": 0,
+                        "interfaceid": 0,
                         "ipv4Addresses": [
                             "string"
                         ],
@@ -344,9 +261,9 @@ def down_interface(conn:dict, data:dict)->dict:
                         "mediaType": "string",
                         "mtu": "string",
                         "netmask": "string",
-                        "nodeId": 0,
+                        "nodeid": 0,
                         "peer": "string",
-                        "peerID": 0,
+                        "peerid": 0,
                         "ready": true,
                         "speed": "string",
                         "status": "string"
@@ -354,7 +271,7 @@ def down_interface(conn:dict, data:dict)->dict:
     [Returns]
         (dict) Response: Down Interface response (includes any errors)
     """
-    return post(conn, PCC_INTERFACE + "/down", data)
+    return private._down_interface(conn, data)
 
 def up_interface(conn:dict, data:dict)->dict:
     """
@@ -371,7 +288,7 @@ def up_interface(conn:dict, data:dict)->dict:
                         "fecType": "string",
                         "gateway": "string",
                         "ifName": "string",
-                        "interfaceId": 0,
+                        "interfaceid": 0,
                         "ipv4Addresses": [
                             "string"
                         ],
@@ -384,9 +301,9 @@ def up_interface(conn:dict, data:dict)->dict:
                         "mediaType": "string",
                         "mtu": "string",
                         "netmask": "string",
-                        "nodeId": 0,
+                        "nodeid": 0,
                         "peer": "string",
-                        "peerID": 0,
+                        "peerid": 0,
                         "ready": true,
                         "speed": "string",
                         "status": "string"
@@ -394,7 +311,7 @@ def up_interface(conn:dict, data:dict)->dict:
     [Returns]
         (dict) Response: Up Interface response (includes any errors)
     """
-    return post(conn, PCC_INTERFACE + "/up", data)
+    return private._up_interface(conn, data)
 
 
 ## Kubernetes
@@ -408,7 +325,7 @@ def get_kubernetes(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Kuberbetes response (includes any errors)
     """
-    return get(conn, PCC_KUBERNETES)
+    return private._get_kubernetes(conn)
 
 def add_kubernetes(conn:dict, data:dict)->dict:
     """
@@ -418,22 +335,22 @@ def add_kubernetes(conn:dict, data:dict)->dict:
         (dict) conn: Connection dictionary obtained after logging in
         (dict) data: Interface parameters:
                     {
-                        "ID": 0,
+                        "id": 0,
                         "apps": [
                             {
-                            "ID": 0,
+                            "id": 0,
                             "appName": "string",
                             "appNamespace": "string",
                             "gitBranch": "string",
                             "gitRepoPath": "string",
                             "gitUrl": "string",
                             "helmValuesFile": "string",
-                            "kclusterID": 0,
+                            "kclusterid": 0,
                             "label": "string"
                             }
                         ],
                         "cniPlugin": "string",
-                        "controlCIDR": "string",
+                        "controlCidR": "string",
                         "defaultGateway": "string",
                         "deployStatus": "string",
                         "healthStatus": "string",
@@ -441,7 +358,7 @@ def add_kubernetes(conn:dict, data:dict)->dict:
                         "isBusy": true,
                         "k8sVersion": "string",
                         "latestAnsibleJob": {
-                            "ID": 0,
+                            "id": 0,
                             "Label": "string",
                             "aborted": true,
                             "customArgs": [
@@ -456,26 +373,26 @@ def add_kubernetes(conn:dict, data:dict)->dict:
                             "result": 0,
                             "startTime": "2020-03-22T16:04:17.413Z",
                             "target": "string",
-                            "targetID": 0,
+                            "targetid": 0,
                             "vars": "string",
                             "wsDir": "string"
                         },
                         "latestRestart": "2020-03-22T16:04:17.413Z",
                         "name": "string",
-                        "networkID": 0,
+                        "networkid": 0,
                         "nodes": [
                             {
                             "Etcd": true,
                             "controlIP": "string",
                             "id": 0,
-                            "kclusterID": 0,
+                            "kclusterid": 0,
                             "kroles": [
                                 "string"
                             ]
                             }
                         ],
                         "owner": 0,
-                        "podsCIDR": "string",
+                        "podsCidR": "string",
                         "pools": [
                             0
                         ],
@@ -484,7 +401,7 @@ def add_kubernetes(conn:dict, data:dict)->dict:
                         ],
                         "rbds": [
                             {
-                            "KclusterId": 0,
+                            "Kclusterid": 0,
                             "ceph_cluster_id": 0,
                             "ceph_pool_id": 0,
                             "deploy_status": "string",
@@ -503,38 +420,38 @@ def add_kubernetes(conn:dict, data:dict)->dict:
                             }
                         ],
                         "rolePolicy": "string",
-                        "servicesCIDR": "string"
+                        "servicesCidR": "string"
                     }
     [Returns]
         (dict) Response: Add Kubernetes response (includes any errors)
     """
-    return post(conn, PCC_KUBERNETES, data)
+    return private._add_kubernetes(conn, data)
 
-def get_kubernetes_strgclasses_by_id(conn:dict, Id:str)->dict:
+def get_kubernetes_strgclasses_by_id(conn:dict, id:str)->dict:
     """
-    Get Kuberbetes StrgClasses by Id
+    Get Kuberbetes StrgClasses by id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id of the cluster
+        (str) id: id of the cluster
 
     [Returns]
         (dict) Response: Get Kuberbetes response (includes any errors)
     """
-    return get(conn, PCC_KUBERNETES + "/cluster/" + Id + "/strgclasses")
+    return private._get_kubernetes_strgclasses_by_id(conn, id )
 
-def delete_kubernetes_strgclasses_by_id(conn:dict, Id:str)->dict:
+def delete_kubernetes_strgclasses_by_id(conn:dict, id:str)->dict:
     """
-    Delete Kuberbetes StrgClasses by Id
+    Delete Kuberbetes StrgClasses by id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id of the cluster
+        (str) id: id of the cluster
 
     [Returns]
         (dict) Response: Delete Kuberbetes response (includes any errors)
     """
-    return delete(conn, PCC_KUBERNETES + "/cluster/" + Id + "/strgclasses")
+    return private._delete_kubernetes_strgclasses_by_id(conn, id )
 
 def get_kubernetes_info(conn:dict)->dict:
     """
@@ -546,60 +463,60 @@ def get_kubernetes_info(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Kuberbetes response (includes any errors)
     """
-    return get(conn, PCC_KUBERNETES + "/info")
+    return private._get_kubernetes_info(conn)
 
-def test_kubernetes_rbdmap_cluster(conn:dict, Id:str, rbdId:str)->dict:
+def test_kubernetes_rbdmap_cluster(conn:dict, id:str, rbdid:str)->dict:
     """
     Test Kubernetes RBD Map Cluster
     
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id (path)
-        (str) rbdId: rbdId (path)
+        (str) id: id (path)
+        (str) rbdid: rbdid (path)
 
     [Returns]
         (dict) Response: Add Kubernetes response (includes any errors)   
     """
     # (dict) data: (not used)
     data = {}
-    return post(conn, PCC_KUBERNETES + "/test/rdbmap/cluster/" + Id + "/rbd/" + rbdId, data)
+    return private._test_kubernetes_rbdmap_cluster(conn, id, rbdid, data)
 
-def test_kubernetes_stclass_cluster(conn:dict, Id:str, rbdId:str)->dict:
+def test_kubernetes_stclass_cluster(conn:dict, id:str, rbdid:str)->dict:
     """
     Test Kubernetes K8s Cluster
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id (path)
-        (str) rbdId: rbdId (path)
+        (str) id: id (path)
+        (str) rbdid: rbdid (path)
 
     [Returns]
         (dict) Response: Add Kubernetes response (includes any errors)
     """
     # (dict) data: (not used)
     data = {}
-    return post(conn, PCC_KUBERNETES + "/test/stclass/cluster/" + Id + "/rbd/" + rbdId, data)
+    return private._test_kubernetes_stclass_cluster(conn, id, rbdid, data)
 
-def get_kubernetes_by_id(conn:dict, Id:str)->dict:
+def get_kubernetes_by_id(conn:dict, id:str)->dict:
     """
-    Get Kuberbetes by Id
+    Get Kuberbetes by id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id of the cluster
+        (str) id: id of the cluster
 
     [Returns]
         (dict) Response: Get Kuberbetes response (includes any errors)
     """
-    return get(conn, PCC_KUBERNETES + "/" + Id)
+    return private._get_kubernetes_by_id(conn, id)
 
-def modify_kubernetes_by_id(conn:dict, Id:str, data:dict)->dict:
+def modify_kubernetes_by_id(conn:dict, id:str, data:dict)->dict:
     """
     Modify Kubernetes K8s Cluster
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id (path)
+        (str) id: id (path)
         (dict) data: Kubernetes parameters
                     {
                         "rolePolicy": "string",
@@ -608,7 +525,7 @@ def modify_kubernetes_by_id(conn:dict, Id:str, data:dict)->dict:
                             "Etcd": true,
                             "controlIP": "string",
                             "id": 0,
-                            "kclusterID": 0,
+                            "kclusterid": 0,
                             "kroles": [
                                 "string"
                             ]
@@ -622,79 +539,79 @@ def modify_kubernetes_by_id(conn:dict, Id:str, data:dict)->dict:
     [Returns]
         (dict) Response: Get Kuberbetes response (includes any errors)
     """
-    return put(conn, PCC_KUBERNETES + "/" + Id, data)
+    return private._modify_kubernetes_by_id(conn, id, data)
 
-def delete_kubernetes_by_id(conn:dict, Id:str)->dict:
+def delete_kubernetes_by_id(conn:dict, id:str)->dict:
     """
-    Delete Kuberbetes by Id
+    Delete Kuberbetes by id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id of the cluster
+        (str) id: id of the cluster
 
     [Returns]
         (dict) Response: Delete Kuberbetes response (includes any errors)
     """
-    return delete(conn, PCC_KUBERNETES + "/" + Id)
+    return private._delete_kubernetes_by_id(conn, id)
 
-def add_kubernetes_app(conn:dict, Id:str, data:dict)->dict:
+def add_kubernetes_app(conn:dict, id:str, data:dict)->dict:
     """
     Add Kubernetes App
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id (path)
+        (str) id: id (path)
         (dict) data: kapp (body)
                     {
-                        "ID": 0,
+                        "id": 0,
                         "appName": "string",
                         "appNamespace": "string",
                         "gitBranch": "string",
                         "gitRepoPath": "string",
                         "gitUrl": "string",
                         "helmValuesFile": "string",
-                        "kclusterID": 0,
+                        "kclusterid": 0,
                         "label": "string"
                     }
 
     [Returns]
         (dict) Response: Add Kubernetes response (includes any errors)
     """ 
-    return post(conn, PCC_KUBERNETES + "/" + Id + "/app", data)
+    return private._add_kubernetes_app(conn, id, data)
 
-def delete_kubernetes_app_by_id(conn:dict, Id:str, data:dict)->dict:
+def delete_kubernetes_app_by_id(conn:dict, id:str, data:dict)->dict:
     """
-    Delete Kuberbetes App by Id
+    Delete Kuberbetes App by id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id of the cluster
+        (str) id: id of the cluster
 
     [Returns]
         (dict) Response: Delete Kuberbetes response (includes any errors)
     """
-    return delete(conn, PCC_KUBERNETES + "/" + Id + "/app/", data)
+    return private._delete_kubernetes_app_by_id(conn, id, data)
 
-def get_kubernetes_status_by_id(conn:dict, Id:str)->dict:
+def get_kubernetes_status_by_id(conn:dict, id:str)->dict:
     """
-    Get Kuberbetes Status by Id
+    Get Kuberbetes Status by id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id of the cluster
+        (str) id: id of the cluster
 
     [Returns]
         (dict) Response: Get Kuberbetes response (includes any errors)
     """
-    return get(conn, PCC_KUBERNETES + "/" + Id + "/status")
+    return private._get_kubernetes_status_by_id(conn, id)
 
-def upgrade_kubernetes_by_id(conn:dict, Id:str, data:dict)->dict:
+def upgrade_kubernetes_by_id(conn:dict, id:str, data:dict)->dict:
     """
-    Upgrade Kubernetes by Id
+    Upgrade Kubernetes by id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id (path)
+        (str) id: id (path)
         (dict) data: kClusterUpgradeRequest (body)
                     {
                         "cniPlugin": "string",
@@ -704,21 +621,21 @@ def upgrade_kubernetes_by_id(conn:dict, Id:str, data:dict)->dict:
     [Returns]
         (dict) Response: Add Kubernetes response (includes any errors)
     """ 
-    return post(conn, PCC_KUBERNETES + "/" + Id + "/upgrade", data)
+    return private._upgrade_kubernetes_by_id(conn, id, data)
 
 ## Maas
-def add_maas(conn:dict, nodeIDs:list)->dict:
+def add_maas(conn:dict, nodeids:list)->dict:
     """
     Post is a trigger for MaaS tenants and hosts script execution
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (list) nodeIDs: Array of node IDs (integers)
+        (list) nodeids: Array of node ids (integers)
 
     [Returns]
         (dict) Response: Add MaaS response (includes any errors)
     """ 
-    return post(conn, PCC_MAAS, nodeIDs)
+    return private._add_maas(conn, nodeids)
 
 ## Node
 def get_nodes(conn:dict)->dict:
@@ -731,7 +648,7 @@ def get_nodes(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Nodes response (includes any errors)
     """
-    return get(conn, PCC_NODE)
+    return private._get_nodes(conn)
 
 def add_node(conn:dict, data:dict)->dict:
     """
@@ -741,19 +658,19 @@ def add_node(conn:dict, data:dict)->dict:
         (dict) conn: Connection dictionary obtained after logging in
         (dict) data: nodeWithAdditionalFields 
                     {
-                        "ClusterId": 0,
+                        "Clusterid": 0,
                         "CreatedAt": 0,
                         "Host": "string",
-                        "Id": 0,
-                        "Iso_Id": 0,
-                        "Kernel_Id": 0,
+                        "id": 0,
+                        "Iso_id": 0,
+                        "Kernel_id": 0,
                         "Model": "string",
                         "ModifiedAt": 0,
                         "Name": "string",
                         "PhysPortsDesiredJson": "string",
                         "SN": "string",
-                        "Site_Id": 0,
-                        "Type_Id": 0,
+                        "Site_id": 0,
+                        "Type_id": 0,
                         "Uuid": "string",
                         "Vendor": "string",
                         "adminUser": "string",
@@ -1056,7 +973,7 @@ def add_node(conn:dict, data:dict)->dict:
                             "vendor": "string"
                             }
                         ],
-                        "hardwareInventoryId": 0,
+                        "hardwareInventoryid": 0,
                         "hwAddr": "string",
                         "invader": true,
                         "managed": true,
@@ -1064,7 +981,7 @@ def add_node(conn:dict, data:dict)->dict:
                             "connectionStatus": "string",
                             "cpuUsage": 0,
                             "memoryUsage": 0,
-                            "nodeId": 0,
+                            "nodeid": 0,
                             "partitionsUsage": {},
                             "updatedAt": 0,
                             "usageStatus": "string"
@@ -1092,7 +1009,7 @@ def add_node(conn:dict, data:dict)->dict:
     [Returns]
         (dict) Response: Add Node response (includes any errors)
     """ 
-    return post(conn, PCC_NODE, data)
+    return private._add_node(conn, data)
 
 def get_node_availability(conn:dict)->dict:
     """
@@ -1104,46 +1021,46 @@ def get_node_availability(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Nodes response (includes any errors)
     """
-    return get(conn, PCC_NODE + "/availability")
+    return private._get_node_availability(conn)
 
-def delete_nodes(conn:dict, IDs:list)->dict:
+def delete_nodes(conn:dict, ids:list)->dict:
     """
     Delete Nodes
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (list) IDs: List of node IDs (integers)
+        (list) ids: List of node ids (integers)
 
     [Returns]
         (dict) Response: Get Nodes response (includes any errors)
     """
-    return post(conn, PCC_NODE, IDs)
+    return private._delete_nodes(conn, ids)
 
-def get_node_desired_interface_by_id(conn:dict, Id:str)->dict:
+def get_node_desired_interface_by_id(conn:dict, id:str)->dict:
     """
-    Get Node Desired Interface by Id
+    Get Node Desired Interface by id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
 
     [Returns]
         (dict) Response: Get Nodes response (includes any errors)
     """
-    return get(conn, PCC_NODE + "/ifacesdesired/" + Id)
+    return private._get_node_desired_interface_by_id(conn, id)
 
-def get_node_summary_by_id(conn:dict, Id:str)->dict:
+def get_node_summary_by_id(conn:dict, id:str)->dict:
     """
-    Get Node Summary by Id
+    Get Node Summary by id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
 
     [Returns]
         (dict) Response: Get Nodes response (includes any errors)
     """
-    return get(conn, PCC_NODE + "/summary/" + Id)
+    return private._get_node_summary_by_id(conn, id)
 
 def modify_node(conn:dict, data:dict)->dict:
     """
@@ -1153,19 +1070,19 @@ def modify_node(conn:dict, data:dict)->dict:
         (dict) conn: Connection dictionary obtained after logging in
         (dict) data: nodeWithAdditionalFields 
                     {
-                        "ClusterId": 0,
+                        "Clusterid": 0,
                         "CreatedAt": 0,
                         "Host": "string",
-                        "Id": 0,
-                        "Iso_Id": 0,
-                        "Kernel_Id": 0,
+                        "id": 0,
+                        "Iso_id": 0,
+                        "Kernel_id": 0,
                         "Model": "string",
                         "ModifiedAt": 0,
                         "Name": "string",
                         "PhysPortsDesiredJson": "string",
                         "SN": "string",
-                        "Site_Id": 0,
-                        "Type_Id": 0,
+                        "Site_id": 0,
+                        "Type_id": 0,
                         "Uuid": "string",
                         "Vendor": "string",
                         "adminUser": "string",
@@ -1468,7 +1385,7 @@ def modify_node(conn:dict, data:dict)->dict:
                             "vendor": "string"
                             }
                         ],
-                        "hardwareInventoryId": 0,
+                        "hardwareInventoryid": 0,
                         "hwAddr": "string",
                         "invader": true,
                         "managed": true,
@@ -1476,7 +1393,7 @@ def modify_node(conn:dict, data:dict)->dict:
                             "connectionStatus": "string",
                             "cpuUsage": 0,
                             "memoryUsage": 0,
-                            "nodeId": 0,
+                            "nodeid": 0,
                             "partitionsUsage": {},
                             "updatedAt": 0,
                             "usageStatus": "string"
@@ -1504,82 +1421,82 @@ def modify_node(conn:dict, data:dict)->dict:
     [Returns]
         (dict) Response: Modify Node response (includes any errors)
     """ 
-    return put(conn, PCC_NODE + "/update", data)
+    return private._modify_node(conn, data)
 
 
-def modify_node_maas(conn:dict, Id:str)->dict:
+def modify_node_maas(conn:dict, id:str)->dict:
     """
     Modify Node Maas
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str)  Id: Id
+        (str)  id: id
 
     [Returns]
         (dict) Response: Modify Node response (includes any errors)
     """ 
     data = {}
-    return put(conn, PCC_NODE + "/updateMaas/" + Id, data)
+    return private._modify_node_maas(conn, id, data)
 
-def get_node_by_id(conn:dict, Id:str)->dict:
+def get_node_by_id(conn:dict, id:str)->dict:
     """
-    Get Node by Id
+    Get Node by id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
 
     [Returns]
         (dict) Response: Get Node response (includes any errors)
     """
-    return get(conn, PCC_NODE + "/" + Id)
+    return private._get_node_by_id(conn, id)
 
-def delete_node_by_id(conn:dict, Id:str)->dict:
+def delete_node_by_id(conn:dict, id:str)->dict:
     """
-    Delete Node by Id
+    Delete Node by id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
 
     [Returns]
         (dict) Response: Delete Node response (includes any errors)
     """
-    return delete(conn, PCC_NODE + "/" + Id)
+    return private._delete_node_by_id(conn, id)
 
-def get_node_apps_by_id(conn:dict, Id:str)->dict:
+def get_node_apps_by_id(conn:dict, id:str)->dict:
     """
-    Get Node Apps by Id
+    Get Node Apps by id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
 
     [Returns]
         (dict) Response: Get Node response (includes any errors)
     """
-    return get(conn, PCC_NODE + "/" + Id + "/apps")
+    return private._get_node_apps_by_id(conn, id)
 
-def get_node_interfaces_by_id(conn:dict, Id:str)->dict:
+def get_node_interfaces_by_id(conn:dict, id:str)->dict:
     """
-    Get Node Interfaces by Id
+    Get Node Interfaces by id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
 
     [Returns]
         (dict) Response: Get Node response (includes any errors)
     """
-    return get(conn, PCC_NODE + "/" + Id + "/ifsPerXeth")
+    return private._get_node_interfaces_by_id(conn, id)
 
-def modify_node_interfaces_by_id(conn:dict, Id:str, data:dict)->dict:
+def modify_node_interfaces_by_id(conn:dict, id:str, data:dict)->dict:
     """
-    Modify Node Interfaces by Id
+    Modify Node Interfaces by id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
         (dict) data: ifsRequest
                 {
                     "IfsPerXethDesired": [
@@ -1593,34 +1510,34 @@ def modify_node_interfaces_by_id(conn:dict, Id:str, data:dict)->dict:
     [Returns]
         (dict) Response: Modify Node response (includes any errors)
     """
-    return post(conn, PCC_NODE + "/" + Id + "/ifsPerXeth", data)
+    return private._modify_node_interfaces_by_id(conn, id, data)
 
-def get_node_provision_status_by_id(conn:dict, Id:str)->dict:
+def get_node_provision_status_by_id(conn:dict, id:str)->dict:
     """
-    Get Node Provision Status by Id
+    Get Node Provision Status by id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
 
     [Returns]
         (dict) Response: Get Node response (includes any errors)
     """
-    return get(conn, PCC_NODE + "/" + Id + "/provisionStatus")
+    return private._get_node_provision_status_by_id(conn, id )
 
-def get_node_operations_status_by_id(conn:dict, Id:str, operations:str)->dict:
+def get_node_operations_status_by_id(conn:dict, id:str, operations:str)->dict:
     """
-    Get Node Operations Status by Id
+    Get Node Operations Status by id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
         (str) operations: operations
 
     [Returns]
         (dict) Response: Get Node response (includes any errors)
     """
-    return get(conn, PCC_NODE + "/" + Id + "/status/" + operations)
+    return private._get_node_operations_status_by_id(conn, id, operations)
 
 ## Notification
 def get_notifications(conn:dict)->dict:
@@ -1633,7 +1550,7 @@ def get_notifications(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Notifications response (includes any errors)
     """
-    return get(conn, PCC_NOTIFICATIONS)
+    return private._get_notifications(conn)
 
 def add_notification(conn:dict, data:dict)->dict:
     """
@@ -1653,7 +1570,7 @@ def add_notification(conn:dict, data:dict)->dict:
                     "message": "string",
                     "metadata": {},
                     "scope": "string",
-                    "targetId": 0,
+                    "targetid": 0,
                     "targetName": "string",
                     "type": "string",
                     "type_id": 0
@@ -1662,7 +1579,7 @@ def add_notification(conn:dict, data:dict)->dict:
     [Returns]
         (dict) Response: Add Notfication response (includes any errors)
     """
-    return post(conn, PCC_NOTIFICATIONS, data)
+    return private._add_notification(conn, data)
 
 def confirm_notification(conn:dict, data:dict)->dict:
     """
@@ -1672,7 +1589,7 @@ def confirm_notification(conn:dict, data:dict)->dict:
         (dict) conn: Connection dictionary obtained after logging in
         (dict) data: confirmation
                 {
-                    "notificationIds": [
+                    "notificationids": [
                         0
                     ]
                 }
@@ -1680,7 +1597,7 @@ def confirm_notification(conn:dict, data:dict)->dict:
     [Returns]
         (dict) Response: Notfication response (includes any errors)
     """
-    return post(conn, PCC_NOTIFICATIONS + "/confirm", data)
+    return private._confirm_notification(conn, data)
 
 def get_notification_history(conn:dict)->dict:
     """
@@ -1692,7 +1609,7 @@ def get_notification_history(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Notifications response (includes any errors)
     """
-    return get(conn, PCC_NOTIFICATIONS + "/history")
+    return private._get_notification_history(conn)
 
 
 ## Portus
@@ -1706,7 +1623,7 @@ def get_portus(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Portus response (includes any errors)
     """
-    return get(conn, PCC_PORTUS)
+    return private._get_portus(conn)
 
 def modify_portus(conn:dict, data:dict)->dict:
     """
@@ -1724,10 +1641,10 @@ def modify_portus(conn:dict, data:dict)->dict:
                         "tenant": 0,
                         "type": "string"
                     },
-                    "authenticationProfileId": 0,
+                    "authenticationProfileid": 0,
                     "available": true,
                     "cephRBDDb": {
-                        "KclusterId": 0,
+                        "Kclusterid": 0,
                         "ceph_cluster_id": 0,
                         "ceph_pool_id": 0,
                         "deploy_status": "string",
@@ -1744,9 +1661,9 @@ def modify_portus(conn:dict, data:dict)->dict:
                         "string"
                         ]
                     },
-                    "cephRBDDbId": 0,
+                    "cephRBDDbid": 0,
                     "cephRBDRegistry": {
-                        "KclusterId": 0,
+                        "Kclusterid": 0,
                         "ceph_cluster_id": 0,
                         "ceph_pool_id": 0,
                         "deploy_status": "string",
@@ -1763,7 +1680,7 @@ def modify_portus(conn:dict, data:dict)->dict:
                         "string"
                         ]
                     },
-                    "cephRBDRegistryId": 0,
+                    "cephRBDRegistryid": 0,
                     "creationDate": 0,
                     "databaseName": "string",
                     "databasePassword": "string",
@@ -1771,20 +1688,20 @@ def modify_portus(conn:dict, data:dict)->dict:
                     "fullyQualifiedDomainName": "string",
                     "id": 0,
                     "name": "string",
-                    "nodeID": 0,
+                    "nodeid": 0,
                     "operationalStatus": "string",
                     "password": "string",
                     "port": 0,
                     "portusInfo": {
-                        "nodeId": 0,
+                        "nodeid": 0,
                         "portusVersion": "string",
                         "registryVersion": "string",
                         "running": true,
                         "timestamp": 0
                     },
                     "portusRegistryPort": 0,
-                    "registryCertId": 0,
-                    "registryKeyId": 0,
+                    "registryCertid": 0,
+                    "registryKeyid": 0,
                     "secretKeyBase": "string",
                     "signupEnabled": true,
                     "storageLocation": "string",
@@ -1795,7 +1712,7 @@ def modify_portus(conn:dict, data:dict)->dict:
     [Returns]
         (dict) Response: Modify Portus response (includes any errors)
     """
-    return put(conn, PCC_PORTUS, data)
+    return private._modify_portus(conn, data)
 
 def add_portus(conn:dict, data:dict)->dict:
     """
@@ -1813,10 +1730,10 @@ def add_portus(conn:dict, data:dict)->dict:
                             "tenant": 0,
                             "type": "string"
                         },
-                        "authenticationProfileId": 0,
+                        "authenticationProfileid": 0,
                         "available": true,
                         "cephRBDDb": {
-                            "KclusterId": 0,
+                            "Kclusterid": 0,
                             "ceph_cluster_id": 0,
                             "ceph_pool_id": 0,
                             "deploy_status": "string",
@@ -1833,9 +1750,9 @@ def add_portus(conn:dict, data:dict)->dict:
                             "string"
                             ]
                         },
-                        "cephRBDDbId": 0,
+                        "cephRBDDbid": 0,
                         "cephRBDRegistry": {
-                            "KclusterId": 0,
+                            "Kclusterid": 0,
                             "ceph_cluster_id": 0,
                             "ceph_pool_id": 0,
                             "deploy_status": "string",
@@ -1852,7 +1769,7 @@ def add_portus(conn:dict, data:dict)->dict:
                             "string"
                             ]
                         },
-                        "cephRBDRegistryId": 0,
+                        "cephRBDRegistryid": 0,
                         "creationDate": 0,
                         "databaseName": "string",
                         "databasePassword": "string",
@@ -1860,20 +1777,20 @@ def add_portus(conn:dict, data:dict)->dict:
                         "fullyQualifiedDomainName": "string",
                         "id": 0,
                         "name": "string",
-                        "nodeID": 0,
+                        "nodeid": 0,
                         "operationalStatus": "string",
                         "password": "string",
                         "port": 0,
                         "portusInfo": {
-                            "nodeId": 0,
+                            "nodeid": 0,
                             "portusVersion": "string",
                             "registryVersion": "string",
                             "running": true,
                             "timestamp": 0
                         },
                         "portusRegistryPort": 0,
-                        "registryCertId": 0,
-                        "registryKeyId": 0,
+                        "registryCertid": 0,
+                        "registryKeyid": 0,
                         "secretKeyBase": "string",
                         "signupEnabled": true,
                         "storageLocation": "string",
@@ -1884,24 +1801,24 @@ def add_portus(conn:dict, data:dict)->dict:
     [Returns]
         (dict) Response: Add Portus response (includes any errors)
     """
-    return post(conn, PCC_PORTUS, data)
+    return private._add_portus(conn, data)
 
-def get_portus_by_id(conn:dict, Id:str)->dict:
+def get_portus_by_id(conn:dict, id:str)->dict:
     """
-    Get Portus by Id
+    Get Portus by id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
 
     [Returns]
         (dict) Response: Get Portus response (includes any errors)
     """
-    return get(conn, PCC_PORTUS + "/" + Id)
+    return private._get_portus_by_id(conn, id)
 
-def delete_portus_by_id(conn:dict, Id:str)->dict:
+def delete_portus_by_id(conn:dict, id:str)->dict:
     """
-    Delete Portus by Id
+    Delete Portus by id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
@@ -1909,11 +1826,11 @@ def delete_portus_by_id(conn:dict, Id:str)->dict:
     [Returns]
         (dict) Response: Delete Portus response (includes any errors)
     """
-    return delete(conn, PCC_PORTUS + "/" + Id)
+    return private._delete_portus_by_id(conn, id)
 
 
 ## Profile
-def get_authentication_profiles(conn:dict)->dict:
+def get_profiles(conn:dict)->dict:
     """
     Get Authentication Profiles
 
@@ -1923,9 +1840,9 @@ def get_authentication_profiles(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Authentication Profile response (includes any errors)
     """
-    return get(conn, PCC_PROFILE)
+    return private._get_profiles(conn)
 
-def modify_authentication_profile(conn:dict, data:dict)->dict:
+def modify_profile(conn:dict, data:dict)->dict:
     """
     Modify Authentication Profile
 
@@ -1936,9 +1853,9 @@ def modify_authentication_profile(conn:dict, data:dict)->dict:
     [Returns]
         (dict) Response: Modify Authentication Profile response (includes any errors)
     """
-    return put(conn, PCC_PROFILE, data)
+    return private._modify_profile(conn, data)
 
-def add_authentication_profile(conn:dict, data:dict)->dict:
+def add_profile(conn:dict, data:dict)->dict:
     """
     Add Authentication Profile
 
@@ -1949,9 +1866,9 @@ def add_authentication_profile(conn:dict, data:dict)->dict:
     [Returns]
         (dict) Response: Add Authentication Profile response (includes any errors)
     """
-    return post(conn, PCC_PROFILE, data)
+    return private._add_profile(conn, data)
 
-def get_authentication_profiles_details(conn:dict)->dict:
+def get_profiles_details(conn:dict)->dict:
     """
     Get Authentication Profiles Details
 
@@ -1961,9 +1878,9 @@ def get_authentication_profiles_details(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Authentication Profile response (includes any errors)
     """
-    return get(conn, PCC_PROFILE + "/details")
+    return private._get_profiles_details(conn)
 
-def add_authentication_profile_with_validation(conn:dict, data:dict)->dict:
+def add_profile_with_validation(conn:dict, data:dict)->dict:
     """
     Add Authentication Profile with Validation
 
@@ -1974,46 +1891,46 @@ def add_authentication_profile_with_validation(conn:dict, data:dict)->dict:
     [Returns]
         (dict) Response: Add Authentication Profile response (includes any errors)
     """
-    return post(conn, PCC_PROFILE + "/validate", data)
+    return private._add_profile_with_validation(conn, data)
 
-def get_authentication_profile_by_id(conn:dict, Id:str)->dict:
+def get_profile_by_id(conn:dict, id:str)->dict:
     """
-    Get Authentication Profile by Id
+    Get Authentication Profile by id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
 
     [Returns]
         (dict) Response: Get Authentication Profile response (includes any errors)
     """
-    return get(conn, PCC_PROFILE + "/" + Id)
+    return private._get_profile_by_id(conn, id)
 
-def delete_authentication_profile_by_id(conn:dict, Id:str)->dict:
+def delete_profile_by_id(conn:dict, id:str)->dict:
     """
-    Delete Authentication Profile by Id
+    Delete Authentication Profile by id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
 
     [Returns]
         (dict) Response: Delete Authentication Profile response (includes any errors)
     """
-    return delete(conn, PCC_PROFILE + "/" + Id)
+    return private._delete_profile_by_id(conn, id)
 
-def get_authentication_profile_details_by_id(conn:dict, Id:str)->dict:
+def get_profile_details_by_id(conn:dict, id:str)->dict:
     """
-    Get Authentication Profile Details by Id
+    Get Authentication Profile Details by id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
 
     [Returns]
         (dict) Response: Get Authentication Profile response (includes any errors)
     """
-    return get(conn, PCC_PROFILE + "/" + Id + "/details")
+    return private._get_profile_details_by_id(conn, id)
 
 ## Provisions
 def get_provisions(conn:dict)->dict:
@@ -2026,7 +1943,7 @@ def get_provisions(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Provision response (includes any errors)
     """
-    return get(conn, PCC_PROVISIONS)
+    return private._get_provisions(conn)
 
 def add_provision(conn:dict, data:dict)->dict:
     """
@@ -2038,37 +1955,37 @@ def add_provision(conn:dict, data:dict)->dict:
                 {
                     "Clean": true,
                     "EndTime": "2020-03-24T05:33:00.461Z",
-                    "ID": 0,
+                    "id": 0,
                     "Rollback": true,
                     "StartTime": "2020-03-24T05:33:00.461Z",
                     "Status": "string",
                     "execute": true,
                     "statuses": [
                         {
-                        "AppID": "string",
+                        "Appid": "string",
                         "Configuration": {
-                            "AppID": "string",
+                            "Appid": "string",
                             "Description": "string",
                             "Files": [
                             {
-                                "ConfigurationID": 0,
+                                "Configurationid": 0,
                                 "Content": "string",
-                                "ID": 0,
+                                "id": 0,
                                 "Name": "string"
                             }
                             ],
-                            "ID": 0,
+                            "id": 0,
                             "Name": "string",
                             "Versions": [
                             "string"
                             ]
                         },
-                        "ConfigurationID": 0,
-                        "ID": 0,
+                        "Configurationid": 0,
+                        "id": 0,
                         "Message": "string",
-                        "NodeID": 0,
+                        "Nodeid": 0,
                         "Progress": 0,
-                        "ProvisionID": 0,
+                        "Provisionid": 0,
                         "Result": "string",
                         "level": "string",
                         "metaData": "string",
@@ -2091,77 +2008,77 @@ def add_provision(conn:dict, data:dict)->dict:
     [Returns]
         (dict) Response: Add Provision response (includes any errors)
     """
-    return post(conn, PCC_PROVISIONS, data)
+    return private._add_provision(conn, data)
 
-def reapply_provision_for_node(conn:dict, nodeId:str)->dict:
+def reapply_provision_for_node(conn:dict, nodeid:str)->dict:
     """
     Reapply Provision for a Node
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) nodeId: nodeId
+        (str) nodeid: nodeid
 
     [Returns]
         (dict) Response: Get Provision response (includes any errors)
     """
-    return get(conn, PCC_PROVISIONS + "/reapply/" + nodeId)
+    return private._reapply_provision_for_node(conn, nodeid)
 
-def get_provision_by_id(conn:dict, Id:str)->dict:
+def get_provision_by_id(conn:dict, id:str)->dict:
     """
-    Get Provision by Id
+    Get Provision by id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
 
     [Returns]
         (dict) Response: Get Provision response (includes any errors)
     """
-    return get(conn, PCC_PROVISIONS + "/" + Id)
+    return private._get_provision_by_id(conn, id)
 
-def modify_provision_by_id(conn:dict, Id:str, data:dict)->dict:
+def modify_provision_by_id(conn:dict, id:str, data:dict)->dict:
     """
-    Modify Provision by Id
+    Modify Provision by id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
 
         (dict) data: provision
                 {
                     "Clean": true,
                     "EndTime": "2020-03-24T05:42:03.322Z",
-                    "ID": 0,
+                    "id": 0,
                     "Rollback": true,
                     "StartTime": "2020-03-24T05:42:03.322Z",
                     "Status": "string",
                     "execute": true,
                     "statuses": [
                         {
-                        "AppID": "string",
+                        "Appid": "string",
                         "Configuration": {
-                            "AppID": "string",
+                            "Appid": "string",
                             "Description": "string",
                             "Files": [
                             {
-                                "ConfigurationID": 0,
+                                "Configurationid": 0,
                                 "Content": "string",
-                                "ID": 0,
+                                "id": 0,
                                 "Name": "string"
                             }
                             ],
-                            "ID": 0,
+                            "id": 0,
                             "Name": "string",
                             "Versions": [
                             "string"
                             ]
                         },
-                        "ConfigurationID": 0,
-                        "ID": 0,
+                        "Configurationid": 0,
+                        "id": 0,
                         "Message": "string",
-                        "NodeID": 0,
+                        "Nodeid": 0,
                         "Progress": 0,
-                        "ProvisionID": 0,
+                        "Provisionid": 0,
                         "Result": "string",
                         "level": "string",
                         "metaData": "string",
@@ -2185,51 +2102,51 @@ def modify_provision_by_id(conn:dict, Id:str, data:dict)->dict:
     [Returns]
         (dict) Response: Modify Provision response (includes any errors)
     """
-    return put(conn, PCC_PROVISIONS + "/" + Id, data)
+    return private._modify_provision_by_id(conn, id, data)
 
-def add_provision_by_id(conn:dict, Id:str, data:dict):
+def add_provision_by_id(conn:dict, id:str, data:dict):
     """
     Provision launches a provisioning
 
     [Args]        
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
 
         (dict) data: provision
                 {
                     "Clean": true,
                     "EndTime": "2020-03-24T05:45:36.315Z",
-                    "ID": 0,
+                    "id": 0,
                     "Rollback": true,
                     "StartTime": "2020-03-24T05:45:36.315Z",
                     "Status": "string",
                     "execute": true,
                     "statuses": [
                         {
-                        "AppID": "string",
+                        "Appid": "string",
                         "Configuration": {
-                            "AppID": "string",
+                            "Appid": "string",
                             "Description": "string",
                             "Files": [
                             {
-                                "ConfigurationID": 0,
+                                "Configurationid": 0,
                                 "Content": "string",
-                                "ID": 0,
+                                "id": 0,
                                 "Name": "string"
                             }
                             ],
-                            "ID": 0,
+                            "id": 0,
                             "Name": "string",
                             "Versions": [
                             "string"
                             ]
                         },
-                        "ConfigurationID": 0,
-                        "ID": 0,
+                        "Configurationid": 0,
+                        "id": 0,
                         "Message": "string",
-                        "NodeID": 0,
+                        "Nodeid": 0,
                         "Progress": 0,
-                        "ProvisionID": 0,
+                        "Provisionid": 0,
                         "Result": "string",
                         "level": "string",
                         "metaData": "string",
@@ -2253,20 +2170,20 @@ def add_provision_by_id(conn:dict, Id:str, data:dict):
     [Returns]
         (dict) Response: Add Provision response (includes any errors)
     """
-    return post(conn, PCC_PROVISIONS + "/" + Id, data)
+    return private._add_provision_by_id(conn, id, data)
 
-def get_provision_status_by_id(conn:dict, Id:str)->dict:
+def get_provision_status_by_id(conn:dict, id:str)->dict:
     """
-    Get Provision Status by Id
+    Get Provision Status by id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
 
     [Returns]
         (dict) Response: Get Provision response (includes any errors)
     """
-    return get(conn, PCC_PROVISIONS + "/" + Id + "/statuses")
+    return private._get_provision_status_by_id(conn, id)
 
 
 ## Roles
@@ -2280,7 +2197,7 @@ def get_roles(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Roles response (includes any errors)
     """
-    return get(conn, PCC_ROLES)
+    return private._get_roles(conn)
 
 def add_role(conn:dict, data:dict)->dict:
     """
@@ -2297,7 +2214,7 @@ def add_role(conn:dict, data:dict)->dict:
                     "owners": [
                         0
                     ],
-                    "templateIDs": [
+                    "templateids": [
                         0
                     ],
                     "templateNames": [
@@ -2307,28 +2224,28 @@ def add_role(conn:dict, data:dict)->dict:
     [Returns]
         (dict) Response: Add Roles response (includes any errors)
     """
-    return post(conn, PCC_ROLES, data)
+    return private._add_role(conn, data)
 
-def get_role_by_id(conn:dict, Id:str)->dict:
+def get_role_by_id(conn:dict, id:str)->dict:
     """
-    Get Roles by Id
+    Get Roles by id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
 
     [Returns]
         (dict) Response: Get Roles response (includes any errors)
     """
-    return get(conn, PCC_ROLES + "/" + Id)
+    return private._get_role_by_id(conn, id)
 
-def modify_role(conn:dict, Id:str, data:dict)->dict:
+def modify_role(conn:dict, id:str, data:dict)->dict:
     """
     Modify Role
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
         (dict) data: role
                 {
                     "description": "string",
@@ -2338,7 +2255,7 @@ def modify_role(conn:dict, Id:str, data:dict)->dict:
                     "owners": [
                         0
                     ],
-                    "templateIDs": [
+                    "templateids": [
                         0
                     ],
                     "templateNames": [
@@ -2348,20 +2265,20 @@ def modify_role(conn:dict, Id:str, data:dict)->dict:
     [Returns]
         (dict) Response: Modify Roles response (includes any errors)
     """
-    return put(conn, PCC_ROLES + "/" + Id, data)
+    return private._modify_role(conn, id, data)
 
-def delete_role_by_id(conn:dict, Id:str)->dict:
+def delete_role_by_id(conn:dict, id:str)->dict:
     """
-    Delete Role by Id
+    Delete Role by id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
 
     [Returns]
         (dict) Response: Delete Roles response (includes any errors)
     """
-    return delete(conn, PCC_ROLES + "/" + Id)
+    return private._delete_role_by_id(conn, id)
 
 
 ## Site
@@ -2375,7 +2292,7 @@ def get_sites(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Site response (includes any errors)
     """
-    return get(conn, PCC_SITE)
+    return private._get_sites(conn)
 
 def add_site(conn:dict, data:dict)->dict:
     """
@@ -2387,7 +2304,7 @@ def add_site(conn:dict, data:dict)->dict:
                 {
                     "CreatedAt": 0,
                     "Description": "string",
-                    "Id": 0,
+                    "id": 0,
                     "ModifiedAt": 0,
                     "Name": "string",
                     "owner": 0
@@ -2395,7 +2312,7 @@ def add_site(conn:dict, data:dict)->dict:
     [Returns]
         (dict) Response: Add Site response (includes any errors)
     """
-    return post(conn, PCC_SITE + "/add", data)
+    return private._add_site(conn, data)
 
 def delete_sites(conn:dict, data:dict)->dict:
     """
@@ -2403,13 +2320,13 @@ def delete_sites(conn:dict, data:dict)->dict:
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (list) data: IDs - array of site IDs to delete
+        (list) data: ids - array of site ids to delete
     [Returns]
         (dict) Response: Delete Site response (includes any errors)
     """
-    return post(conn, PCC_SITE + "/delete", data)
+    return private._delete_sites(conn, data)
 
-def modify_site(conn:dict,Id:str,data:dict)->dict:
+def modify_site(conn:dict,id:str,data:dict)->dict:
     """
     Modify Site
 
@@ -2419,7 +2336,7 @@ def modify_site(conn:dict,Id:str,data:dict)->dict:
                 {
                     "CreatedAt": 0,
                     "Description": "string",
-                    "Id": 0,
+                    "id": 0,
                     "ModifiedAt": 0,
                     "Name": "string",
                     "owner": 0
@@ -2427,20 +2344,20 @@ def modify_site(conn:dict,Id:str,data:dict)->dict:
     [Returns]
         (dict) Response: Modify Site response (includes any errors)
     """
-    return put(conn, PCC_SITE + "/" + Id, data)
+    return private._modify_site(conn, id, data)
 
-def get_site_by_id(conn:dict, Id:str)->dict:
+def get_site_by_id(conn:dict, id:str)->dict:
     """
-    Get Site by Id
+    Get Site by id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
 
     [Returns]
         (dict) Response: Get Site response (includes any errors)
     """
-    return get(conn, PCC_SITE + "/" + Id)
+    return private._get_site_by_id(conn, id)
 
 
 ## Statuses
@@ -2454,7 +2371,7 @@ def get_statuses(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Status response (includes any errors)
     """
-    return get(conn, PCC_STATUSES)
+    return private._get_statuses(conn)
 
 def add_status(conn:dict, data:dict)->dict:
     """
@@ -2464,30 +2381,30 @@ def add_status(conn:dict, data:dict)->dict:
         (dict) conn: Connection dictionary obtained after logging in
         (dict) data: status
                 {
-                    "AppID": "string",
+                    "Appid": "string",
                     "Configuration": {
-                        "AppID": "string",
+                        "Appid": "string",
                         "Description": "string",
                         "Files": [
                         {
-                            "ConfigurationID": 0,
+                            "Configurationid": 0,
                             "Content": "string",
-                            "ID": 0,
+                            "id": 0,
                             "Name": "string"
                         }
                         ],
-                        "ID": 0,
+                        "id": 0,
                         "Name": "string",
                         "Versions": [
                         "string"
                         ]
                     },
-                    "ConfigurationID": 0,
-                    "ID": 0,
+                    "Configurationid": 0,
+                    "id": 0,
                     "Message": "string",
-                    "NodeID": 0,
+                    "Nodeid": 0,
                     "Progress": 0,
-                    "ProvisionID": 0,
+                    "Provisionid": 0,
                     "Result": "string",
                     "level": "string",
                     "metaData": "string",
@@ -2498,20 +2415,20 @@ def add_status(conn:dict, data:dict)->dict:
     [Returns]
         (dict) Response: Add Status response (includes any errors)
     """
-    return post(conn, PCC_STATUSES, data)
+    return private._add_status(conn, data)
 
-def get_status_by_id(conn:dict, Id:str)->dict:
+def get_status_by_id(conn:dict, id:str)->dict:
     """
-    Get Status by Id
+    Get Status by id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
 
     [Returns]
         (dict) Response: Get Status response (includes any errors)
     """
-    return get(conn, PCC_STATUSES + "/" + Id)
+    return private._get_status_by_id(conn, id)
 
 
 ## Storage
@@ -2523,7 +2440,7 @@ def get_ceph_clusters(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return get(conn, PCC_STORAGE + "/ceph/cluster")
+    return private._get_ceph_clusters(conn)
 
 def modify_ceph_clusters(conn:dict, data:dict)->dict:
     """
@@ -2534,7 +2451,7 @@ def modify_ceph_clusters(conn:dict, data:dict)->dict:
                 {
                     "cluster_network": "string",
                     "containerized": true,
-                    "controlCIDR": "string",
+                    "controlCidR": "string",
                     "deploy_status": "string",
                     "id": 0,
                     "igwPolicy": "string",
@@ -2857,7 +2774,7 @@ def modify_ceph_clusters(conn:dict, data:dict)->dict:
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return put(conn, PCC_STORAGE + "/ceph/cluster", data)
+    return private._modify_ceph_clusters(conn, data)
 
 def add_ceph_cluster(conn:dict, data:dict)->dict:
     """
@@ -2868,7 +2785,7 @@ def add_ceph_cluster(conn:dict, data:dict)->dict:
                 {
                     "cluster_network": "string",
                     "containerized": true,
-                    "controlCIDR": "string",
+                    "controlCidR": "string",
                     "deploy_status": "string",
                     "id": 0,
                     "igwPolicy": "string",
@@ -3191,19 +3108,19 @@ def add_ceph_cluster(conn:dict, data:dict)->dict:
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return post(conn, PCC_STORAGE + "/ceph/cluster", data)
+    return private._add_ceph_cluster(conn, data)
 
-def modify_ceph_cluster_by_id(conn:dict, Id:str, data:dict)->dict:
+def modify_ceph_cluster_by_id(conn:dict, id:str, data:dict)->dict:
     """
-    Modify Ceph Cluster by Id
+    Modify Ceph Cluster by id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
         (dict) data: cephCluster
                 {
                     "cluster_network": "string",
                     "containerized": true,
-                    "controlCIDR": "string",
+                    "controlCidR": "string",
                     "deploy_status": "string",
                     "id": 0,
                     "igwPolicy": "string",
@@ -3526,85 +3443,85 @@ def modify_ceph_cluster_by_id(conn:dict, Id:str, data:dict)->dict:
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return put(conn, PCC_STORAGE + "/ceph/cluster/" + Id, data)
+    return private._modify_ceph_cluster_by_id(conn, id, data)
 
-def delete_ceph_cluster_by_id(conn:dict, Id:str)->dict:
+def delete_ceph_cluster_by_id(conn:dict, id:str)->dict:
     """
-    Delete Ceph Cluster by Id
+    Delete Ceph Cluster by id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
         (dict) data: (boolean) forceRemove
     [Returns]
         (dict) Response: Delete Ceph response (includes any errors)
     """
-    return delete(conn, PCC_STORAGE + "/ceph/cluster/" + Id)
+    return private._delete_ceph_cluster_by_id(conn, id)
 
-def get_ceph_cluster_by_id(conn:dict, Id:str)->dict:
+def get_ceph_cluster_by_id(conn:dict, id:str)->dict:
     """
-    Get Ceph Cluster by Id
+    Get Ceph Cluster by id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return get(conn, PCC_STORAGE + "/ceph/cluster" + Id)
+    return private._get_ceph_cluster_by_id(conn, id)
 
-def get_ceph_fs_by_cluster_id(conn:dict, Id:str)->dict:
+def get_ceph_fs_by_cluster_id(conn:dict, id:str)->dict:
     """
-    Get Ceph Fs by Cluster Id
+    Get Ceph Fs by Cluster id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return get(conn, PCC_STORAGE + "/ceph/cluster" + Id + "/fs")
+    return private._get_ceph_fs_by_cluster_id(conn, id)
 
-def get_ceph_fs_available_pools_by_cluster_id(conn:dict, Id:str)->dict:
+def get_ceph_fs_available_pools_by_cluster_id(conn:dict, id:str)->dict:
     """
-    Get Ceph FS Available Pools by Cluster Id
+    Get Ceph FS Available Pools by Cluster id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return get(conn, PCC_STORAGE + "/ceph/cluster" + Id + "/fs/pools/available")
+    return private._get_ceph_fs_available_pools_by_cluster_id(conn, id)
 
-def get_ceph_pools_by_cluster_id(conn:dict, Id:str)->dict:
+def get_ceph_pools_by_cluster_id(conn:dict, id:str)->dict:
     """
-    Get Ceph Pools by Cluster Id
+    Get Ceph Pools by Cluster id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return get(conn, PCC_STORAGE + "/ceph/cluster" + Id + "/pools")
+    return private._get_ceph_pools_by_cluster_id(conn, id)
 
-def get_ceph_rdb_available_pools_by_cluster_id(conn:dict, Id:str)->dict:
+def get_ceph_rdb_available_pools_by_cluster_id(conn:dict, id:str)->dict:
     """
-    Get Ceph RDB Available Pools by Cluster Id
+    Get Ceph RDB Available Pools by Cluster id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return get(conn, PCC_STORAGE + "/ceph/cluster" + Id + "/rdb/pools/available")
+    return private._get_ceph_rdb_available_pools_by_cluster_id(conn, id)
 
-def get_ceph_rdbs_by_cluster_id(conn:dict, Id:str)->dict:
+def get_ceph_rdbs_by_cluster_id(conn:dict, id:str)->dict:
     """
-    Get Ceph RDBs by Cluster Id
+    Get Ceph RDBs by Cluster id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return get(conn, PCC_STORAGE + "/ceph/cluster" + Id + "/rdbs")
+    return private._get_ceph_rdbs_by_cluster_id(conn, id)
 
 def get_ceph_fs(conn:dict)->dict:
     """
@@ -3614,7 +3531,7 @@ def get_ceph_fs(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return get(conn, PCC_STORAGE + "/ceph/fs")
+    return private._get_ceph_fs(conn)
 
 def modify_ceph_fs(conn:dict, data:dict)->dict:
     """
@@ -3626,7 +3543,7 @@ def modify_ceph_fs(conn:dict, data:dict)->dict:
                     "ceph_cluster_id": 0,
                     "data_pools": [
                         {
-                        "KclusterId": 0,
+                        "Kclusterid": 0,
                         "ceph_cluster_id": 0,
                         "deploy_status": "string",
                         "failure_domain": 0,
@@ -3639,7 +3556,7 @@ def modify_ceph_fs(conn:dict, data:dict)->dict:
                         "quota_unit": 0,
                         "rbds": [
                             {
-                            "KclusterId": 0,
+                            "Kclusterid": 0,
                             "ceph_cluster_id": 0,
                             "ceph_pool_id": 0,
                             "deploy_status": "string",
@@ -3665,7 +3582,7 @@ def modify_ceph_fs(conn:dict, data:dict)->dict:
                         }
                     ],
                     "default_pool": {
-                        "KclusterId": 0,
+                        "Kclusterid": 0,
                         "ceph_cluster_id": 0,
                         "deploy_status": "string",
                         "failure_domain": 0,
@@ -3678,7 +3595,7 @@ def modify_ceph_fs(conn:dict, data:dict)->dict:
                         "quota_unit": 0,
                         "rbds": [
                         {
-                            "KclusterId": 0,
+                            "Kclusterid": 0,
                             "ceph_cluster_id": 0,
                             "ceph_pool_id": 0,
                             "deploy_status": "string",
@@ -3706,7 +3623,7 @@ def modify_ceph_fs(conn:dict, data:dict)->dict:
                     "id": 0,
                     "max_mds": 0,
                     "metadata_pool": {
-                        "KclusterId": 0,
+                        "Kclusterid": 0,
                         "ceph_cluster_id": 0,
                         "deploy_status": "string",
                         "failure_domain": 0,
@@ -3719,7 +3636,7 @@ def modify_ceph_fs(conn:dict, data:dict)->dict:
                         "quota_unit": 0,
                         "rbds": [
                         {
-                            "KclusterId": 0,
+                            "Kclusterid": 0,
                             "ceph_cluster_id": 0,
                             "ceph_pool_id": 0,
                             "deploy_status": "string",
@@ -3753,7 +3670,7 @@ def modify_ceph_fs(conn:dict, data:dict)->dict:
     [Returns]
         (dict) Response: Modify Ceph response (includes any errors)
     """
-    return put(conn, PCC_STORAGE + "/ceph/fs", data)
+    return private._modify_ceph_fs(conn, data)
 
 def add_ceph_fs(conn:dict, data:dict)->dict:
     """
@@ -3765,7 +3682,7 @@ def add_ceph_fs(conn:dict, data:dict)->dict:
                     "ceph_cluster_id": 0,
                     "data_pools": [
                         {
-                        "KclusterId": 0,
+                        "Kclusterid": 0,
                         "ceph_cluster_id": 0,
                         "deploy_status": "string",
                         "failure_domain": 0,
@@ -3778,7 +3695,7 @@ def add_ceph_fs(conn:dict, data:dict)->dict:
                         "quota_unit": 0,
                         "rbds": [
                             {
-                            "KclusterId": 0,
+                            "Kclusterid": 0,
                             "ceph_cluster_id": 0,
                             "ceph_pool_id": 0,
                             "deploy_status": "string",
@@ -3804,7 +3721,7 @@ def add_ceph_fs(conn:dict, data:dict)->dict:
                         }
                     ],
                     "default_pool": {
-                        "KclusterId": 0,
+                        "Kclusterid": 0,
                         "ceph_cluster_id": 0,
                         "deploy_status": "string",
                         "failure_domain": 0,
@@ -3817,7 +3734,7 @@ def add_ceph_fs(conn:dict, data:dict)->dict:
                         "quota_unit": 0,
                         "rbds": [
                         {
-                            "KclusterId": 0,
+                            "Kclusterid": 0,
                             "ceph_cluster_id": 0,
                             "ceph_pool_id": 0,
                             "deploy_status": "string",
@@ -3845,7 +3762,7 @@ def add_ceph_fs(conn:dict, data:dict)->dict:
                     "id": 0,
                     "max_mds": 0,
                     "metadata_pool": {
-                        "KclusterId": 0,
+                        "Kclusterid": 0,
                         "ceph_cluster_id": 0,
                         "deploy_status": "string",
                         "failure_domain": 0,
@@ -3858,7 +3775,7 @@ def add_ceph_fs(conn:dict, data:dict)->dict:
                         "quota_unit": 0,
                         "rbds": [
                         {
-                            "KclusterId": 0,
+                            "Kclusterid": 0,
                             "ceph_cluster_id": 0,
                             "ceph_pool_id": 0,
                             "deploy_status": "string",
@@ -3892,32 +3809,32 @@ def add_ceph_fs(conn:dict, data:dict)->dict:
     [Returns]
         (dict) Response: Add Ceph response (includes any errors)
     """
-    return post(conn, PCC_STORAGE + "/ceph/fs", data)
+    return private._add_ceph_fs(conn, data)
 
-def get_ceph_fs_by_id(conn:dict, Id:str)->dict:
+def get_ceph_fs_by_id(conn:dict, id:str)->dict:
     """
-    Get Ceph FS by Id
+    Get Ceph FS by id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return get(conn, PCC_STORAGE + "/ceph/cluster/fs/" + Id)
+    return private._get_ceph_fs_by_id(conn, id)
 
 
-def modify_ceph_fs_by(conn:dict, Id:str, data:dict)->dict:
+def modify_ceph_fs_by(conn:dict, id:str, data:dict)->dict:
     """
-    Modify Ceph FS by Id
+    Modify Ceph FS by id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
         (dict) data: cephFS
                 {
                     "ceph_cluster_id": 0,
                     "data_pools": [
                         {
-                        "KclusterId": 0,
+                        "Kclusterid": 0,
                         "ceph_cluster_id": 0,
                         "deploy_status": "string",
                         "failure_domain": 0,
@@ -3930,7 +3847,7 @@ def modify_ceph_fs_by(conn:dict, Id:str, data:dict)->dict:
                         "quota_unit": 0,
                         "rbds": [
                             {
-                            "KclusterId": 0,
+                            "Kclusterid": 0,
                             "ceph_cluster_id": 0,
                             "ceph_pool_id": 0,
                             "deploy_status": "string",
@@ -3956,7 +3873,7 @@ def modify_ceph_fs_by(conn:dict, Id:str, data:dict)->dict:
                         }
                     ],
                     "default_pool": {
-                        "KclusterId": 0,
+                        "Kclusterid": 0,
                         "ceph_cluster_id": 0,
                         "deploy_status": "string",
                         "failure_domain": 0,
@@ -3969,7 +3886,7 @@ def modify_ceph_fs_by(conn:dict, Id:str, data:dict)->dict:
                         "quota_unit": 0,
                         "rbds": [
                         {
-                            "KclusterId": 0,
+                            "Kclusterid": 0,
                             "ceph_cluster_id": 0,
                             "ceph_pool_id": 0,
                             "deploy_status": "string",
@@ -3997,7 +3914,7 @@ def modify_ceph_fs_by(conn:dict, Id:str, data:dict)->dict:
                     "id": 0,
                     "max_mds": 0,
                     "metadata_pool": {
-                        "KclusterId": 0,
+                        "Kclusterid": 0,
                         "ceph_cluster_id": 0,
                         "deploy_status": "string",
                         "failure_domain": 0,
@@ -4010,7 +3927,7 @@ def modify_ceph_fs_by(conn:dict, Id:str, data:dict)->dict:
                         "quota_unit": 0,
                         "rbds": [
                         {
-                            "KclusterId": 0,
+                            "Kclusterid": 0,
                             "ceph_cluster_id": 0,
                             "ceph_pool_id": 0,
                             "deploy_status": "string",
@@ -4044,18 +3961,18 @@ def modify_ceph_fs_by(conn:dict, Id:str, data:dict)->dict:
     [Returns]
         (dict) Response: Modify Ceph response (includes any errors)
     """
-    return put(conn, PCC_STORAGE + "/ceph/fs/" + Id, data)
+    return private._modify_ceph_fs_by(conn, id, data)
 
-def delete_ceph_fs_by_id(conn:dict, Id:str)->dict:
+def delete_ceph_fs_by_id(conn:dict, id:str)->dict:
     """
-    Delete Ceph Fs by Id
+    Delete Ceph Fs by id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
     [Returns]
         (dict) Response: Delete Ceph response (includes any errors)
     """
-    return delete(conn, PCC_STORAGE + "/ceph/fs/" + Id)
+    return private._delete_ceph_fs_by_id(conn, id)
 
 def get_ceph_pools(conn:dict)->dict:
     """
@@ -4065,7 +3982,7 @@ def get_ceph_pools(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return get(conn, PCC_STORAGE + "/ceph/pool")
+    return private._get_ceph_pools(conn)
 
 def modify_ceph_pool(conn:dict, data:dict)->dict:
     """
@@ -4074,7 +3991,7 @@ def modify_ceph_pool(conn:dict, data:dict)->dict:
         (dict) conn: Connection dictionary obtained after logging in
         (dict) data: cephPool
                 {
-                    "KclusterId": 0,
+                    "Kclusterid": 0,
                     "ceph_cluster_id": 0,
                     "deploy_status": "string",
                     "failure_domain": 0,
@@ -4087,7 +4004,7 @@ def modify_ceph_pool(conn:dict, data:dict)->dict:
                     "quota_unit": 0,
                     "rbds": [
                         {
-                        "KclusterId": 0,
+                        "Kclusterid": 0,
                         "ceph_cluster_id": 0,
                         "ceph_pool_id": 0,
                         "deploy_status": "string",
@@ -4114,7 +4031,7 @@ def modify_ceph_pool(conn:dict, data:dict)->dict:
     [Returns]
         (dict) Response: Modify Ceph response (includes any errors)
     """
-    return put(conn, PCC_STORAGE + "/ceph/pool", data)
+    return private._modify_ceph_pool(conn, data)
 
 def add_ceph_pool(conn:dict, data:dict)->dict:
     """
@@ -4123,7 +4040,7 @@ def add_ceph_pool(conn:dict, data:dict)->dict:
         (dict) conn: Connection dictionary obtained after logging in
         (dict) data: cephPool
                 {
-                    "KclusterId": 0,
+                    "Kclusterid": 0,
                     "ceph_cluster_id": 0,
                     "deploy_status": "string",
                     "failure_domain": 0,
@@ -4136,7 +4053,7 @@ def add_ceph_pool(conn:dict, data:dict)->dict:
                     "quota_unit": 0,
                     "rbds": [
                         {
-                        "KclusterId": 0,
+                        "Kclusterid": 0,
                         "ceph_cluster_id": 0,
                         "ceph_pool_id": 0,
                         "deploy_status": "string",
@@ -4163,7 +4080,7 @@ def add_ceph_pool(conn:dict, data:dict)->dict:
     [Returns]
         (dict) Response: Add Ceph response (includes any errors)
     """
-    return post(conn, PCC_STORAGE + "/ceph/pool", data)
+    return private._add_ceph_pool(conn, data)
 
 def get_ceph_pool_types(conn:dict)->dict:
     """
@@ -4173,28 +4090,28 @@ def get_ceph_pool_types(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return get(conn, PCC_STORAGE + "/ceph/pool/types")
+    return private._get_ceph_pool_types(conn)
 
-def get_ceph_pool_by_id(conn:dict, Id:str)->dict:
+def get_ceph_pool_by_id(conn:dict, id:str)->dict:
     """
-    Get Ceph Pool by Id
+    Get Ceph Pool by id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return get(conn, PCC_STORAGE + "/ceph/pool/" + Id)
+    return private._get_ceph_pool_by_id(conn, id)
 
-def modify_ceph_pool_by_id(conn:dict, Id:str, data:dict)->dict:
+def modify_ceph_pool_by_id(conn:dict, id:str, data:dict)->dict:
     """
-    Modify Ceph Pool by Id
+    Modify Ceph Pool by id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
         (dict) data: cephPool
                 {
-                    "KclusterId": 0,
+                    "Kclusterid": 0,
                     "ceph_cluster_id": 0,
                     "deploy_status": "string",
                     "failure_domain": 0,
@@ -4207,7 +4124,7 @@ def modify_ceph_pool_by_id(conn:dict, Id:str, data:dict)->dict:
                     "quota_unit": 0,
                     "rbds": [
                         {
-                        "KclusterId": 0,
+                        "Kclusterid": 0,
                         "ceph_cluster_id": 0,
                         "ceph_pool_id": 0,
                         "deploy_status": "string",
@@ -4234,30 +4151,30 @@ def modify_ceph_pool_by_id(conn:dict, Id:str, data:dict)->dict:
     [Returns]
         (dict) Response: Modify Ceph response (includes any errors)
     """
-    return put(conn, PCC_STORAGE + "/ceph/pool/" + Id, data)
+    return private._modify_ceph_pool_by_id(conn, id, data)
 
 
-def delete_ceph_pool_by_id(conn:dict, Id:str)->dict:
+def delete_ceph_pool_by_id(conn:dict, id:str)->dict:
     """
-    Delete Ceph Pool ID
+    Delete Ceph Pool id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
     [Returns]
         (dict) Response: Delete Ceph response (includes any errors)
     """
-    return delete(conn, PCC_STORAGE + "/ceph/pool/" + Id)
+    return private._delete_ceph_pool_by_id(conn, id)
 
-def get_ceph_rdb_by_pool_id(conn:dict, Id:str)->dict:
+def get_ceph_rdb_by_pool_id(conn:dict, id:str)->dict:
     """
-    Get Ceph RDB by Pool ID
+    Get Ceph RDB by Pool id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return get(conn, PCC_STORAGE + "/ceph/pool/" + Id + "/rdbs")
+    return private._get_ceph_rdb_by_pool_id(conn, id)
 
 def get_ceph_quota_units(conn:dict)->dict:
     """
@@ -4267,7 +4184,7 @@ def get_ceph_quota_units(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return get(conn, PCC_STORAGE + "/ceph/quota/units")
+    return private._get_ceph_quota_units(conn)
 
 def get_ceph_rbds(conn:dict)->dict:
     """
@@ -4277,7 +4194,7 @@ def get_ceph_rbds(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return get(conn, PCC_STORAGE + "/ceph/rbd")
+    return private._get_ceph_rbds(conn)
 
 def modify_ceph_rbds(conn:dict, data:dict)->dict:
     """
@@ -4286,7 +4203,7 @@ def modify_ceph_rbds(conn:dict, data:dict)->dict:
         (dict) conn: Connection dictionary obtained after logging in
         (dict): data  cephRBD
                 {
-                    "KclusterId": 0,
+                    "Kclusterid": 0,
                     "ceph_cluster_id": 0,
                     "ceph_pool_id": 0,
                     "deploy_status": "string",
@@ -4306,7 +4223,7 @@ def modify_ceph_rbds(conn:dict, data:dict)->dict:
     [Returns]
         (dict) Response: Modify Ceph response (includes any errors)
     """
-    return put(conn, PCC_STORAGE + "/ceph/rbd", data)
+    return private._modify_ceph_rbds(conn, data)
 
 def add_ceph_rbds(conn:dict, data:dict)->dict:
     """
@@ -4315,7 +4232,7 @@ def add_ceph_rbds(conn:dict, data:dict)->dict:
         (dict) conn: Connection dictionary obtained after logging in
         (dict): data  cephRBD
                 {
-                    "KclusterId": 0,
+                    "Kclusterid": 0,
                     "ceph_cluster_id": 0,
                     "ceph_pool_id": 0,
                     "deploy_status": "string",
@@ -4335,50 +4252,50 @@ def add_ceph_rbds(conn:dict, data:dict)->dict:
     [Returns]
         (dict) Response: Add Ceph response (includes any errors)
     """
-    return post(conn, PCC_STORAGE + "/ceph/rbd", data)
+    return private._add_ceph_rbds(conn, data)
 
-def delete_ceph_rbd_mountpath_by_id(conn:dict, Id:str)->dict:
+def delete_ceph_rbd_mountpath_by_id(conn:dict, id:str)->dict:
     """
-    Delete Ceph RBD Mountpath by Id
+    Delete Ceph RBD Mountpath by id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
     [Returns]
         (dict) Response: Delete Ceph response (includes any errors)
     """
-    return delete(conn, PCC_STORAGE + "/ceph/rbd/mountpath/" + Id)
+    return private._delete_ceph_rbd_mountpath_by_id(conn, id)
 
-def delete_ceph_rbd_by_id(conn:dict, Id:str)->dict:
+def delete_ceph_rbd_by_id(conn:dict, id:str)->dict:
     """
-    Delete Ceph RBD Mountpath by Id
+    Delete Ceph RBD Mountpath by id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
     [Returns]
         (dict) Response: Delete Ceph response (includes any errors)
     """
-    return delete(conn, PCC_STORAGE + "/ceph/rbd/" + Id)
+    return private._delete_ceph_rbd_by_id(conn, id)
 
-def get_ceph_rdb_by_id(conn:dict, Id:str)->dict:
+def get_ceph_rdb_by_id(conn:dict, id:str)->dict:
     """
-    Get Ceph RDB by ID
+    Get Ceph RDB by id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return get(conn, PCC_STORAGE + "/ceph/rbd/" + Id)
+    return private._get_ceph_rdb_by_id(conn, id)
 
-def modify_ceph_rdb_by_id(conn:dict, Id:str, data:dict)->dict:
+def modify_ceph_rdb_by_id(conn:dict, id:str, data:dict)->dict:
     """
-    Modify Ceph RDB by ID
+    Modify Ceph RDB by id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
         (dict) data: cephRBD
                 {
-                    "KclusterId": 0,
+                    "Kclusterid": 0,
                     "ceph_cluster_id": 0,
                     "ceph_pool_id": 0,
                     "deploy_status": "string",
@@ -4398,18 +4315,18 @@ def modify_ceph_rdb_by_id(conn:dict, Id:str, data:dict)->dict:
     [Returns]
         (dict) Response: Modify Ceph response (includes any errors)
     """
-    return put(conn, PCC_STORAGE + "/ceph/rbd/" + Id, data)
+    return private._modify_ceph_rdb_by_id(conn, id, data)
 
-def delete_ceph_rdb_by_id(conn:dict, Id:str)->dict:
+def delete_ceph_rdb_by_id(conn:dict, id:str)->dict:
     """
-    Delete Ceph RDB by ID
+    Delete Ceph RDB by id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
     [Returns]
         (dict) Response: Delete Ceph response (includes any errors)
     """
-    return delete(conn, PCC_STORAGE + "/ceph/rbd/" + Id)
+    return private._delete_ceph_rdb_by_id(conn, id)
 
 def get_ceph_topologies(conn:dict)->dict:
     """
@@ -4419,7 +4336,7 @@ def get_ceph_topologies(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return get(conn, PCC_STORAGE + "/cephnetworking/topology")
+    return private._get_ceph_topologies(conn)
 
 def get_ceph_controllers(conn:dict)->dict:
     """
@@ -4429,18 +4346,18 @@ def get_ceph_controllers(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return get(conn, PCC_STORAGE + "/controller")
+    return private._get_ceph_controllers(conn)
 
-def get_ceph_controller_by_id(conn:dict, Id:str)->dict:
+def get_ceph_controller_by_id(conn:dict, id:str)->dict:
     """
-    Get Ceph Controller by Id
+    Get Ceph Controller by id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return get(conn, PCC_STORAGE + "/controller/" + Id)
+    return private._get_ceph_controller_by_id(conn, id)
 
 def get_drive(conn:dict)->dict:
     """
@@ -4450,7 +4367,7 @@ def get_drive(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return get(conn, PCC_STORAGE + "/drive")
+    return private._get_drive(conn)
 
 def get_drive_nodes(conn:dict)->dict:
     """
@@ -4460,29 +4377,29 @@ def get_drive_nodes(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return get(conn, PCC_STORAGE + "/drive/node")
+    return private._get_drive_nodes(conn)
 
-def get_drive_node_by_id(conn:dict, Id:str)->dict:
+def get_drive_node_by_id(conn:dict, id:str)->dict:
     """
-    Get Drive Node by Id
+    Get Drive Node by id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return get(conn, PCC_STORAGE + "/drive/node/" + Id)
+    return private._get_drive_node_by_id(conn, id)
 
-def get_drive_by_id(conn:dict, Id:str)->dict:
+def get_drive_by_id(conn:dict, id:str)->dict:
     """
-    Get Drive by Id
+    Get Drive by id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return get(conn, PCC_STORAGE + "/drive/" + Id)
+    return private._get_drive_by_id(conn, id)
 
 def get_filesystems(conn:dict)->dict:
     """
@@ -4492,18 +4409,18 @@ def get_filesystems(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return get(conn, PCC_STORAGE + "/filesystem")
+    return private._get_filesystems(conn)
 
-def get_filesystem_by_id(conn:dict, Id:str)->dict:
+def get_filesystem_by_id(conn:dict, id:str)->dict:
     """
-    Get Filesystem by Id
+    Get Filesystem by id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return get(conn, PCC_STORAGE + "/filesystem/" + Id)
+    return private._get_filesystem_by_id(conn, id)
 
 def get_storage_controllers(conn:dict)->dict:
     """
@@ -4513,18 +4430,18 @@ def get_storage_controllers(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return get(conn, PCC_STORAGE + "/node")
+    return private._get_storage_controllers(conn)
 
-def get_storage_controller_by_node_id(conn:dict, Id:str)->dict:
+def get_storage_controller_by_node_id(conn:dict, id:str)->dict:
     """
-    Get Storage Controller by Node Id
+    Get Storage Controller by Node id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return get(conn, PCC_STORAGE + "/node/" + Id)
+    return private._get_storage_controller_by_node_id(conn, id)
 
 def get_storage_partitions(conn:dict)->dict:
     """
@@ -4534,18 +4451,18 @@ def get_storage_partitions(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return get(conn, PCC_STORAGE + "/partition")
+    return private._get_storage_partitions(conn)
 
-def get_storage_partition_by_id(conn:dict, Id:str)->dict:
+def get_storage_partition_by_id(conn:dict, id:str)->dict:
     """
-    Get Storage Partition by Id
+    Get Storage Partition by id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return get(conn, PCC_STORAGE + "/partition/" + Id)
+    return private._get_storage_partition_by_id(conn, id)
 
 def get_storage_tags(conn:dict)->dict:
     """
@@ -4555,7 +4472,7 @@ def get_storage_tags(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return get(conn, PCC_STORAGE + "/tag")
+    return private._get_storage_tags(conn)
 
 def get_storage_tester(conn:dict)->dict:
     """
@@ -4565,7 +4482,7 @@ def get_storage_tester(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return get(conn, PCC_STORAGE + "/tester")
+    return private._get_storage_tester(conn)
 
 def get_storage_quota_units(conn:dict)->dict:
     """
@@ -4575,7 +4492,7 @@ def get_storage_quota_units(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return get(conn, PCC_STORAGE + "/units")
+    return private._get_storage_quota_units(conn)
 
 def get_storage_volumes(conn:dict)->dict:
     """
@@ -4585,18 +4502,18 @@ def get_storage_volumes(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return get(conn, PCC_STORAGE + "/volume")
+    return private._get_storage_volumes(conn)
 
-def get_storage_volume_by_id(conn:dict, Id:str)->dict:
+def get_storage_volume_by_id(conn:dict, id:str)->dict:
     """
-    Get Storage Volume by Id
+    Get Storage Volume by id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return get(conn, PCC_STORAGE + "/volume/" + Id)
+    return private._get_storage_volume_by_id(conn, id)
 
 
 ## Templates
@@ -4608,7 +4525,7 @@ def get_templates(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Template response (includes any errors)
     """
-    return get(conn, PCC_TEMPLATES)
+    return private._get_templates(conn)
 
 def add_template(conn:dict, data:dict)->dict:
     """
@@ -4619,16 +4536,16 @@ def add_template(conn:dict, data:dict)->dict:
                 {
                     "apps": [
                         {
-                        "appId": "string",
+                        "appid": "string",
                         "version": "string"
                         }
                     ],
                     "configurations": [
                         {
-                        "configurationID": 0,
+                        "configurationid": 0,
                         "id": 0,
                         "priority": 0,
-                        "templateID": 0
+                        "templateid": 0
                         }
                     ],
                     "description": "string",
@@ -4641,19 +4558,19 @@ def add_template(conn:dict, data:dict)->dict:
     [Returns]
         (dict) Response: Add Template response (includes any errors)
     """
-    return post(conn, PCC_TEMPLATES, data)
+    return private._add_template(conn, data)
 
-def get_template_by_id(conn:dict, Id:str)->dict:
+def get_template_by_id(conn:dict, id:str)->dict:
     """
-    Get Template by Id
+    Get Template by id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
 
     [Returns]
         (dict) Response: Get Template response (includes any errors)
     """
-    return get(conn, PCC_TEMPLATES + "/" + Id)
+    return private._get_template_by_id(conn, id)
 
 def modify_template(conn:dict, data:dict)->dict:
     """
@@ -4664,16 +4581,16 @@ def modify_template(conn:dict, data:dict)->dict:
                 {
                     "apps": [
                         {
-                        "appId": "string",
+                        "appid": "string",
                         "version": "string"
                         }
                     ],
                     "configurations": [
                         {
-                        "configurationID": 0,
+                        "configurationid": 0,
                         "id": 0,
                         "priority": 0,
-                        "templateID": 0
+                        "templateid": 0
                         }
                     ],
                     "description": "string",
@@ -4686,47 +4603,19 @@ def modify_template(conn:dict, data:dict)->dict:
     [Returns]
         (dict) Response: Add Template response (includes any errors)
     """
-    return put(conn, PCC_TEMPLATES, data)
+    return private._modify_template(conn, data)
 
-def delete_template_by_id(conn:dict, Id:str)->dict:
+def delete_template_by_id(conn:dict, id:str)->dict:
     """
-    Delete Template by Id
+    Delete Template by id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
 
     [Returns]
         (dict) Response: Delete Template response (includes any errors)
     """
-    return delete(conn, PCC_TEMPLATES + "/" + Id) 
-
-
-## Ceph
-def wait_until_ceph_cluster_ready(conn:dict, name:str)->dict:
-    """
-    Wait until Ceph Cluster is Ready
-
-    [Args]
-        conn: Connection information containing session and token
-        name: Name of the Ceph Cluster
-
-    [Returns] 
-        OK if ready, Timneout exception if timeout is reached
-    """
-
-    cluster_ready = False
-    timeout = time.time() + PCC_TIMEOUT
-
-    while cluster_ready == False:
-        response = get_clusters(conn)
-        for data in response['Result']:
-            if str(data['name']).lower() == str(name).lower():
-                if data['progressPercentage'] == 100:
-                    cluster_ready = True
-        if time.time() > timeout:
-            raise Exception("[PCC_API.Wait Until Ceph Cluster Ready] Timeout")
-        time.sleep(5)
-    return "OK"
+    return private._delete_template_by_id(conn, id) 
 
 ## Tenant
 def add_tenant(conn:dict, data:dict)->dict:
@@ -4738,13 +4627,13 @@ def add_tenant(conn:dict, data:dict)->dict:
                 {   
                   "name":"string",  # Name of the Tenant
                   "description":"string", # Description of the Tenant
-                  "parent":"int"  #Id of the Tenant user , if ROOT is the parent- then the input will be 1.
+                  "parent":"int"  #id of the Tenant user , if ROOT is the parent- then the input will be 1.
                 
                 }
     [Returns]
         (dict) Response: Add Tenant response (includes any errors)
     """
-    return post(conn, PCC_TENANT + "/register", data)
+    return private._add_tenant(conn, data)
     
 def modify_tenant(conn:dict, data:dict)->dict:
     """
@@ -4753,34 +4642,32 @@ def modify_tenant(conn:dict, data:dict)->dict:
         (dict) conn: Connection dictionary obtained after logging in
         (dict) data: tenant
                 {  
-                  "id": "int",            # Id of the Tenant
+                  "id": "int",            # id of the Tenant
                   "name":"string",        # Name of the Tenant
                   "description":"string", # Description of the Tenant
-                  "parent":"int"          # Id of the Parent , if ROOT is the parent- then the parent Id will be 1.
+                  "parent":"int"          # id of the Parent , if ROOT is the parent- then the parent id will be 1.
                 
                 }
     [Returns]
         (dict) Response: Modify Tenant response (includes any errors)
     """
-    return post(conn, PCC_TENANT + "/update", data)
+    return private._modify_tenant(conn, data)
     
 def delete_tenant_by_id(conn:dict, data:dict)->dict:
     """
-    Delete Template by Id
+    Delete Template by id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) data: Id of tenant
+        (str) data: id of tenant
               
               {
-                "id": "int"    # Id of the Tenant
+                "id": "int"    # id of the Tenant
               }
 
     [Returns]
         (dict) Response: Delete Template response (includes any errors)
     """
-    return post(conn, PCC_TENANT + "/delete", data) 
-
-
+    return private._delete_tenant_by_id(conn, data) 
 
 def get_tenant_list(conn:dict)->dict:
     """
@@ -4791,10 +4678,10 @@ def get_tenant_list(conn:dict)->dict:
         (dict) Response dictionary: Including the list of tenants
         (dict) Error response: If Exception occured
     """
-    return get(conn, PCC_TENANT + "/list")
+    return private._get_tenant_list(conn)
 
 
-def assigning_tenant_to_node(conn:dict , data:dict)->dict:
+def update_tenant_to_node(conn:dict , data:dict)->dict:
     """
     Assign tenant user to node
     [Args]
@@ -4807,10 +4694,10 @@ def assigning_tenant_to_node(conn:dict , data:dict)->dict:
         (dict) Response: Assign tenant to Node response (includes any errors)
     """
     
-    return post(conn, PCC_UPDATE_NODE_WITH_TENANT, data)
+    return private._update_tenant_to_node(conn, data)
 
-## Certificates
-def add_certificate(conn:dict, Alias:str, Description:str, filename_path:str)->dict:
+##Key Manager(Certificates)
+def add_certificate(conn:dict, alias:str, description:str, filename_path:str)->dict:
     """
     Add Certificate
         [Args]
@@ -4820,9 +4707,8 @@ def add_certificate(conn:dict, Alias:str, Description:str, filename_path:str)->d
         [Returns]
             (dict) Response: Add Certificate response
     """
-    multipart_data = {'file': open(filename_path, 'rb'), 'description':(None, Description)}
-    url  = PCC_CERTIFICATE + "/upload/" + Alias
-    return post_multipart(conn, url, multipart_data)
+
+    return private._add_certificate(conn, alias, description, filename_path)
     
 def get_certificates(conn:dict)->dict:
     """
@@ -4833,24 +4719,24 @@ def get_certificates(conn:dict)->dict:
         (dict) Response dictionary: Including the list of certificates
         (dict) Error response: If Exception occured
     """
-    return get(conn, PCC_CERTIFICATE + "/describe")    
+    return private._get_certificates(conn)    
 
 
-def delete_certificate_by_id(conn:dict, Id:str)->dict:
+def delete_certificate_by_id(conn:dict, id:str)->dict:
     """
-    Delete Certificate by Id
+    Delete Certificate by id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
 
     [Returns]
         (dict) Response: Delete Certificate response (includes any errors)
     """
-    return delete(conn, PCC_CERTIFICATE + "/" + Id) 
+    return private._delete_certificate_by_id(conn, id) 
     
     
-## OpenSSH Keys
-def add_openSSH_keys(conn:dict, Type:str, Alias:str, Description:str, filename_path:str)->dict:
+##Key Manager (keys)
+def add_keys(conn:dict, type:str, alias:str, description:str, filename_path:str)->dict:
     """
     Add OpenSSH Keys
         [Args]
@@ -4861,14 +4747,10 @@ def add_openSSH_keys(conn:dict, Type:str, Alias:str, Description:str, filename_p
         [Returns]
             (dict) Response: Add OpenSSH Keys response
     """
-    multipart_data = {'file': open(filename_path, 'rb'), 'description':(None, Description)}
-    if Type == "Private":
-        url = PCC_OPENSSH_KEYS + "/upload/private/" + Alias
-    else:
-        url = PCC_OPENSSH_KEYS + "/upload/public/" + Alias
-    return post_multipart(conn, url, multipart_data)
+
+    return private._add_keys(conn, type , alias, description, filename_path)
     
-def get_openSSH_keys(conn:dict)->dict:
+def get_keys(conn:dict)->dict:
     """
     Get list of certificates from PCC
     [Args]
@@ -4877,30 +4759,29 @@ def get_openSSH_keys(conn:dict)->dict:
         (dict) Response dictionary: Including the list of openSSH keys
         (dict) Error response: If Exception occured
     """
-    return get(conn, PCC_OPENSSH_KEYS + "/describe")
+    return private._get_keys(conn)
     
-def delete_openSSH_keys_by_alias(conn:dict, Alias:str)->dict:
+def delete_keys_by_alias(conn:dict, alias:str)->dict:
     """
     Delete OpenSSH_keys by Alias
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (str) Id: Id
+        (str) id: id
 
     [Returns]
         (dict) Response: Delete OpenSSH_keys response (includes any errors)
     """
-    return delete(conn, PCC_OPENSSH_KEYS + "/" + Alias)
+    return private._delete_keys_by_alias(conn, alias)
     
-## OS Deployment
-
-def update_OS_deployment(conn:dict, data:dict)->dict:
+##Deployment
+def update_deployment(conn:dict, data:dict)->dict:
     """
     Modify Node
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
         (dict) data: OS deployment fields
-                    {"nodes":[nodeID(in strings)],
+                    {"nodes":[nodeid(in strings)],
                   "image":image_name(in string),
                   "locale":locale_name(in string),
                   "timezone":timezone(in string),
@@ -4910,10 +4791,10 @@ def update_OS_deployment(conn:dict, data:dict)->dict:
     [Returns]
         (dict) Response: Update OS response (includes any errors)
     """ 
-    return post(conn, PCC_OS_DEPLOYMENT, data)
+    return private._update_deployment(conn, data)
     
-## OS Images
-def get_OS_images(conn:dict)->dict:
+##Images
+def get_images(conn:dict)->dict:
     """
     Get list of OS images from PCC
     [Args]
@@ -4922,17 +4803,500 @@ def get_OS_images(conn:dict)->dict:
         (dict) Response dictionary: Including the list of OS images
         (dict) Error response: If Exception occured
     """
-    return get(conn, PCC_IMAGES)
+    return private._get_images(conn)
 
 ##Network Manager
-def add_network_manager(conn:dict, data:dict)->dict:
-    return post(conn, PCC_NETWORK_MANAGER, data)
+def add_network_cluster(conn:dict, data:dict)->dict:
+    """
+    Add Network Cluster
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: {
+                        'controlCIDR': "string"
+                        'nodes': [
+                                    {'id': 0}
+                                  ],
+                        'igwPolicy': 'string',
+                        'name': 'string'
+                     }
+    [Returns]
+        (dict) Response: Add Network Cluster (includes any errors)
+    """
+    return private._add_network_cluster(conn, data)
 
-def delete_network_manager_by_id(conn:dict, Id:str)->dict:
-    return delete(conn, PCC_NETWORK_MANAGER +"/"+ Id)
 
-def get_network_manager(conn:dict)->dict:
-    return get(conn, PCC_NETWORK_MANAGER)
+def delete_network_cluster_by_id(conn:dict, id:str)->dict:
+    """
+    Delete Network Cluster from PCC using Id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (int) Id: Id of the Network Cluster to be deleted
 
-def modify_network_manager(conn:dict, data:dict)->dict:
-    return put(conn, PCC_NETWORK_MANAGER, data) 
+    [Returns]
+        (dict) Response: Delete Network Cluster response (includes any errors)
+    """
+    return private._delete_network_cluster_by_id(conn, id)
+
+def get_network_clusters(conn:dict)->dict:
+    """
+    Get Network Manager
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Get Network Manager response (includes any errors)
+    """
+    return private._get_network_clusters(conn)
+
+def modify_network_cluster(conn:dict, data:dict)->dict:
+    """
+    Modify Network Cluster
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: {
+                        'id':0
+                        'controlCIDR': "string"
+                        'nodes': [
+                                    {'id': 0}
+                                  ],
+                        'igwPolicy': 'string',
+                        'name': 'string'
+                     }
+    [Returns]
+        (dict) Response: Add Network Cluster (includes any errors)
+    """
+    return private._modify_network_cluster(conn, data)
+    
+## Erasure Code
+def get_all_erasure_code_profile(conn:dict)->dict:
+    """
+    Get list of all Erasure Code Profiles from PCC
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response dictionary: Including the list of Erasure code profiles
+        (dict) Error response: If Exception occured
+    """
+    return private._get_all_erasure_code_profile(conn)
+    
+def get_erasure_code_profile(conn:dict, name:str)->dict:
+    """
+    Get data of particular Erasure Code Profile from PCC
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response dictionary: Including the list of Erasure code profiles
+        (dict) Error response: If Exception occured
+    """
+    return private._get_erasure_code_profile(conn, name)  
+    
+def add_erasure_code_profile(conn:dict, data:dict)->dict:
+    """
+    Add Erasure Code Profile
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: erasure profile data 
+                {   
+                  "name":"str",                             - Name of the profile
+                  "directory":"str",                        - Name of the directory
+                  "plugin":"str",                           - Plugin name
+                  "stripeUnit":"str",                       - Stripe Unit  
+                  "crushFailureDomain":"str",               - Crush Failure Domain name
+                  "dataChunks":"int",                       - Total Chunks of data 
+                  "codingChunks":"int",                     - Chunks to be divided into 
+                  "cephClusterId":"int"                     - Ceph Cluster ID 
+                
+                }
+    [Returns]
+        (dict) Response: Add Erasure Code Profile response (includes any errors)
+    """
+    return private._add_erasure_code_profile(conn, data)
+    
+def modify_erasure_code_profile(conn:dict, data:dict)->dict:
+    """
+    Modify Erasure Code Profile
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: Erasure Code Profile data
+                {   
+                  "id":"int",                               - Id of the erasure code profile 
+                  "name":"str",                             - Name of the profile
+                  "directory":"str",                        - Name of the directory
+                  "plugin":"str",                           - Plugin name
+                  "stripeUnit":"str",                       - Stripe Unit  
+                  "crushFailureDomain":"str",               - Crush Failure Domain name
+                  "dataChunks":"int",                       - Total Chunks of data 
+                  "codingChunks":"int",                     - Chunks to be divided into 
+                  "cephClusterId":"int"                     - Ceph Cluster ID 
+                
+                }
+    [Returns]
+        (dict) Response: Modify Erasure Code Profile response (includes any errors)
+    """
+    return private._modify_erasure_code_profile(conn, data)
+
+def delete_erasure_code_profile_by_id(conn:dict, id:str)->dict:
+    """
+    Delete erasure_code_profile by Id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+
+    [Returns]
+        (dict) Response: Delete erasure code profile response (includes any errors)
+    """
+    return private._delete_erasure_code_profile_by_id(conn, id)
+
+### Erasure Coded Pool    
+    
+def get_erasure_ceph_pools_by_cluster_id(conn:dict, id:str)->dict:
+    """
+    Get Erasure Ceph Pools by Cluster Id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+    [Returns]
+        (dict) Response: Get Erasure Ceph pools response (includes any errors)
+    """
+    return private._get_erasure_ceph_pools_by_cluster_id(conn,id)
+    
+def get_erasure_ceph_pools(conn:dict)->dict:
+    """
+    Get Erasure Ceph Pools
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response: Get Erasure Ceph Pool response (includes any errors)
+    """
+    return private._get_erasure_ceph_pools(conn)
+
+def modify_erasure_ceph_pool(conn:dict, data:dict)->dict:
+    """
+    Modify Erasure Ceph Pool
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: cephPool
+                {
+                    "KclusterId": 0,
+                    "ceph_cluster_id": 0,
+                    "deploy_status": "string",
+                    "failure_domain": 0,
+                    "id": 0,
+                    "name": "string",
+                    "pg_num": 0,
+                    "pool_type": 0,
+                    "progressPercentage": 0,
+                    "quota": 0,
+                    "quota_unit": 0,
+                    "rbds": [
+                        {
+                        "KclusterId": 0,
+                        "ceph_cluster_id": 0,
+                        "ceph_pool_id": 0,
+                        "deploy_status": "string",
+                        "id": 0,
+                        "image_feature": 0,
+                        "mount_path": "string",
+                        "name": "string",
+                        "progressPercentage": 0,
+                        "size": 0,
+                        "size_units": 0,
+                        "status": "string",
+                        "storage_class": "string",
+                        "tags": [
+                            "string"
+                        ]
+                        }
+                    ],
+                    "size": 0,
+                    "status": "string",
+                    "tags": [
+                        "string"
+                    ]
+                }
+    [Returns]
+        (dict) Response: Modify Ceph Pool response (includes any errors)
+    """
+    return private._modify_erasure_ceph_pool(conn, data)
+
+def add_erasure_ceph_pool(conn:dict, data:dict)->dict:
+    """
+    Add Erasure Ceph Pool
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: cephPool
+                {
+                    "KclusterId": 0,
+                    "ceph_cluster_id": 0,
+                    "deploy_status": "string",
+                    "failure_domain": 0,
+                    "id": 0,
+                    "name": "string",
+                    "pg_num": 0,
+                    "pool_type": 0,
+                    "progressPercentage": 0,
+                    "quota": 0,
+                    "quota_unit": 0,
+                    "rbds": [
+                        {
+                        "KclusterId": 0,
+                        "ceph_cluster_id": 0,
+                        "ceph_pool_id": 0,
+                        "deploy_status": "string",
+                        "id": 0,
+                        "image_feature": 0,
+                        "mount_path": "string",
+                        "name": "string",
+                        "progressPercentage": 0,
+                        "size": 0,
+                        "size_units": 0,
+                        "status": "string",
+                        "storage_class": "string",
+                        "tags": [
+                            "string"
+                        ]
+                        }
+                    ],
+                    "size": 0,
+                    "status": "string",
+                    "tags": [
+                        "string"
+                    ]
+                }
+    [Returns]
+        (dict) Response: Add Erasure Ceph Pool response (includes any errors)
+    """
+    return private._add_erasure_ceph_pool(conn, data)
+
+def get_erasure_ceph_pool_types(conn:dict)->dict:
+    """
+    Get Erasure Ceph Pool Types
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response: Get Erasure Ceph Pool response (includes any errors)
+    """
+    return private._get_erasure_ceph_pool_types(conn)
+
+def get_erasure_ceph_pool_by_id(conn:dict, id:str)->dict:
+    """
+    Get Erasure Ceph Pool by Id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+    [Returns]
+        (dict) Response: Get Erasure Ceph Pool response (includes any errors)
+    """
+    return private._get_erasure_ceph_pool_by_id(conn, id)
+
+def modify_erasure_ceph_pool_by_id(conn:dict, id:str, data:dict)->dict:
+    """
+    Modify Erasure Ceph Pool by Id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+        (dict) data: cephPool
+                {
+                    "KclusterId": 0,
+                    "ceph_cluster_id": 0,
+                    "deploy_status": "string",
+                    "failure_domain": 0,
+                    "id": 0,
+                    "name": "string",
+                    "pg_num": 0,
+                    "pool_type": 0,
+                    "progressPercentage": 0,
+                    "quota": 0,
+                    "quota_unit": 0,
+                    "rbds": [
+                        {
+                        "KclusterId": 0,
+                        "ceph_cluster_id": 0,
+                        "ceph_pool_id": 0,
+                        "deploy_status": "string",
+                        "id": 0,
+                        "image_feature": 0,
+                        "mount_path": "string",
+                        "name": "string",
+                        "progressPercentage": 0,
+                        "size": 0,
+                        "size_units": 0,
+                        "status": "string",
+                        "storage_class": "string",
+                        "tags": [
+                            "string"
+                        ]
+                        }
+                    ],
+                    "size": 0,
+                    "status": "string",
+                    "tags": [
+                        "string"
+                    ]
+                }
+    [Returns]
+        (dict) Response: Modify Erasure Ceph Pool response (includes any errors)
+    """
+    return private._modify_erasure_ceph_pool_by_id(conn, id, data)
+
+
+def delete_erasure_ceph_pool_by_id(conn:dict, id:str)->dict:
+    """
+    Delete Ceph Pool ID
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+    [Returns]
+        (dict) Response: Delete Erasure Ceph Pool response (includes any errors)
+    """
+    return private._delete_erasure_ceph_pool_by_id(conn, id)
+
+def get_ceph_rdb_by_erasure_pool_id(conn:dict, id:str)->dict:
+    """
+    Get Ceph RDB by Erasure Pool ID
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return private._get_ceph_rdb_by_erasure_pool_id(conn, id)
+    
+    
+## Application credential management
+def add_metadata_profile(conn:dict, data:dict, filename_path:str)->dict:
+    """
+    Add Metadata Profile
+        [Args]
+            (str) Data: 
+            (str) Filename_path:
+            
+        [Returns]
+            (dict) Response: Add Metadata Profile response
+    """
+    
+    if filename_path == None:
+        multipart_data = {'data':json.dumps(data)}
+        print("Multipart_data is {}".format(multipart_data))
+    else:    
+        multipart_data = {'file': open(filename_path, 'rb'), 'data':(None, json.dumps(data))}
+    
+    return private._add_metadata_profile(conn, data, filename_path)
+
+
+
+
+def get_metadata_profiles(conn:dict)->dict:
+    """
+    Get All Metadata Authprofiles
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response: Get All Metadata Authprofiles response (includes any errors)
+    """
+    return private._get_metadata_profiles(conn)
+    
+def get_profile_by_id(conn:dict, id:str)->dict:
+    """
+    Get AuthProfile by ID
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) Id: Id
+    [Returns]
+        (dict) Response: Get AuthProfile by ID response (includes any errors)
+    """
+    return private._get_profile_by_id(conn, id)
+
+def get_profile_by_type(conn:dict, type:str)->dict:
+    """
+    Get Profile by Type
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response: Get Profile by Type response (includes any errors)
+    """
+    return private._get_profile_by_type(conn, type)
+
+
+def get_metadata_profile_by_type(conn:dict, type:str)->dict:
+    """
+    Get Metadata Profile by Type
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response: Get Metadata Profile by Type response (includes any errors)
+    """
+    return private._get_metadata_profile_by_type(conn, type)
+    
+def get_profiles(conn:dict)->dict:
+    """
+    Get All Authprofiles
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response: Get All Authprofiles response (includes any errors)
+    """
+    return private._get_profiles(conn)
+    
+def describe_profile_by_id(conn:dict, id:str)->dict:
+    """
+    Describe AuthProfile by Id 
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response: Describe AuthProfile by Id response (includes any errors)
+    """
+    return private._describe_profile_by_id(conn, id)
+    
+def describe_profile_per_type(conn:dict, type:str)->dict:
+    """
+    Describe AuthProfile per Type
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response: Describe AuthProfile per Type response (includes any errors)
+    """
+    return private._describe_profile_per_type(conn, type)
+    
+    
+def describe_metadata_profile_per_type(conn:dict, type:str)->dict:
+    """
+    Describe Metadata AuthProfile per Type
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response: Describe Metadata AuthProfile per Type response (includes any errors)
+    """
+    return private._describe_metadata_profile_per_type(conn, type)
+    
+def describe_profiles(conn:dict)->dict:
+    """
+    Describe AuthProfiles
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response: Describe AuthProfiles response (includes any errors)
+    """
+    return private._describe_profiles(conn)
+    
+def describe_metadata_profiles(conn:dict)->dict:
+    """
+    Describe Metadata AuthProfiles
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response: Describe Metadata AuthProfiles response (includes any errors)
+    """
+    return private._describe_metadata_profiles(conn)
+
+def delete_profile_by_id(conn:dict, id:str)->dict:
+    """
+    Delete AuthProfile By Id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response: Delete authprofile by id response (includes any errors)
+    """
+    return private._delete_profile_by_id(conn, id)
+
