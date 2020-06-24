@@ -4697,7 +4697,7 @@ def update_tenant_to_node(conn:dict , data:dict)->dict:
     return private._update_tenant_to_node(conn, data)
 
 ##Key Manager(Certificates)
-def add_certificate(conn:dict, alias:str, description:str, filename_path:str)->dict:
+def add_certificate(conn:dict, alias:str, description:str, multipart_data:dict)->dict:
     """
     Add Certificate
         [Args]
@@ -4707,8 +4707,7 @@ def add_certificate(conn:dict, alias:str, description:str, filename_path:str)->d
         [Returns]
             (dict) Response: Add Certificate response
     """
-
-    return private._add_certificate(conn, alias, description, filename_path)
+    return private._add_certificate(conn, alias, description, multipart_data)
     
 def get_certificates(conn:dict)->dict:
     """
@@ -4736,7 +4735,7 @@ def delete_certificate_by_id(conn:dict, id:str)->dict:
     
     
 ##Key Manager (keys)
-def add_keys(conn:dict, type:str, alias:str, description:str, filename_path:str)->dict:
+def add_keys(conn:dict, alias:str, description:str,multipart_data:dict)->dict:
     """
     Add OpenSSH Keys
         [Args]
@@ -4748,7 +4747,7 @@ def add_keys(conn:dict, type:str, alias:str, description:str, filename_path:str)
             (dict) Response: Add OpenSSH Keys response
     """
 
-    return private._add_keys(conn, type , alias, description, filename_path)
+    return private._add_keys(conn,alias, description, multipart_data)
     
 def get_keys(conn:dict)->dict:
     """

@@ -5177,7 +5177,7 @@ def _update_tenant_to_node(conn:dict , data:dict)->dict:
     return post(conn, PCC_TENANT+"/nodes/update", data)
 
 ##Key Manager(Certificates)
-def _add_certificate(conn:dict, alias:str, description:str, filename_path:str)->dict:
+def _add_certificate(conn:dict, alias:str, description:str, multipart_data:dict)->dict:
     """
     Add Certificate
         [Args]
@@ -5187,9 +5187,7 @@ def _add_certificate(conn:dict, alias:str, description:str, filename_path:str)->
         [Returns]
             (dict) Response: Add Certificate response
     """
-    multipart_data = {'file': open(filename_path, 'rb'), 'description':(None, description)}
-    url  = PCC_KEY_MANAGER + "/certificates/upload/" + alias
-    return post_multipart(conn, url, multipart_data)
+    return post_multipart(conn, PCC_KEY_MANAGER + "/certificates/upload/" + alias, multipart_data)
     
 def _get_certificates(conn:dict)->dict:
     """
@@ -5217,7 +5215,7 @@ def _delete_certificate_by_id(conn:dict, id:str)->dict:
     
     
 ##Key Manager (keys)
-def _add_keys(conn:dict, type:str, alias:str, description:str, filename_path:str)->dict:
+def _add_keys(conn:dict, alias:str, description:str, multipart_data:dict)->dict:
     """
     Add OpenSSH Keys
         [Args]
@@ -5228,12 +5226,7 @@ def _add_keys(conn:dict, type:str, alias:str, description:str, filename_path:str
         [Returns]
             (dict) Response: Add OpenSSH Keys response
     """
-    multipart_data = {'file': open(filename_path, 'rb'), 'description':(None, description)}
-    if type == "Private":
-        url = PCC_KEY_MANAGER + "/keys/upload/private/" + alias
-    else:
-        url = PCC_KEY_MANAGER + "/keys/upload/public/" + alias
-    return post_multipart(conn, url, multipart_data)
+    return post_multipart(conn, PCC_KEY_MANAGER + "/keys/upload/public/" + alias , multipart_data)
     
 def _get_keys(conn:dict)->dict:
     """
