@@ -5196,7 +5196,7 @@ def get_metadata_profiles(conn:dict)->dict:
     """
     return private._get_metadata_profiles(conn)
     
-def get_profile_by_id(conn:dict, id:str)->dict:
+def get_authprofile_by_id(conn:dict, id:str)->dict:
     """
     Get AuthProfile by ID
     [Args]
@@ -5205,7 +5205,7 @@ def get_profile_by_id(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Get AuthProfile by ID response (includes any errors)
     """
-    return private._get_profile_by_id(conn, id)
+    return private._get_authprofile_by_id(conn, id)
 
 def get_profile_by_type(conn:dict, type:str)->dict:
     """
@@ -5228,7 +5228,7 @@ def get_metadata_profile_by_type(conn:dict, type:str)->dict:
     """
     return private._get_metadata_profile_by_type(conn, type)
     
-def get_profiles(conn:dict)->dict:
+def get_authprofiles(conn:dict)->dict:
     """
     Get All Authprofiles
     [Args]
@@ -5236,7 +5236,7 @@ def get_profiles(conn:dict)->dict:
     [Returns]
         (dict) Response: Get All Authprofiles response (includes any errors)
     """
-    return private._get_profiles(conn)
+    return private._get_authprofiles(conn)
     
 def describe_profile_by_id(conn:dict, id:str)->dict:
     """
@@ -5289,7 +5289,7 @@ def describe_metadata_profiles(conn:dict)->dict:
     """
     return private._describe_metadata_profiles(conn)
 
-def delete_profile_by_id(conn:dict, id:str)->dict:
+def delete_authprofile_by_id(conn:dict, id:str)->dict:
     """
     Delete AuthProfile By Id
     [Args]
@@ -5297,5 +5297,5 @@ def delete_profile_by_id(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Delete authprofile by id response (includes any errors)
     """
-    return private._delete_profile_by_id(conn, id)
+    return private._delete_authprofile_by_id(conn, id)
 
