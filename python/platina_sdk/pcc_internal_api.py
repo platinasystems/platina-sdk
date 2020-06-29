@@ -47,6 +47,7 @@ PCC_DEPLOYMENT = "/maas/deployments"
 PCC_ERASURE_STORAGE = PCCSERVER + "/v1/storage"
 #PCC_AUTH_PROFILE = PCCSERVER + "/authprofiles"
 PCC_ERASURE_CODE_PROFILE = PCCSERVER + "/v1/storage/ceph/pool/erasure-coded-profiles"
+PCC_RADOS = PCCSERVER + "/v2/storage/ceph/rgws/"
 
 
 
@@ -5778,3 +5779,62 @@ def _delete_authprofile_by_id(conn:dict, id:str)->dict:
     """
     return delete(conn, PCC_AUTH_PROFILE + "/" + id)
 
+##Rados
+def _add_ceph_rgw(conn:dict, data:dict)->dict:
+    """
+    Add Rados Gateway
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: {
+                    "name":"string",
+                    "cephPoolID":0,
+                    "targetNodes":[0],
+                    "port":0,
+                    "certificateID":0,
+                    "S3Accounts": {"string"}
+                    {
+    [Returns]
+        (dict) Response: Add Rados Gateway (includes any errors)
+    """
+    return post(conn, PCC_RADOS, data)
+
+def _delete_ceph_rgw_by_id(conn:dict, id:str)->dict:
+    """
+    Delete Rados Gateway from PCC using id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (int) id: id of the Rados Gateway to be deleted
+
+    [Returns]
+        (dict) Response: Delete Rados Gateway response (includes any errors)
+    """
+    return delete(conn, PCC_RADOS+"/"+ id)
+
+def _get_ceph_rgws(conn:dict)->dict:
+    """
+    Get Rados Gateway
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Get Rados Gateways response (includes any errors)
+    """
+    return get(conn, PCC_RADOS)
+
+def _modify_ceph_rgw(conn:dict, data:dict, id:int)->dict:
+    """
+    Modify Rados Gateway
+        (dict) data: {
+                    "id":0
+                    "name":"string",
+                    "cephPoolID":0,
+                    "targetNodes":[0],
+                    "port":0,
+                    "certificateID":0,
+                    "S3Accounts": {"string"}
+                    {
+    [Returns]
+        (dict) Response: Add Network Cluster (includes any errors)
+    """   
+    return put(conn, PCC_RADOS+"/"+str(id), data)

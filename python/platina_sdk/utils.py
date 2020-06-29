@@ -3,6 +3,7 @@ import urllib3
 import json
 import time
 
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 def get(conn, url_path):
     # DISABLE SSL error
