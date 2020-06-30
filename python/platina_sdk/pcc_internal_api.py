@@ -45,7 +45,7 @@ PCC_KEY_MANAGER = "/key-manager"
 PCC_IMAGES= "/maas/images"
 PCC_DEPLOYMENT = "/maas/deployments"
 PCC_ERASURE_STORAGE = PCCSERVER + "/v1/storage"
-#PCC_AUTH_PROFILE = PCCSERVER + "/authprofiles"
+PCC_APP_CREDENTIALS = PCCSERVER + "/app-credentials/"
 PCC_ERASURE_CODE_PROFILE = PCCSERVER + "/v1/storage/ceph/pool/erasure-coded-profiles"
 PCC_RADOS = PCCSERVER + "/v2/storage/ceph/rgws/"
 
@@ -5644,27 +5644,42 @@ def _get_ceph_rdb_by_erasure_pool_id(conn:dict, id:str)->dict:
     
 
 ## Application credential management
-def _add_metadata_profile(conn:dict, data:dict, filename_path:str)->dict:
+## Application credential management
+def _add_metadata_profile(conn:dict, multipart_data:dict)->dict:
     """
     Add Metadata Profile
         [Args]
-            (str) Data: 
-            (str) Filename_path:
+            (dict) Data: 
+                  {
+                
+                    "name":"test",
+                    "type":"ceph",
+                    "applicationId":null,
+                    "active":true,
+                    "profile":{
+                        "username":"testuser",
+                        "email":"test123@test.com",
+                        "active":true,
+                        "maxBuckets":"2000",
+                        "maxBucketObjects":2000,
+                        "maxBucketSize":3994,
+                        "maxObjectSize":2000,
+                        "maxUserSize":7,
+                        "maxUserObjects":30
+                    },
+                    "files":[]
+                
+                }  
             
         [Returns]
             (dict) Response: Add Metadata Profile response
     """
+    print("Inside pcc_internal")
+    print("multipart_data: {}".format(multipart_data))
+    response = post_multipart(conn, PCC_APP_CREDENTIALS , multipart_data)
+    print("Response in pcc_internal is: {}".format(response))
     
-    if filename_path == None:
-        multipart_data = {'data':json.dumps(data)}
-        print("Multipart_data is {}".format(multipart_data))
-    else:    
-        multipart_data = {'file': open(filename_path, 'rb'), 'data':(None, json.dumps(data))}
-    
-    return post_multipart(conn, PCC_AUTH_PROFILE , multipart_data)
-
-
-
+    return response
 
 def _get_metadata_profiles(conn:dict)->dict:
     """
@@ -5674,9 +5689,9 @@ def _get_metadata_profiles(conn:dict)->dict:
     [Returns]
         (dict) Response: Get All Metadata Authprofiles response (includes any errors)
     """
-    return get(conn, PCC_AUTH_PROFILE + "/metadata")
+    return get(conn, PCC_APP_CREDENTIALS + "metadata")
     
-def _get_authprofile_by_id(conn:dict, id:str)->dict:
+def _get_application_credential_profile_by_id(conn:dict, id:str)->dict:
     """
     Get AuthProfile by ID
     [Args]
@@ -5685,9 +5700,9 @@ def _get_authprofile_by_id(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Get AuthProfile by ID response (includes any errors)
     """
-    return get(conn, PCC_AUTH_PROFILE + "/" + id)  
+    return get(conn, PCC_APP_CREDENTIALS + id)  
 
-def _get_profile_by_type(conn:dict, type:str)->dict:
+def _get_application_credential_profile_by_type(conn:dict, type:str)->dict:
     """
     Get Profile by Type
     [Args]
@@ -5695,7 +5710,7 @@ def _get_profile_by_type(conn:dict, type:str)->dict:
     [Returns]
         (dict) Response: Get Profile by Type response (includes any errors)
     """
-    return get(conn, PCC_AUTH_PROFILE + "/type/" + type)
+    return get(conn, PCC_APP_CREDENTIALS + "type/" + type)
 
 
 def _get_metadata_profile_by_type(conn:dict, type:str)->dict:
@@ -5706,9 +5721,9 @@ def _get_metadata_profile_by_type(conn:dict, type:str)->dict:
     [Returns]
         (dict) Response: Get Metadata Profile by Type response (includes any errors)
     """
-    return get(conn, PCC_AUTH_PROFILE + "/metadata/type/" + type)
+    return get(conn, PCC_APP_CREDENTIALS + "metadata/type/" + type)
     
-def _get_authprofiles(conn:dict)->dict:
+def _get_application_credential_profiles(conn:dict)->dict:
     """
     Get All Authprofiles
     [Args]
@@ -5716,9 +5731,9 @@ def _get_authprofiles(conn:dict)->dict:
     [Returns]
         (dict) Response: Get All Authprofiles response (includes any errors)
     """
-    return get(conn, PCC_AUTH_PROFILE)
+    return get(conn, PCC_APP_CREDENTIALS)
     
-def _describe_profile_by_id(conn:dict, id:str)->dict:
+def _describe_application_credential_profile_by_id(conn:dict, id:str)->dict:
     """
     Describe AuthProfile by Id 
     [Args]
@@ -5726,9 +5741,9 @@ def _describe_profile_by_id(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Describe AuthProfile by Id response (includes any errors)
     """
-    return get(conn, PCC_AUTH_PROFILE + "/describe/" + id)
+    return get(conn, PCC_APP_CREDENTIALS + "describe/" + id)
     
-def _describe_profile_per_type(conn:dict, type:str)->dict:
+def _describe_application_credential_profile_per_type(conn:dict, type:str)->dict:
     """
     Describe AuthProfile per Type
     [Args]
@@ -5736,7 +5751,7 @@ def _describe_profile_per_type(conn:dict, type:str)->dict:
     [Returns]
         (dict) Response: Describe AuthProfile per Type response (includes any errors)
     """
-    return get(conn, PCC_AUTH_PROFILE + "/describe/type/" + type)
+    return get(conn, PCC_APP_CREDENTIALS + "describe/type/" + type)
     
     
 def _describe_metadata_profile_per_type(conn:dict, type:str)->dict:
@@ -5747,9 +5762,9 @@ def _describe_metadata_profile_per_type(conn:dict, type:str)->dict:
     [Returns]
         (dict) Response: Describe Metadata AuthProfile per Type response (includes any errors)
     """
-    return get(conn, PCC_AUTH_PROFILE + "/describe/type/" + type)
+    return get(conn, PCC_APP_CREDENTIALS + "describe/type/" + type)
     
-def _describe_profiles(conn:dict)->dict:
+def _describe_application_credential_profiles(conn:dict)->dict:
     """
     Describe AuthProfiles
     [Args]
@@ -5757,7 +5772,7 @@ def _describe_profiles(conn:dict)->dict:
     [Returns]
         (dict) Response: Describe AuthProfiles response (includes any errors)
     """
-    return get(conn, PCC_AUTH_PROFILE + "/describe")
+    return get(conn, PCC_APP_CREDENTIALS + "describe")
     
 def _describe_metadata_profiles(conn:dict)->dict:
     """
@@ -5767,9 +5782,9 @@ def _describe_metadata_profiles(conn:dict)->dict:
     [Returns]
         (dict) Response: Describe Metadata AuthProfiles response (includes any errors)
     """
-    return get(conn, PCC_AUTH_PROFILE + "/metadata/describe")
+    return get(conn, PCC_APP_CREDENTIALS + "metadata/describe")
 
-def _delete_authprofile_by_id(conn:dict, id:str)->dict:
+def _delete_application_credential_profile_by_id(conn:dict, id:str)->dict:
     """
     Delete AuthProfile By Id
     [Args]
@@ -5777,7 +5792,8 @@ def _delete_authprofile_by_id(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Delete authprofile by id response (includes any errors)
     """
-    return delete(conn, PCC_AUTH_PROFILE + "/" + id)
+    return delete(conn, PCC_APP_CREDENTIALS + id)
+    
 
 ##Rados
 def _add_ceph_rgw(conn:dict, data:dict)->dict:
@@ -5838,3 +5854,5 @@ def _modify_ceph_rgw(conn:dict, data:dict, id:int)->dict:
         (dict) Response: Add Network Cluster (includes any errors)
     """   
     return put(conn, PCC_RADOS+"/"+str(id), data)
+    
+

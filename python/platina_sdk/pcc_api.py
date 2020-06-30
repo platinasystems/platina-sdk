@@ -5164,27 +5164,38 @@ def get_ceph_rdb_by_erasure_pool_id(conn:dict, id:str)->dict:
     
     
 ## Application credential management
-def add_metadata_profile(conn:dict, data:dict, filename_path:str)->dict:
+def add_metadata_profile(conn:dict, multipart_data:dict)->dict:
     """
     Add Metadata Profile
         [Args]
-            (str) Data: 
-            (str) Filename_path:
+            (dict) Data: 
+                  {
+                
+                    "name":"test",
+                    "type":"ceph",
+                    "applicationId":null,
+                    "active":true,
+                    "profile":{
+                        "username":"testuser",
+                        "email":"test123@test.com",
+                        "active":true,
+                        "maxBuckets":"2000",
+                        "maxBucketObjects":2000,
+                        "maxBucketSize":3994,
+                        "maxObjectSize":2000,
+                        "maxUserSize":7,
+                        "maxUserObjects":30
+                    },
+                    "files":[]
+                
+                }  
             
         [Returns]
             (dict) Response: Add Metadata Profile response
-    """
+            
+    """    
+    return private._add_metadata_profile(conn, multipart_data)
     
-    if filename_path == None:
-        multipart_data = {'data':json.dumps(data)}
-        print("Multipart_data is {}".format(multipart_data))
-    else:    
-        multipart_data = {'file': open(filename_path, 'rb'), 'data':(None, json.dumps(data))}
-    
-    return private._add_metadata_profile(conn, data, filename_path)
-
-
-
 
 def get_metadata_profiles(conn:dict)->dict:
     """
@@ -5196,7 +5207,7 @@ def get_metadata_profiles(conn:dict)->dict:
     """
     return private._get_metadata_profiles(conn)
     
-def get_authprofile_by_id(conn:dict, id:str)->dict:
+def get_application_credential_profile_by_id(conn:dict, id:str)->dict:
     """
     Get AuthProfile by ID
     [Args]
@@ -5205,9 +5216,9 @@ def get_authprofile_by_id(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Get AuthProfile by ID response (includes any errors)
     """
-    return private._get_authprofile_by_id(conn, id)
+    return private._get_application_credential_profile_by_id(conn, id)
 
-def get_profile_by_type(conn:dict, type:str)->dict:
+def get_application_credential_profile_by_type(conn:dict, type:str)->dict:
     """
     Get Profile by Type
     [Args]
@@ -5215,7 +5226,7 @@ def get_profile_by_type(conn:dict, type:str)->dict:
     [Returns]
         (dict) Response: Get Profile by Type response (includes any errors)
     """
-    return private._get_profile_by_type(conn, type)
+    return private._get_application_credential_profile_by_type(conn, type)
 
 
 def get_metadata_profile_by_type(conn:dict, type:str)->dict:
@@ -5228,7 +5239,7 @@ def get_metadata_profile_by_type(conn:dict, type:str)->dict:
     """
     return private._get_metadata_profile_by_type(conn, type)
     
-def get_authprofiles(conn:dict)->dict:
+def get_application_credential_profiles(conn:dict)->dict:
     """
     Get All Authprofiles
     [Args]
@@ -5236,9 +5247,9 @@ def get_authprofiles(conn:dict)->dict:
     [Returns]
         (dict) Response: Get All Authprofiles response (includes any errors)
     """
-    return private._get_authprofiles(conn)
+    return private._get_application_credential_profiles(conn)
     
-def describe_profile_by_id(conn:dict, id:str)->dict:
+def describe_application_credential_profile_by_id(conn:dict, id:str)->dict:
     """
     Describe AuthProfile by Id 
     [Args]
@@ -5246,9 +5257,9 @@ def describe_profile_by_id(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Describe AuthProfile by Id response (includes any errors)
     """
-    return private._describe_profile_by_id(conn, id)
+    return private._describe_application_credential_profile_by_id(conn, id)
     
-def describe_profile_per_type(conn:dict, type:str)->dict:
+def describe_application_credential_profile_per_type(conn:dict, type:str)->dict:
     """
     Describe AuthProfile per Type
     [Args]
@@ -5256,7 +5267,7 @@ def describe_profile_per_type(conn:dict, type:str)->dict:
     [Returns]
         (dict) Response: Describe AuthProfile per Type response (includes any errors)
     """
-    return private._describe_profile_per_type(conn, type)
+    return private._describe_application_credential_profile_per_type(conn, type)
     
     
 def describe_metadata_profile_per_type(conn:dict, type:str)->dict:
@@ -5269,7 +5280,7 @@ def describe_metadata_profile_per_type(conn:dict, type:str)->dict:
     """
     return private._describe_metadata_profile_per_type(conn, type)
     
-def describe_profiles(conn:dict)->dict:
+def describe_application_credential_profiles(conn:dict)->dict:
     """
     Describe AuthProfiles
     [Args]
@@ -5277,7 +5288,7 @@ def describe_profiles(conn:dict)->dict:
     [Returns]
         (dict) Response: Describe AuthProfiles response (includes any errors)
     """
-    return private._describe_profiles(conn)
+    return private._describe_application_credential_profiles(conn)
     
 def describe_metadata_profiles(conn:dict)->dict:
     """
@@ -5289,7 +5300,7 @@ def describe_metadata_profiles(conn:dict)->dict:
     """
     return private._describe_metadata_profiles(conn)
 
-def delete_authprofile_by_id(conn:dict, id:str)->dict:
+def delete_application_credential_profile_by_id(conn:dict, id:str)->dict:
     """
     Delete AuthProfile By Id
     [Args]
@@ -5297,7 +5308,8 @@ def delete_authprofile_by_id(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Delete authprofile by id response (includes any errors)
     """
-    return private._delete_authprofile_by_id(conn, id)
+    return private._delete_application_credential_profile_by_id(conn, id)
+    
 
 ##Rados
 def add_ceph_rgw(conn:dict, data:dict)->dict:

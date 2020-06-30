@@ -95,11 +95,11 @@ def post_multipart(conn, url_path, multipart_data):
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
     headers = {
-        #'Content-Type': 'application/json',
         'Authorization': 'Bearer %s' % conn['token']
     }
     
     url = conn['url'] + url_path
+    
     obj = {}
     if "options" in conn and "use_session" in conn["options"] and conn["options"]["use_session"] == False:
         # We're not using a session object here, just the token in the headers.
@@ -107,7 +107,7 @@ def post_multipart(conn, url_path, multipart_data):
     else:
         obj = conn['session']
 
-    response = obj.post(url, files=multipart_data, headers=headers, proxies=conn['proxies'])
+    response = obj.post(url, files=multipart_data, headers=headers, proxies=conn['proxies'],verify=False)
     return _serialize_response(time.time(), response)
 
 def _serialize_response(start_time, response):
