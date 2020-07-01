@@ -5643,7 +5643,7 @@ def _get_ceph_rdb_by_erasure_pool_id(conn:dict, id:str)->dict:
     return get(conn, PCC_ERASURE_STORAGE + "/ceph/pool/" + id + "/rdbs")
     
 
-## Application credential management
+
 ## Application credential management
 def _add_metadata_profile(conn:dict, multipart_data:dict)->dict:
     """
@@ -5793,6 +5793,51 @@ def _delete_application_credential_profile_by_id(conn:dict, id:str)->dict:
         (dict) Response: Delete authprofile by id response (includes any errors)
     """
     return delete(conn, PCC_APP_CREDENTIALS + id)
+    
+def _get_profiles_with_additional_data_for_specific_application(conn:dict, type:str, application_id:str)->dict:
+    """
+    Get the profiles with additional data for a specific application
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str)  type: Type of application
+        (str)  application_id: Application Id 
+    [Returns]
+        (dict) Response: Get the profiles with additional data for a specific application response (includes any errors)
+    """
+    return get(conn, PCC_APP_CREDENTIALS + type + "/" + application_id)
+
+def _describe_profiles_per_type_and_application(conn:dict, type:str, application_id:str)->dict:
+    """
+    Describes the app credential profiles per type and application
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str)  type: Type of application
+        (str)  application_id: Application Id
+    [Returns]
+        (dict) Response: Describes the app credential profiles per type and application (includes any errors)
+    """
+    return get(conn, PCC_APP_CREDENTIALS + "describe/"+ type + "/" + application_id)
+
+def _get_profile_types(conn:dict)->dict:
+    """
+    Get profile types
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response: Get profile types response (includes any errors)
+    """
+    return get(conn, PCC_APP_CREDENTIALS + "types")
+    
+def _get_profiles_template_per_type(conn:dict, type:str)->dict:
+    """
+    Get profile's template per type
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str)  type: Type of application
+    [Returns]
+        (dict) Response: Get profile's template per type response (includes any errors)
+    """
+    return get(conn, PCC_APP_CREDENTIALS + "template/" +type)
     
 
 ##Rados

@@ -5310,6 +5310,51 @@ def delete_application_credential_profile_by_id(conn:dict, id:str)->dict:
     """
     return private._delete_application_credential_profile_by_id(conn, id)
     
+def get_profiles_with_additional_data_for_specific_application(conn:dict, type:str, application_id:str)->dict:
+    """
+    Get the profiles with additional data for a specific application
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str)  type: Type of application
+        (str)  application_id: Application Id 
+    [Returns]
+        (dict) Response: Get the profiles with additional data for a specific application response (includes any errors)
+    """
+    return private._get_profiles_with_additional_data_for_specific_application(conn, type, application_id)
+
+def describe_profiles_per_type_and_application(conn:dict, type:str, application_id:str)->dict:
+    """
+    Describes the app credential profiles per type and application
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str)  type: Type of application
+        (str)  application_id: Application Id
+    [Returns]
+        (dict) Response: Describes the app credential profiles per type and application (includes any errors)
+    """
+    return private._describe_profiles_per_type_and_application(conn, type, application_id)
+
+def get_profile_types(conn:dict)->dict:
+    """
+    Get profile types
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response: Get profile types response (includes any errors)
+    """
+    return private._get_profile_types(conn)
+    
+def get_profiles_template_per_type(conn:dict, type:str)->dict:
+    """
+    Get profile's template per type
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str)  type: Type of application
+    [Returns]
+        (dict) Response: Get profile's template per type response (includes any errors)
+    """
+    return private._get_profiles_template_per_type(conn, type)
+    
 
 ##Rados
 def add_ceph_rgw(conn:dict, data:dict)->dict:
