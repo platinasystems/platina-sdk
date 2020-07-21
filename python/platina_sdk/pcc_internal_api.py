@@ -48,7 +48,7 @@ PCC_ERASURE_STORAGE = PCCSERVER + "/v1/storage"
 PCC_APP_CREDENTIALS = PCCSERVER + "/app-credentials/"
 PCC_ERASURE_CODE_PROFILE = PCCSERVER + "/v1/storage/ceph/pool/erasure-coded-profiles"
 PCC_RADOS = PCCSERVER + "/v2/storage/ceph/rgws/"
-
+PCC_ALERT= "/platina-monitor/alerts/rules"
 
 
 ## Agent
@@ -5900,4 +5900,67 @@ def _modify_ceph_rgw(conn:dict, data:dict, id:int)->dict:
     """   
     return put(conn, PCC_RADOS+"/"+str(id), data)
     
+##Alerts
+def _get_alert_rules(conn:dict)->dict:
+    """
+    Get Alert Rules
 
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Get Get Alert Rules response (includes any errors)
+    """
+    return get(conn, PCC_ALERT)
+
+def _add_alert_rule(conn:dict, data:dict)->dict:
+    """
+    Add Alert Rule
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: {
+                        "id":0
+                        "name": 
+                        "nodeIds":
+                        "parameter": 
+                        "operator": 
+                        "value":
+                        "time":
+                        "templateId":
+                      }
+    [Returns]
+        (dict) Response: Add Alert Rule (includes any errors)
+    """
+    return post(conn, PCC_ALERT, data)
+    
+def _delete_alert_rule_by_id(conn:dict, id:str)->dict:
+    """
+    Delete Alert Rule from PCC using Id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (int) Id: Id of the Alert Rule to be deleted
+
+    [Returns]
+        (dict) Response: Delete Alert Rule response (includes any errors)
+    """
+    return delete(conn, PCC_ALERT +"/"+ id)
+
+
+def _modify_alert_rule(conn:dict, data:dict, id:int)->dict:
+    """
+    Modify Alert Rule
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: {
+                        "name": 
+                        "nodeIds":
+                        "parameter": 
+                        "operator": 
+                        "value":
+                        "time":
+                        "templateId":
+                      }
+    [Returns]
+        (dict) Response: Modify Alert Rule (includes any errors)
+    """
+    return put(conn, PCC_ALERT+"/"+str(id), data)
