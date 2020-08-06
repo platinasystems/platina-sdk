@@ -49,6 +49,7 @@ PCC_APP_CREDENTIALS = PCCSERVER + "/app-credentials/"
 PCC_ERASURE_CODE_PROFILE = PCCSERVER + "/v1/storage/ceph/pool/erasure-coded-profiles"
 PCC_RADOS = PCCSERVER + "/v2/storage/ceph/rgws/"
 PCC_ALERT= "/platina-monitor/alerts/rules"
+PCC_IPAM= PCCSERVER +"/subnet-objs"
 
 
 ## Agent
@@ -5919,14 +5920,13 @@ def _add_alert_rule(conn:dict, data:dict)->dict:
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
         (dict) data: {
-                        "id":0
-                        "name": 
-                        "nodeIds":
-                        "parameter": 
-                        "operator": 
-                        "value":
-                        "time":
-                        "templateId":
+                        "name":"string" 
+                        "nodeIds":[0]
+                        "parameter":"string" 
+                        "operator": "string"
+                        "value":"string"
+                        "time":"string"
+                        "templateId":0
                       }
     [Returns]
         (dict) Response: Add Alert Rule (includes any errors)
@@ -5952,15 +5952,59 @@ def _modify_alert_rule(conn:dict, data:dict, id:int)->dict:
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
         (dict) data: {
-                        "name": 
-                        "nodeIds":
-                        "parameter": 
-                        "operator": 
-                        "value":
-                        "time":
-                        "templateId":
+                        "id":0
+                        "name":"string" 
+                        "nodeIds":[0]
+                        "parameter":"string" 
+                        "operator": "string"
+                        "value":"string"
+                        "time":"string"
+                        "templateId":0
                       }
     [Returns]
         (dict) Response: Modify Alert Rule (includes any errors)
     """
     return put(conn, PCC_ALERT+"/"+str(id), data)
+
+##IPAM   
+def _get_subnet_objs(conn:dict)->dict:
+    """
+    Get Subnets
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Get Subnet response (includes any errors)
+    """
+    return get(conn, PCC_IPAM)
+    
+def _add_subnet_obj(conn:dict, data:dict)->dict:
+    """
+    Add Subnet
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: {
+                        "id":0,
+                        "name":"string",
+                        "subnet":"string",
+                        "pubAccess":true/false,
+                        "routed":true/false,
+                        "usedBy":"string"
+                     }
+    [Returns]
+        (dict) Response: Add Subnet(IPAM) (includes any errors)
+    """
+    return post(conn, PCC_IPAM, data)
+
+def _delete_subnet_obj_by_id(conn:dict, id:str)->dict:
+    """
+    Delete Subnet from PCC using Id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (int) Id: Id of the Subnet to be deleted
+
+    [Returns]
+        (dict) Response: Delete Subnet(IPAM) response (includes any errors)
+    """
+    return delete(conn, PCC_IPAM +"/"+ id)

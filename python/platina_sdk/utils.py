@@ -14,7 +14,10 @@ def get(conn, url_path):
         'Content-Type': 'application/json',
         'Authorization': 'Bearer %s' % conn['token']
     }
+
     url = conn['url'] + url_path
+    print("API-"+str(url))
+
     obj = {}
     if "options" in conn and "use_session" in conn["options"] and conn["options"]["use_session"] == False:
         # We're not using a session object here, just the token in the headers.
@@ -34,7 +37,10 @@ def delete(conn, url_path, data=None):
         'Content-Type': 'application/json',
         'Authorization': 'Bearer %s' % conn['token']
     }
+
     url = conn['url'] + url_path
+    print("API-"+str(url))
+
     obj = {}
     if "options" in conn and "use_session" in conn["options"] and conn["options"]["use_session"] == False:
         # We're not using a session object here, just the token in the headers.
@@ -58,7 +64,10 @@ def post(conn, url_path, payload):
         'Content-Type': 'application/json',
         'Authorization': 'Bearer %s' % conn['token']
     }
+
     url = conn['url'] + url_path
+    print("API-"+str(url))
+
     obj = {}
     if "options" in conn and "use_session" in conn["options"] and conn["options"]["use_session"] == False:
         # We're not using a session object here, just the token in the headers.
@@ -78,7 +87,10 @@ def put(conn, url_path, payload):
         'Content-Type': 'application/json',
         'Authorization': 'Bearer %s' % conn['token']
     }
+
     url = conn['url'] + url_path
+    print("API-"+str(url))
+
     obj = {}
     if "options" in conn and "use_session" in conn["options"] and conn["options"]["use_session"] == False:
         # We're not using a session object here, just the token in the headers.
@@ -99,7 +111,8 @@ def post_multipart(conn, url_path, multipart_data):
     }
     
     url = conn['url'] + url_path
-    
+    print("API-"+str(url))
+
     obj = {}
     if "options" in conn and "use_session" in conn["options"] and conn["options"]["use_session"] == False:
         # We're not using a session object here, just the token in the headers.
@@ -111,6 +124,7 @@ def post_multipart(conn, url_path, multipart_data):
     return _serialize_response(time.time(), response)
 
 def _serialize_response(start_time, response):
+    print("Serialise Input: "+str(json.loads(response.text)))
     execution_time = time.time() - start_time
     if response is None:
         return {
