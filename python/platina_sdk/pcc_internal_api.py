@@ -5374,6 +5374,17 @@ def _modify_network_cluster(conn:dict, data:dict)->dict:
     """   
     return put(conn, PCC_NETWORK_MANAGER, data)
     
+def _refresh_network_cluster_by_id(conn:dict, id:str)->dict:
+    """
+    Refresh Network Cluster using id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (int) id: id of the Network Cluster to be deleted
+
+    [Returns]
+        (dict) Response: Refresh Network Cluster response (includes any errors)
+    """
+    return put(conn, PCC_NETWORK_MANAGER +"/refresh/"+ id, None)  
     
 ## Erasure Code
 def _get_all_erasure_code_profile(conn:dict)->dict:
@@ -6035,7 +6046,25 @@ def _delete_subnet_obj_by_id(conn:dict, id:str)->dict:
         (dict) Response: Delete Subnet(IPAM) response (includes any errors)
     """
     return delete(conn, PCC_IPAM +"/"+ id)
-    
+ 
+def _modify_subnet_obj(conn:dict, data:dict)->dict:
+    """
+    Modify Subnet
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: {
+                        "id":0,
+                        "name":"string",
+                        "subnet":"string",
+                        "pubAccess":true/false,
+                        "routed":true/false,
+                        "usedBy":"string"
+                     }
+    [Returns]
+        (dict) Response: Modify Subnet(IPAM) (includes any errors)
+    """
+    return put(conn, PCC_IPAM, data)
+        
 ## Policy driven management
 
 def _get_all_scopes(conn:dict)->dict:

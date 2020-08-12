@@ -4891,6 +4891,18 @@ def modify_network_cluster(conn:dict, data:dict)->dict:
         (dict) Response: Add Network Cluster (includes any errors)
     """
     return private._modify_network_cluster(conn, data)
+
+def refresh_network_cluster_by_id(conn:dict, id:str)->dict:
+    """
+    Refresh Network Cluster using id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (int) id: id of the Network Cluster to be deleted
+
+    [Returns]
+        (dict) Response: Refresh Network Cluster response (includes any errors)
+    """
+    return private._refresh_network_cluster_by_id(conn,id)
     
 ## Erasure Code
 def get_all_erasure_code_profile(conn:dict)->dict:
@@ -5549,6 +5561,24 @@ def delete_subnet_obj_by_id(conn:dict, id:str)->dict:
         (dict) Response: Delete Alert Rule response (includes any errors)
     """
     return private._delete_subnet_obj_by_id(conn, str(id))
+
+def modify_subnet_obj(conn:dict, data:dict)->dict:
+    """
+    Modify Subnet
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: {
+                        "id":0,
+                        "name":"string",
+                        "subnet":"string",
+                        "pubAccess":true/false,
+                        "routed":true/false,
+                        "usedBy":"string"
+                     }
+    [Returns]
+        (dict) Response: Modify Subnet(IPAM) (includes any errors)
+    """
+    return private._modify_subnet_obj(conn, data)
 
 ## Policy driven management
 

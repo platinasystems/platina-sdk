@@ -124,7 +124,6 @@ def post_multipart(conn, url_path, multipart_data):
     return _serialize_response(time.time(), response)
 
 def _serialize_response(start_time, response):
-    print("Serialise Input: "+str(json.loads(response.text)))
     execution_time = time.time() - start_time
     if response is None:
         return {
