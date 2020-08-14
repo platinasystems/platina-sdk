@@ -220,13 +220,26 @@ def get_all_interfaces(conn:dict)->dict:
     """
     return private._get_all_interfaces(conn)
 
-def apply_interface(conn:dict, data:dict)->dict:
+def set_interface(conn:dict, data:dict)->dict:
     """
-    Apply Interface - Set interface up
+    Set Interface - Set interface up
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
         (dict) data: Interface parameters:
+
+    [Returns]
+        (dict) Response: Set Interface response (includes any errors)
+    """
+    return private._set_interface(conn, data)
+
+def apply_interface(conn:dict, data:dict)->dict:
+    """
+    Apply Interface - Apply interface up
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: {nodeId:0}:
 
     [Returns]
         (dict) Response: Apply Interface response (includes any errors)
