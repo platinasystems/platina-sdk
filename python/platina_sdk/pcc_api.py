@@ -4916,6 +4916,30 @@ def refresh_network_cluster_by_id(conn:dict, id:str)->dict:
         (dict) Response: Refresh Network Cluster response (includes any errors)
     """
     return private._refresh_network_cluster_by_id(conn,id)
+
+def health_check_network_cluster(conn:dict, id:str)->dict:
+    """
+    Health Check Network Cluster using id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (int) id: id of the Network Cluster to be deleted
+
+    [Returns]
+        (dict) Response: Health Check Network Cluster response (includes any errors)
+    """
+    return private._health_check_network_cluster(conn, id)  
+    
+def connection_health_check_network_cluster(conn:dict, id:str)->dict:
+    """
+    Connection Health Check Network Cluster using id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (int) id: id of the Network Cluster to be deleted
+
+    [Returns]
+        (dict) Response: Connection Health Check Network Cluster response (includes any errors)
+    """
+    return private._connection_health_check_network_cluster(conn, id)    
     
 ## Erasure Code
 def get_all_erasure_code_profile(conn:dict)->dict:

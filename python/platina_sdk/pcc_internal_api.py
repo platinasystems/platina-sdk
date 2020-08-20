@@ -5398,7 +5398,31 @@ def _refresh_network_cluster_by_id(conn:dict, id:str)->dict:
         (dict) Response: Refresh Network Cluster response (includes any errors)
     """
     return put(conn, PCC_NETWORK_MANAGER +"/refresh/"+ id, None)  
+
+def _health_check_network_cluster(conn:dict, id:str)->dict:
+    """
+    Health Check Network Cluster using id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (int) id: id of the Network Cluster to be deleted
+
+    [Returns]
+        (dict) Response: Health Check Network Cluster response (includes any errors)
+    """
+    return get(conn, PCC_NETWORK_MANAGER +"/health/"+ id)  
     
+def _connection_health_check_network_cluster(conn:dict, id:str)->dict:
+    """
+    Connection Health Check Network Cluster using id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (int) id: id of the Network Cluster to be deleted
+
+    [Returns]
+        (dict) Response: Connection Health Check Network Cluster response (includes any errors)
+    """
+    return get(conn, PCC_NETWORK_MANAGER +"/health/conn/"+ id)    
+  
 ## Erasure Code
 def _get_all_erasure_code_profile(conn:dict)->dict:
     """
