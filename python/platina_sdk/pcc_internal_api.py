@@ -6091,8 +6091,20 @@ def _get_all_scopes(conn:dict)->dict:
         (dict) Response: Get All Scopes response (includes any errors)
     """
     return get(conn, PCC_SCOPE)
+
+def _get_scope_types(conn:dict)->dict:
+    """
+    Get Scope Types
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Get Scope types response (includes any errors)
+    """
+    return get(conn, PCC_SCOPE + "/types")
     
-def _get_scope(conn:dict, id:int)->dict:
+def _get_scope(conn:dict, id:str)->dict:
     """
     Get Scope
 
@@ -6102,7 +6114,20 @@ def _get_scope(conn:dict, id:int)->dict:
     [Returns]
         (dict) Response: Get Scope response (includes any errors)
     """
-    return get(conn, PCC_SCOPE + '/' +str(id))
+    return get(conn, PCC_SCOPE + '/' +id)
+    
+def _get_scope_tree(conn:dict, id:str)->dict:
+    """
+    Get Scope Tree
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Get Scope Tree response (includes any errors)
+    """
+    return get(conn, PCC_SCOPE + '/' +id + '?mode=tree')
+
     
 def _add_scope(conn:dict, data:dict)->dict:
     """
@@ -6130,7 +6155,10 @@ def _modify_scope_by_id(conn:dict, id:str, data:dict)->dict:
                         "id":23,
                         "type": "region",
                         "name": "Test rack",
-                        "description": "Test rack description"
+                        "description": "Test rack description",
+                        "type": "zone",
+                        "parentID": 117,
+                        "policyIDs": [3, 4, 5]
                       
                 }
     [Returns]

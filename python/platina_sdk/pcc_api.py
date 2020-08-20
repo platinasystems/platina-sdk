@@ -5607,6 +5607,18 @@ def get_all_scopes(conn:dict)->dict:
     """
     return private._get_all_scopes(conn)
     
+def get_scope_types(conn:dict)->dict:
+    """
+    Get Scope Types
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Get Scope types response (includes any errors)
+    """
+    return private._get_scope_types(conn)
+    
 def get_scope(conn:dict, id:str)->dict:
     """
     Get Scope
@@ -5618,6 +5630,18 @@ def get_scope(conn:dict, id:str)->dict:
         (dict) Response: Get Scope response (includes any errors)
     """
     return private._get_scope(conn,id)
+    
+def get_scope_tree(conn:dict, id:int)->dict:
+    """
+    Get Scope Tree
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Get Scope Tree response (includes any errors)
+    """
+    return _get_scope_tree(conn, id)
     
 def add_scope(conn:dict, data:dict)->dict:
     """
