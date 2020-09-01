@@ -52,6 +52,7 @@ PCC_ALERT= "/platina-monitor/alerts/rules"
 PCC_IPAM= PCCSERVER +"/subnet-objs"
 PCC_SCOPE= PCCSERVER + "/scopes"
 PCC_POLICY= PCCSERVER + "/policies"
+PCC_MONITOR="/monitor"
 
 ## Agent
 def _get_agents(conn:dict)->dict:
@@ -6378,3 +6379,42 @@ def _get_application_policy_for_scope(conn:dict, id:str, appID:str)->dict:
         (dict) Response: Get Application Policy for scope response (includes any errors)
     """
     return get(conn, PCC_SCOPE + "/"+ id + "/policies/" + appID)
+    
+#Monitoring and Stats
+def _get_monitor_topics(conn:dict)->dict:   
+    """
+    Get Monitor Topics
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Get monitor topics response (includes any errors)
+    """
+    return get(conn, PCC_MONITOR + "/topic")
+    
+def _get_monitor_specific_topic(conn:dict, topic:str)->dict:   
+    """
+    Get Monitor Specific Topic
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Get monitor specific topic response (includes any errors)
+    """
+    return get(conn, PCC_MONITOR + "/topic/" + topic + "/latest" )
+        
+def _add_monitor_cache(conn:dict, topic:str, id:str, data:dict)->dict:   
+    """
+    Add Monitor Cache
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: {
+                      "unit":String,
+                      "value":0
+                     }
+    [Returns]
+        (dict) Response: Add Monitor Cache (includes any errors)
+    """
+    return post(conn, PCC_MONITOR + "/cache/"+ topic + "/" + id , data)

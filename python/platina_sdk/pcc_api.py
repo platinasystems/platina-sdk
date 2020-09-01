@@ -5889,3 +5889,42 @@ def get_application_policy_for_scope(conn:dict, id:str, appID:str)->dict:
         (dict) Response: Get Application Policy for scope response (includes any errors)
     """
     return private._get_application_policy_for_scope(conn, id, appID)
+    
+#Monitoring and Stats
+def get_monitor_topics(conn:dict)->dict:   
+    """
+    Get Monitor Topics
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Get monitor topics response (includes any errors)
+    """
+    return private._get_monitor_topics(conn)
+    
+def get_monitor_specific_topic(conn:dict, topic:str)->dict:   
+    """
+    Get Monitor Specific Topic
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Get monitor specific topic response (includes any errors)
+    """
+    return private._get_monitor_specific_topic(conn, topic)
+    
+def add_monitor_cache(conn:dict, topic:str, id:str, data:dict)->dict:   
+    """
+    Add Monitor Cache
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: {
+                      "unit":String,
+                      "value":0
+                     }
+    [Returns]
+        (dict) Response: Add Monitor Cache (includes any errors)
+    """
+    return private._add_monitor_cache(conn, topic, id, data)
