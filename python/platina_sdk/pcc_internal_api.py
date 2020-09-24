@@ -6072,7 +6072,18 @@ def _get_scope_tree(conn:dict, id:str)->dict:
         (dict) Response: Get Scope Tree response (includes any errors)
     """
     return get(conn, PCC_SCOPE + '/' +id + '?mode=tree')
+    
+def _get_scopes_tree(conn:dict)->dict:
+    """
+    Get Scopes Tree
 
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Get Scopes Tree response (includes any errors)
+    """
+    return get(conn, PCC_SCOPE + '/?mode=tree')
     
 def _add_scope(conn:dict, data:dict)->dict:
     """
@@ -6088,7 +6099,22 @@ def _add_scope(conn:dict, data:dict)->dict:
         (dict) Response: Add Scope (includes any errors)
     """
     return post(conn, PCC_SCOPE, data)
+
     
+def _add_multiple_nodes_to_scope(conn:dict, data:dict, id:str)->dict:
+    """
+    Add Multiple Nodes To Scope
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: {
+                        "nodes":[12,4,2]
+                      }
+    [Returns]
+        (dict) Response: Add Multiple Nodes To Scope response (includes any errors)
+    """
+    return post(conn, PCC_SCOPE + id + '/addNodes', data)
+    
+       
 def _modify_scope_by_id(conn:dict, id:str, data:dict)->dict:
     """
     Modify Scope by Id
@@ -6214,7 +6240,7 @@ def _modify_policy_by_id(conn:dict, id:str, data:dict)->dict:
     [Returns]
         (dict) Response: Modify Policy by Id response (includes any errors)
     """
-    return put(conn, PCC_SCOPE + "/" + id, data)
+    return put(conn, PCC_POLICY + "/" + id, data)
 
 def _delete_policy_by_id(conn:dict, id:str)->dict:
     """
@@ -6226,7 +6252,7 @@ def _delete_policy_by_id(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Delete Policy response (includes any errors)
     """
-    return delete(conn, PCC_SCOPE +"/"+ id) 
+    return delete(conn, PCC_POLICY +"/"+ id) 
 
 def _get_node_rsop(conn:dict, id:str)->dict:
     """
@@ -6264,18 +6290,6 @@ def _get_policy_deploy_status_by_policies(conn:dict, id:str)->dict:
     """
     return get(conn, PCC_POLICY + "/"+ id + "/status")
     
-def _get_policy_deploy_status_by_node_role(conn:dict, id:str)->dict:   
-    """
-    Get Policy deployment status by node role
-
-    [Args]
-        (dict) conn: Connection dictionary obtained after logging in
-
-    [Returns]
-        (dict) Response: Get Policy deployment status by node role response (includes any errors)
-    """
-    return get(conn, PCC_ROLES + "/"+ id + "/status")
-    
 def _get_policies_for_scope(conn:dict, id:str)->dict:   
     """
     Get Policies For Scope
@@ -6299,6 +6313,33 @@ def _get_application_policy_for_scope(conn:dict, id:str, appID:str)->dict:
         (dict) Response: Get Application Policy for scope response (includes any errors)
     """
     return get(conn, PCC_SCOPE + "/"+ id + "/policies/" + appID)
+    
+    
+def _get_historical_data_for_scope(conn:dict, id:str)->dict:   
+    """
+    Get Historical data for scope
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) id: Id of the scope
+    [Returns]
+        (dict) Response: Get Historical Data for Scope response (includes any errors)
+    """
+    return get(conn, PCC_SCOPE + "/"+ id + "/history")
+    
+def _get_scope_history_by_timestamp(conn:dict, id:str, start_timestamp:str , end_timestamp:str )->dict:   
+    """
+    Get Scope History by Timestamp
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) id: Id of the scope
+        (str) start_timestamp : Starting timestamp of the scope
+        (str) end_timestamp : Ending timestamp of the scope
+    [Returns]
+        (dict) Response: Get Scope History by Timestamp response (includes any errors)
+    """
+    return get(conn, PCC_SCOPE + "/"+ id + "/history?start="+ start_timestamp + "&end=" + end_timestamp )
     
 #Monitoring and Stats
 def _get_monitor_topics(conn:dict)->dict:   

@@ -5586,6 +5586,18 @@ def get_scope_tree(conn:dict, id:int)->dict:
         (dict) Response: Get Scope Tree response (includes any errors)
     """
     return _get_scope_tree(conn, id)
+
+def get_scopes_tree(conn:dict)->dict:
+    """
+    Get Scopes Tree
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Get Scopes Tree response (includes any errors)
+    """
+    return _get_scopes_tree(conn)
     
 def add_scope(conn:dict, data:dict)->dict:
     """
@@ -5601,7 +5613,20 @@ def add_scope(conn:dict, data:dict)->dict:
         (dict) Response: Add Scope (includes any errors)
     """
     return private._add_scope(conn, data)
-    
+
+def add_multiple_nodes_to_scope(conn:dict, data:dict, id:str)->dict:
+    """
+    Add Multiple Nodes To Scope
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: {
+                        "nodes":[12,4,2]
+                      }
+    [Returns]
+        (dict) Response: Add Multiple Nodes To Scope response (includes any errors)
+    """
+    return _add_multiple_nodes_to_scope(conn, data, id)
+        
 def modify_scope_by_id(conn:dict, id:str, data:dict)->dict:
     """
     Modify Scope by Id
@@ -5773,19 +5798,7 @@ def get_policy_deploy_status_by_policies(conn:dict, id:str)->dict:
         (dict) Response: Get Policy deployment status by policies response (includes any errors)
     """
     return private._get_policy_deploy_status_by_policies(conn, id)
-    
-def get_policy_deploy_status_by_node_role(conn:dict, id:str)->dict:   
-    """
-    Get Policy deployment status by node role
-
-    [Args]
-        (dict) conn: Connection dictionary obtained after logging in
-
-    [Returns]
-        (dict) Response: Get Policy deployment status by node role response (includes any errors)
-    """
-    return private._get_policy_deploy_status_by_node_role(conn, id)
-    
+        
 def get_policies_for_scope(conn:dict, id:str)->dict:   
     """
     Get Policies For Scope
@@ -5809,7 +5822,33 @@ def get_application_policy_for_scope(conn:dict, id:str, appID:str)->dict:
         (dict) Response: Get Application Policy for scope response (includes any errors)
     """
     return private._get_application_policy_for_scope(conn, id, appID)
+
+def get_historical_data_for_scope(conn:dict, id:str)->dict:   
+    """
+    Get Historical data for scope
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) id: Id of the scope
+    [Returns]
+        (dict) Response: Get Historical Data for Scope response (includes any errors)
+    """
+    return private._get_historical_data_for_scope(conn, id)
     
+def get_scope_history_by_timestamp(conn:dict, id:str, start_timestamp:str , end_timestamp:str )->dict:   
+    """
+    Get Scope History by Timestamp
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) id: Id of the scope
+        (str) start_timestamp : Starting timestamp of the scope
+        (str) end_timestamp : Ending timestamp of the scope
+    [Returns]
+        (dict) Response: Get Scope History by Timestamp response (includes any errors)
+    """
+    return _get_scope_history_by_timestamp(conn, id, start_timestamp, end_timestamp)
+        
 #Monitoring and Stats
 def get_monitor_topics(conn:dict)->dict:   
     """
