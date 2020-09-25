@@ -3403,7 +3403,7 @@ def modify_ceph_cluster_by_id(conn:dict, id:str, data:dict)->dict:
     """
     return private._modify_ceph_cluster_by_id(conn, id, data)
 
-def delete_ceph_cluster_by_id(conn:dict, id:str)->dict:
+def delete_ceph_cluster_by_id(conn:dict, id:str, data:dict)->dict:
     """
     Delete Ceph Cluster by id
     [Args]
@@ -3413,7 +3413,7 @@ def delete_ceph_cluster_by_id(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Delete Ceph response (includes any errors)
     """
-    return private._delete_ceph_cluster_by_id(conn, id)
+    return private._delete_ceph_cluster_by_id(conn, id, data)
 
 def get_ceph_cluster_by_id(conn:dict, id:str)->dict:
     """

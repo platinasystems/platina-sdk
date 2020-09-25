@@ -3888,7 +3888,7 @@ def _modify_ceph_cluster_by_id(conn:dict, id:str, data:dict)->dict:
     """
     return put(conn, PCC_STORAGE + "/ceph/cluster/" + id, data)
 
-def _delete_ceph_cluster_by_id(conn:dict, id:str)->dict:
+def _delete_ceph_cluster_by_id(conn:dict, id:str, data:dict )->dict:
     """
     Delete Ceph Cluster by id
     [Args]
@@ -3898,7 +3898,7 @@ def _delete_ceph_cluster_by_id(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Delete Ceph response (includes any errors)
     """
-    return delete(conn, PCC_STORAGE + "/ceph/cluster/" + id)
+    return delete(conn, PCC_STORAGE + "/ceph/cluster/" + id, data)
 
 def _get_ceph_cluster_by_id(conn:dict, id:str)->dict:
     """
