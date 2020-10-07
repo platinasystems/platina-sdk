@@ -36,6 +36,7 @@ PCC_PORTUS = PCCSERVER + "/v1/portus"
 PCC_PROFILE = PCCSERVER + "/v1/profile"
 PCC_PROVISIONS = PCCSERVER + "/provisions"
 PCC_ROLES = PCCSERVER + "/roles"
+PCC_SITE = PCCSERVER + "/site"
 PCC_STATUSES = PCCSERVER + "/statuses"
 PCC_STORAGE = PCCSERVER + "/storage"
 PCC_TEMPLATES = PCCSERVER + "/templates"
@@ -2802,7 +2803,84 @@ def _delete_role_by_id(conn:dict, id:str)->dict:
     """
     return delete(conn, PCC_ROLES + "/" + id)
 
+## Site
+def _get_sites(conn:dict)->dict:
+    """
+    Get Sites
 
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Get Site response (includes any errors)
+    """
+    return get(conn, PCC_SITE)
+
+def _add_site(conn:dict, data:dict)->dict:
+    """
+    Add Site
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: site object
+                {
+                    "CreatedAt": 0,
+                    "Description": "string",
+                    "id": 0,
+                    "ModifiedAt": 0,
+                    "Name": "string",
+                    "owner": 0
+                }
+    [Returns]
+        (dict) Response: Add Site response (includes any errors)
+    """
+    return post(conn, PCC_SITE + "/add", data)
+
+def _delete_sites(conn:dict, data:dict)->dict:
+    """
+    Delete Sites
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (list) data: ids - array of site ids to delete
+    [Returns]
+        (dict) Response: Delete Site response (includes any errors)
+    """
+    return post(conn, PCC_SITE + "/delete", data)
+
+def _modify_site(conn:dict,id:str,data:dict)->dict:
+    """
+    Modify Site
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: site object
+                {
+                    "CreatedAt": 0,
+                    "Description": "string",
+                    "id": 0,
+                    "ModifiedAt": 0,
+                    "Name": "string",
+                    "owner": 0
+                }
+    [Returns]
+        (dict) Response: Modify Site response (includes any errors)
+    """
+    return put(conn, PCC_SITE + "/" + id, data)
+
+def _get_site_by_id(conn:dict, id:str)->dict:
+    """
+    Get Site by id
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) id: id
+
+    [Returns]
+        (dict) Response: Get Site response (includes any errors)
+    """
+    return get(conn, PCC_SITE + "/" + id)
+    
 ## Statuses
 def _get_statuses(conn:dict)->dict:
     """
