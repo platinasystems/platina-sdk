@@ -2479,6 +2479,16 @@ def get_ceph_clusters(conn:dict)->dict:
     """
     return private._get_ceph_clusters(conn)
 
+def get_ceph_clusters_state(conn:dict, id:str, state:str)->dict:
+    """
+    Get Ceph Clusters State
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+    [Returns]
+        (dict) Response: Get Ceph state response (includes any errors)
+    """
+    return private._get_ceph_clusters_state(conn, id , state)
+
 def modify_ceph_clusters(conn:dict, data:dict)->dict:
     """
     Modify Ceph Cluster

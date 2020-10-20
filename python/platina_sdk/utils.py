@@ -16,7 +16,7 @@ def get(conn, url_path):
     }
 
     url = conn['url'] + url_path
-    print("API-"+str(url))
+    print("GET API:- "+str(url))
 
     obj = {}
     if "options" in conn and "use_session" in conn["options"] and conn["options"]["use_session"] == False:
@@ -39,7 +39,7 @@ def delete(conn, url_path, data=None):
     }
 
     url = conn['url'] + url_path
-    print("API-"+str(url))
+    print("DELETE API:- "+str(url))
 
     obj = {}
     if "options" in conn and "use_session" in conn["options"] and conn["options"]["use_session"] == False:
@@ -66,7 +66,7 @@ def post(conn, url_path, payload):
     }
 
     url = conn['url'] + url_path
-    print("API-"+str(url))
+    print("POST API:- "+str(url))
 
     obj = {}
     if "options" in conn and "use_session" in conn["options"] and conn["options"]["use_session"] == False:
@@ -89,7 +89,7 @@ def put(conn, url_path, payload):
     }
 
     url = conn['url'] + url_path
-    print("API-"+str(url))
+    print("PUT API:- "+str(url))
 
     obj = {}
     if "options" in conn and "use_session" in conn["options"] and conn["options"]["use_session"] == False:
@@ -111,7 +111,7 @@ def post_multipart(conn, url_path, multipart_data):
     }
     
     url = conn['url'] + url_path
-    print("API-"+str(url))
+    print("MULTIPART API:- "+str(url))
 
     obj = {}
     if "options" in conn and "use_session" in conn["options"] and conn["options"]["use_session"] == False:
