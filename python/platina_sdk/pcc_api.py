@@ -4871,7 +4871,7 @@ def add_network_cluster(conn:dict, data:dict)->dict:
     return private._add_network_cluster(conn, data)
 
 
-def delete_network_cluster_by_id(conn:dict, id:str)->dict:
+def delete_network_cluster_by_id(conn:dict, id:str, data:dict)->dict:
     """
     Delete Network Cluster from PCC using Id
     [Args]
@@ -4881,7 +4881,7 @@ def delete_network_cluster_by_id(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Delete Network Cluster response (includes any errors)
     """
-    return private._delete_network_cluster_by_id(conn, id)
+    return private._delete_network_cluster_by_id(conn, id, data)
 
 def get_network_clusters(conn:dict)->dict:
     """
