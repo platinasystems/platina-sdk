@@ -21,7 +21,7 @@ PCC_FILES = PCCSERVER + "/files"
 PCC_HARDWARE_INVENTORY = PCCSERVER + "/hardware-inventory"
 PCC_TYPE = PCCSERVER + "/type"
 PCC_STATUSES = PCCSERVER + "/statuses"
-PCC_APPS = PCCSERVER + "/apps"
+PCC_APPS = PCCSERVER + "/templates"
 PCC_CLUSTER = PCCSERVER + "/cluster"
 PCC_CLUSTER_ADD = PCC_CLUSTER + "/add" 
 PCC_CONNECTIVITY =  PCCSERVER + "/connectivity"
@@ -5057,96 +5057,6 @@ def _get_templates(conn:dict)->dict:
         (dict) Response: Get Template response (includes any errors)
     """
     return get(conn, PCC_TEMPLATES)
-
-def _add_template(conn:dict, data:dict)->dict:
-    """
-    Add Template
-    [Args]
-        (dict) conn: Connection dictionary obtained after logging in
-        (dict) data: template
-                {
-                    "apps": [
-                        {
-                        "appid": "string",
-                        "version": "string"
-                        }
-                    ],
-                    "configurations": [
-                        {
-                        "configurationid": 0,
-                        "id": 0,
-                        "priority": 0,
-                        "templateid": 0
-                        }
-                    ],
-                    "description": "string",
-                    "id": 0,
-                    "name": "string",
-                    "roles": [
-                        0
-                    ]
-                }
-    [Returns]
-        (dict) Response: Add Template response (includes any errors)
-    """
-    return post(conn, PCC_TEMPLATES, data)
-
-def _get_template_by_id(conn:dict, id:str)->dict:
-    """
-    Get Template by id
-    [Args]
-        (dict) conn: Connection dictionary obtained after logging in
-        (str) id: id
-
-    [Returns]
-        (dict) Response: Get Template response (includes any errors)
-    """
-    return get(conn, PCC_TEMPLATES + "/" + id)
-
-def _modify_template(conn:dict, data:dict)->dict:
-    """
-    Modify Template
-    [Args]
-        (dict) conn: Connection dictionary obtained after logging in
-        (dict) data: template
-                {
-                    "apps": [
-                        {
-                        "appid": "string",
-                        "version": "string"
-                        }
-                    ],
-                    "configurations": [
-                        {
-                        "configurationid": 0,
-                        "id": 0,
-                        "priority": 0,
-                        "templateid": 0
-                        }
-                    ],
-                    "description": "string",
-                    "id": 0,
-                    "name": "string",
-                    "roles": [
-                        0
-                    ]
-                }
-    [Returns]
-        (dict) Response: Add Template response (includes any errors)
-    """
-    return put(conn, PCC_TEMPLATES, data)
-
-def _delete_template_by_id(conn:dict, id:str)->dict:
-    """
-    Delete Template by id
-    [Args]
-        (dict) conn: Connection dictionary obtained after logging in
-        (str) id: id
-
-    [Returns]
-        (dict) Response: Delete Template response (includes any errors)
-    """
-    return delete(conn, PCC_TEMPLATES + "/" + id) 
 
 ## Tenant
 def _add_tenant(conn:dict, data:dict)->dict:
