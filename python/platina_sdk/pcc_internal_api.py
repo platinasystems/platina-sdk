@@ -22,6 +22,7 @@ PCC_HARDWARE_INVENTORY = PCCSERVER + "/hardware-inventory"
 PCC_TYPE = PCCSERVER + "/type"
 PCC_STATUSES = PCCSERVER + "/statuses"
 PCC_APPS = PCCSERVER + "/templates"
+PCC_POLICY_APPS = PCCSERVER + "/apps"
 PCC_CLUSTER = PCCSERVER + "/cluster"
 PCC_CLUSTER_ADD = PCC_CLUSTER + "/add" 
 PCC_CONNECTIVITY =  PCCSERVER + "/connectivity"
@@ -541,7 +542,7 @@ def _get_policy_enabled_apps(conn:dict)->dict:
     [Returns]
         (dict) Response: Get Policy enabled Apps response (includes any errors)
     """
-    return get(conn, PCC_APPS + "?policy=true")
+    return get(conn, PCC_POLICY_APPS + "?policy=true")
 
 
 ## Cluster (NodeGroups)
