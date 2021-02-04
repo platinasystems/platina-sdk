@@ -9,14 +9,13 @@ from platina_sdk.utils import get, post, put, delete, post_multipart
 
 REQUESTS_CA_BUNDLE_UBUNTU = "/etc/ssl/certs/ca-certificates.crt"
 
-
 PCCSERVER_V0 = "/pccserver"
 PCCSERVER = PCCSERVER_V0
 PCC_AGENT = PCCSERVER + "/agent"
 PCC_ANSIBLE = PCCSERVER + "/ansible"
 PCC_ANSIBLE_HISTORY = PCC_ANSIBLE + "/history"
 PCC_CONFIGURATIONS = PCCSERVER + "/configurations"
-PCC_ENVIRONMENT =  PCCSERVER + "/environment"
+PCC_ENVIRONMENT = PCCSERVER + "/environment"
 PCC_FILES = PCCSERVER + "/files"
 PCC_HARDWARE_INVENTORY = PCCSERVER + "/hardware-inventory"
 PCC_TYPE = PCCSERVER + "/type"
@@ -24,9 +23,9 @@ PCC_STATUSES = PCCSERVER + "/statuses"
 PCC_APPS = PCCSERVER + "/templates"
 PCC_POLICY_APPS = PCCSERVER + "/apps"
 PCC_CLUSTER = PCCSERVER + "/cluster"
-PCC_CLUSTER_ADD = PCC_CLUSTER + "/add" 
-PCC_CONNECTIVITY =  PCCSERVER + "/connectivity"
-PCC_TOPOLOGY =  PCCSERVER + "/topology"
+PCC_CLUSTER_ADD = PCC_CLUSTER + "/add"
+PCC_CONNECTIVITY = PCCSERVER + "/connectivity"
+PCC_TOPOLOGY = PCCSERVER + "/topology"
 PCC_INTERFACE = PCCSERVER + "/interface"
 PCC_KUBERNETES = PCCSERVER + "/kubernetes"
 PCC_NODE = PCCSERVER + "/node"
@@ -43,20 +42,22 @@ PCC_STORAGE = PCCSERVER + "/storage"
 PCC_TEMPLATES = PCCSERVER + "/templates"
 PCC_TENANT = "/user-management/tenant"
 PCC_KEY_MANAGER = "/key-manager"
-PCC_IMAGES= "/maas/images"
+PCC_IMAGES = "/maas/images"
 PCC_DEPLOYMENT = "/maas/deployments"
 PCC_ERASURE_STORAGE = PCCSERVER + "/v1/storage"
 PCC_APP_CREDENTIALS = PCCSERVER + "/app-credentials/"
 PCC_ERASURE_CODE_PROFILE = PCCSERVER + "/v1/storage/ceph/pool/erasure-coded-profiles"
 PCC_RADOS = PCCSERVER + "/v2/storage/ceph/rgws/"
-PCC_ALERT= "/platina-monitor/alerts/rules"
-PCC_IPAM= PCCSERVER +"/subnet-objs"
-PCC_SCOPE= PCCSERVER + "/scopes"
-PCC_POLICY= PCCSERVER + "/policies"
-PCC_MONITOR="/monitor"
+PCC_ALERT = "/platina-monitor/alerts/rules"
+PCC_IPAM = PCCSERVER + "/subnet-objs"
+PCC_SCOPE = PCCSERVER + "/scopes"
+PCC_POLICY = PCCSERVER + "/policies"
+PCC_MONITOR = "/monitor"
+PCC_DASHBOARD = PCCSERVER + "/dashboard"
+
 
 ## Agent
-def _get_agents(conn:dict)->dict:
+def _get_agents(conn: dict) -> dict:
     """
     Get Agent metadata
 
@@ -68,8 +69,9 @@ def _get_agents(conn:dict)->dict:
     """
     return get(conn, PCC_AGENT)
 
+
 ## Ansible
-def _get_ansible_history(conn:dict)->dict:
+def _get_ansible_history(conn: dict) -> dict:
     """
     Get Ansible History
 
@@ -81,7 +83,8 @@ def _get_ansible_history(conn:dict)->dict:
     """
     return get(conn, PCC_ANSIBLE_HISTORY)
 
-def _get_ansible_by_id(conn:dict, id:int)->dict:
+
+def _get_ansible_by_id(conn: dict, id: int) -> dict:
     """
     Get Ansible by Id
 
@@ -94,7 +97,8 @@ def _get_ansible_by_id(conn:dict, id:int)->dict:
     """
     return get(conn, PCC_ANSIBLE + "/" + str(id))
 
-def _get_ansible_log_by_id(conn:dict, id:int)->dict:
+
+def _get_ansible_log_by_id(conn: dict, id: int) -> dict:
     """
     Get Ansible Log by Id
 
@@ -109,7 +113,7 @@ def _get_ansible_log_by_id(conn:dict, id:int)->dict:
 
 
 ## Configurations
-def _get_configurations(conn:dict)->dict:
+def _get_configurations(conn: dict) -> dict:
     """
     Get Configurations
 
@@ -121,7 +125,8 @@ def _get_configurations(conn:dict)->dict:
     """
     return get(conn, PCC_CONFIGURATIONS)
 
-def _add_configurations(conn:dict, data:dict)->dict:
+
+def _add_configurations(conn: dict, data: dict) -> dict:
     """
     Add Configurations
 
@@ -150,7 +155,8 @@ def _add_configurations(conn:dict, data:dict)->dict:
     """
     return post(conn, PCC_CONFIGURATIONS, data)
 
-def _get_configurations_by_id(conn:dict, Id:int)->dict:
+
+def _get_configurations_by_id(conn: dict, Id: int) -> dict:
     """
     Get Configurations by Id
 
@@ -163,7 +169,8 @@ def _get_configurations_by_id(conn:dict, Id:int)->dict:
     """
     return get(conn, PCC_CONFIGURATIONS + "/" + str(id))
 
-def _modify_configurations(conn:dict, data:dict)->dict:
+
+def _modify_configurations(conn: dict, data: dict) -> dict:
     """
     Modify Configurations
 
@@ -192,7 +199,8 @@ def _modify_configurations(conn:dict, data:dict)->dict:
     """
     return put(conn, PCC_CONFIGURATIONS, data)
 
-def _delete_configurations_by_id(conn:dict, Id:int)->dict:
+
+def _delete_configurations_by_id(conn: dict, Id: int) -> dict:
     """
     Delete Configurations by Id
 
@@ -207,7 +215,7 @@ def _delete_configurations_by_id(conn:dict, Id:int)->dict:
 
 
 ## Environment
-def _get_environments(conn:dict)->dict:
+def _get_environments(conn: dict) -> dict:
     """
     Get Environments
 
@@ -219,7 +227,8 @@ def _get_environments(conn:dict)->dict:
     """
     return get(conn, PCC_ENVIRONMENT)
 
-def _get_environment_by_id(conn:dict, Id:int)->dict:
+
+def _get_environment_by_id(conn: dict, Id: int) -> dict:
     """
     Get Environment by Id
 
@@ -234,7 +243,7 @@ def _get_environment_by_id(conn:dict, Id:int)->dict:
 
 
 ## Files
-def _get_files(conn:dict)->dict:
+def _get_files(conn: dict) -> dict:
     """
     Get Files
 
@@ -246,7 +255,8 @@ def _get_files(conn:dict)->dict:
     """
     return get(conn, PCC_FILES)
 
-def _add_file(conn:dict, data:dict)->dict:
+
+def _add_file(conn: dict, data: dict) -> dict:
     """
     Add File
 
@@ -264,7 +274,8 @@ def _add_file(conn:dict, data:dict)->dict:
     """
     return post(conn, PCC_FILES, data)
 
-def _download_file(conn:dict, name:str)->dict:
+
+def _download_file(conn: dict, name: str) -> dict:
     """
     Download Files
 
@@ -277,7 +288,8 @@ def _download_file(conn:dict, name:str)->dict:
     """
     return get(conn, PCC_FILES + "/download/" + name)
 
-def _get_file_by_id(conn:dict, Id:str)->dict:
+
+def _get_file_by_id(conn: dict, Id: str) -> dict:
     """
     Get File by Id
 
@@ -290,7 +302,8 @@ def _get_file_by_id(conn:dict, Id:str)->dict:
     """
     return get(conn, PCC_FILES + "/" + Id)
 
-def _modify_file(conn:dict, data:dict)->dict:
+
+def _modify_file(conn: dict, data: dict) -> dict:
     """
     Modify File
 
@@ -308,7 +321,8 @@ def _modify_file(conn:dict, data:dict)->dict:
     """
     return put(conn, PCC_FILES, data)
 
-def _delete_file_by_id(conn:dict, Id:str)->dict:
+
+def _delete_file_by_id(conn: dict, Id: str) -> dict:
     """
     Delete File by Id
 
@@ -323,7 +337,7 @@ def _delete_file_by_id(conn:dict, Id:str)->dict:
 
 
 ## HardwareInventory
-def _get_hardware_inventories(conn:dict)->dict:
+def _get_hardware_inventories(conn: dict) -> dict:
     """
     Get Hardware Inventories
 
@@ -335,7 +349,8 @@ def _get_hardware_inventories(conn:dict)->dict:
     """
     return get(conn, PCC_HARDWARE_INVENTORY)
 
-def _add_hardware_inventory(conn:dict, data:dict)->dict:
+
+def _add_hardware_inventory(conn: dict, data: dict) -> dict:
     """
     Add Hardware Inventory
     [Args]
@@ -347,7 +362,8 @@ def _add_hardware_inventory(conn:dict, data:dict)->dict:
     """
     return post(conn, PCC_HARDWARE_INVENTORY, data)
 
-def _get_hardware_inventory_discovery(conn:dict)->dict:
+
+def _get_hardware_inventory_discovery(conn: dict) -> dict:
     """
     Get Hardware Inventory Discovery - Discover hardware inventories
 
@@ -359,7 +375,8 @@ def _get_hardware_inventory_discovery(conn:dict)->dict:
     """
     return get(conn, PCC_HARDWARE_INVENTORY + "/discovery")
 
-def _get_hardware_inventory_by_node_id(conn:dict, nodeId:str)->dict:
+
+def _get_hardware_inventory_by_node_id(conn: dict, nodeId: str) -> dict:
     """
     Get Hardware Inventory by Node Id
 
@@ -373,9 +390,8 @@ def _get_hardware_inventory_by_node_id(conn:dict, nodeId:str)->dict:
     return get(conn, PCC_HARDWARE_INVENTORY + "/" + nodeId)
 
 
-
 ## Type
-def _get_types(conn:dict)->dict:
+def _get_types(conn: dict) -> dict:
     """
     Get Types
     [Args]
@@ -385,7 +401,8 @@ def _get_types(conn:dict)->dict:
     """
     return get(conn, PCC_TYPE)
 
-def _add_type(conn:dict, data:dict)->dict:
+
+def _add_type(conn: dict, data: dict) -> dict:
     """
     Add Type
     [Args]
@@ -410,7 +427,8 @@ def _add_type(conn:dict, data:dict)->dict:
     """
     return post(conn, PCC_TYPE, data)
 
-def _delete_type(conn:dict, data:list)->dict:
+
+def _delete_type(conn: dict, data: list) -> dict:
     """
     Delete Type
     [Args]
@@ -421,7 +439,8 @@ def _delete_type(conn:dict, data:list)->dict:
     """
     return post(conn, PCC_TYPE + "/delete", data)
 
-def _modify_type(conn:dict, data:dict)->dict:
+
+def _modify_type(conn: dict, data: dict) -> dict:
     """
     Modify Type
     [Args]
@@ -447,7 +466,7 @@ def _modify_type(conn:dict, data:dict)->dict:
     return put(conn, PCC_TYPE, data)
 
 
-def _modify_status(conn:dict, data:dict)->dict:
+def _modify_status(conn: dict, data: dict) -> dict:
     """
     Modify Status
 
@@ -493,7 +512,7 @@ def _modify_status(conn:dict, data:dict)->dict:
 
 
 ## Apps
-def _get_apps(conn:dict)->dict:
+def _get_apps(conn: dict) -> dict:
     """
     Get Apps
 
@@ -505,7 +524,8 @@ def _get_apps(conn:dict)->dict:
     """
     return get(conn, PCC_APPS)
 
-def _get_app_by_id(conn:dict, id:str)->dict:
+
+def _get_app_by_id(conn: dict, id: str) -> dict:
     """
     Get App by id
 
@@ -517,8 +537,9 @@ def _get_app_by_id(conn:dict, id:str)->dict:
         (dict) Response: Get Apps response (includes any errors)
     """
     return get(conn, PCC_APPS + "/" + id)
-    
-def _get_app_by_name(conn:dict, name:str)->dict:
+
+
+def _get_app_by_name(conn: dict, name: str) -> dict:
     """
     Get App by name
 
@@ -530,8 +551,9 @@ def _get_app_by_name(conn:dict, name:str)->dict:
         (dict) Response: Get Apps response (includes any errors)
     """
     return get(conn, PCC_APPS + "/" + name)
-    
-def _get_policy_enabled_apps(conn:dict)->dict:
+
+
+def _get_policy_enabled_apps(conn: dict) -> dict:
     """
     Get Policy Enabled Apps
 
@@ -546,7 +568,7 @@ def _get_policy_enabled_apps(conn:dict)->dict:
 
 
 ## Cluster (NodeGroups)
-def _get_clusters(conn:dict)->dict:
+def _get_clusters(conn: dict) -> dict:
     """
     Get Cluster (Node Group) list from PCC
 
@@ -558,7 +580,8 @@ def _get_clusters(conn:dict)->dict:
     """
     return get(conn, PCC_CLUSTER)
 
-def _add_cluster(conn:dict, data:dict)->dict:
+
+def _add_cluster(conn: dict, data: dict) -> dict:
     """
     Add Cluster (NodeGroup) to PCC
     [Args]
@@ -580,7 +603,8 @@ def _add_cluster(conn:dict, data:dict)->dict:
     """
     return post(conn, PCC_CLUSTER_ADD, data)
 
-def _modify_cluster_by_id(conn:dict, id:int, data:dict)->dict:
+
+def _modify_cluster_by_id(conn: dict, id: int, data: dict) -> dict:
     """
     Modify Cluster (NodeGroup) by id
     [Args]
@@ -601,7 +625,8 @@ def _modify_cluster_by_id(conn:dict, id:int, data:dict)->dict:
     """
     return put(conn, PCC_CLUSTER + "/" + str(id), data)
 
-def _get_cluster_by_id(conn:dict, id:int)->dict:
+
+def _get_cluster_by_id(conn: dict, id: int) -> dict:
     """
     Get Cluster (Node Group) by id
 
@@ -614,7 +639,8 @@ def _get_cluster_by_id(conn:dict, id:int)->dict:
     """
     return get(conn, PCC_CLUSTER + "/" + str(id))
 
-def _delete_cluster_by_id(conn:dict, id:int)->dict:
+
+def _delete_cluster_by_id(conn: dict, id: int) -> dict:
     """
     Delete Cluster (Node Group) from PCC using id
     [Args]
@@ -628,7 +654,7 @@ def _delete_cluster_by_id(conn:dict, id:int)->dict:
 
 
 ## Connectivity
-def _get_connectivity_by_id(conn:dict, id:int)->dict:
+def _get_connectivity_by_id(conn: dict, id: int) -> dict:
     """
     Get Connectivity by id
 
@@ -641,8 +667,9 @@ def _get_connectivity_by_id(conn:dict, id:int)->dict:
     """
     return get(conn, PCC_CONNECTIVITY + "/" + str(id))
 
+
 ##Topology
-def _get_topologies(conn:dict)->dict:
+def _get_topologies(conn: dict) -> dict:
     """
     Get Topologies
 
@@ -654,7 +681,8 @@ def _get_topologies(conn:dict)->dict:
     """
     return get(conn, PCC_TOPOLOGY)
 
-def _get_topology_by_id(conn:dict, id:int)->dict:
+
+def _get_topology_by_id(conn: dict, id: int) -> dict:
     """
     Get Topology by id
 
@@ -669,7 +697,7 @@ def _get_topology_by_id(conn:dict, id:int)->dict:
 
 
 ## Interface
-def _get_all_interfaces_by_id(conn:dict, id:str)->dict:
+def _get_all_interfaces_by_id(conn: dict, id: str) -> dict:
     """
     Get All Interfaces by id (path)
 
@@ -682,7 +710,8 @@ def _get_all_interfaces_by_id(conn:dict, id:str)->dict:
     """
     return get(conn, PCC_INTERFACE + "/all/" + id)
 
-def _get_interfaces(conn:dict)->dict:
+
+def _get_interfaces(conn: dict) -> dict:
     """
     Get Interfaces
 
@@ -694,7 +723,8 @@ def _get_interfaces(conn:dict)->dict:
     """
     return get(conn, PCC_INTERFACE)
 
-def _get_all_interfaces(conn:dict)->dict:
+
+def _get_all_interfaces(conn: dict) -> dict:
     """
     Get All Interfaces
 
@@ -706,7 +736,8 @@ def _get_all_interfaces(conn:dict)->dict:
     """
     return get(conn, PCC_INTERFACE + "/all")
 
-def _set_interface(conn:dict, data:dict)->dict:
+
+def _set_interface(conn: dict, data: dict) -> dict:
     """
     Set Interface - Set interface up
 
@@ -717,9 +748,10 @@ def _set_interface(conn:dict, data:dict)->dict:
     [Returns]
         (dict) Response: Set Interface response (includes any errors)
     """
-    return post(conn, PCC_INTERFACE , data)
+    return post(conn, PCC_INTERFACE, data)
 
-def _apply_interface(conn:dict, data:dict)->dict:
+
+def _apply_interface(conn: dict, data: dict) -> dict:
     """
     Apply Interface - Apply interface up
 
@@ -730,9 +762,10 @@ def _apply_interface(conn:dict, data:dict)->dict:
     [Returns]
         (dict) Response: Apply Interface response (includes any errors)
     """
-    return post(conn, PCC_INTERFACE +"/apply", data)
+    return post(conn, PCC_INTERFACE + "/apply", data)
 
-def _get_custom_interface(conn:dict)->dict:
+
+def _get_custom_interface(conn: dict) -> dict:
     """
     Get Custom Interface
 
@@ -744,7 +777,8 @@ def _get_custom_interface(conn:dict)->dict:
     """
     return get(conn, PCC_INTERFACE + "/custom")
 
-def _get_custom_interface_by_id(conn:dict, id:str)->dict:
+
+def _get_custom_interface_by_id(conn: dict, id: str) -> dict:
     """
     Get Custom Interface by id
 
@@ -757,7 +791,8 @@ def _get_custom_interface_by_id(conn:dict, id:str)->dict:
     """
     return get(conn, PCC_INTERFACE + "/custom/" + id)
 
-def _down_interface(conn:dict, data:dict)->dict:
+
+def _down_interface(conn: dict, data: dict) -> dict:
     """
     Down Interface - Set interface down
 
@@ -797,7 +832,8 @@ def _down_interface(conn:dict, data:dict)->dict:
     """
     return post(conn, PCC_INTERFACE + "/down", data)
 
-def _up_interface(conn:dict, data:dict)->dict:
+
+def _up_interface(conn: dict, data: dict) -> dict:
     """
     Up Interface 
 
@@ -839,7 +875,8 @@ def _up_interface(conn:dict, data:dict)->dict:
 
 
 ## Kubernetes
-def _get_kubernetes(conn:dict)->dict:
+def _get_kubernetes(conn: dict) -> dict:
+#def _network(conn: dict) -> dict:
     """
     Get Kuberbetes
 
@@ -851,7 +888,10 @@ def _get_kubernetes(conn:dict)->dict:
     """
     return get(conn, PCC_KUBERNETES)
 
-def _add_kubernetes(conn:dict, data:dict)->dict:
+
+
+
+def _add_kubernetes(conn: dict, data: dict) -> dict:
     """
     Add Kubernetes
 
@@ -951,7 +991,8 @@ def _add_kubernetes(conn:dict, data:dict)->dict:
     """
     return post(conn, PCC_KUBERNETES, data)
 
-def _get_kubernetes_strgclasses_by_id(conn:dict, id:str)->dict:
+
+def _get_kubernetes_strgclasses_by_id(conn: dict, id: str) -> dict:
     """
     Get Kuberbetes StrgClasses by id
 
@@ -964,7 +1005,8 @@ def _get_kubernetes_strgclasses_by_id(conn:dict, id:str)->dict:
     """
     return get(conn, PCC_KUBERNETES + "/cluster/" + id + "/strgclasses")
 
-def _delete_kubernetes_strgclasses_by_id(conn:dict, id:str)->dict:
+
+def _delete_kubernetes_strgclasses_by_id(conn: dict, id: str) -> dict:
     """
     Delete Kuberbetes StrgClasses by id
 
@@ -977,7 +1019,8 @@ def _delete_kubernetes_strgclasses_by_id(conn:dict, id:str)->dict:
     """
     return delete(conn, PCC_KUBERNETES + "/cluster/" + id + "/strgclasses")
 
-def _get_kubernetes_info(conn:dict)->dict:
+
+def _get_kubernetes_info(conn: dict) -> dict:
     """
     Get Kuberbetes Info
 
@@ -989,7 +1032,8 @@ def _get_kubernetes_info(conn:dict)->dict:
     """
     return get(conn, PCC_KUBERNETES + "/info")
 
-def _test_kubernetes_rbdmap_cluster(conn:dict, id:str, rbdid:str)->dict:
+
+def _test_kubernetes_rbdmap_cluster(conn: dict, id: str, rbdid: str) -> dict:
     """
     Test Kubernetes RBD Map Cluster
     
@@ -1005,7 +1049,8 @@ def _test_kubernetes_rbdmap_cluster(conn:dict, id:str, rbdid:str)->dict:
     data = {}
     return post(conn, PCC_KUBERNETES + "/test/rdbmap/cluster/" + id + "/rbd/" + rbdid, data)
 
-def _test_kubernetes_stclass_cluster(conn:dict, id:str, rbdid:str)->dict:
+
+def _test_kubernetes_stclass_cluster(conn: dict, id: str, rbdid: str) -> dict:
     """
     Test Kubernetes K8s Cluster
 
@@ -1021,7 +1066,8 @@ def _test_kubernetes_stclass_cluster(conn:dict, id:str, rbdid:str)->dict:
     data = {}
     return post(conn, PCC_KUBERNETES + "/test/stclass/cluster/" + id + "/rbd/" + rbdid, data)
 
-def _get_kubernetes_by_id(conn:dict, id:str)->dict:
+
+def _get_kubernetes_by_id(conn: dict, id: str) -> dict:
     """
     Get Kuberbetes by id
 
@@ -1034,7 +1080,8 @@ def _get_kubernetes_by_id(conn:dict, id:str)->dict:
     """
     return get(conn, PCC_KUBERNETES + "/" + id)
 
-def _modify_kubernetes_by_id(conn:dict, id:str, data:dict)->dict:
+
+def _modify_kubernetes_by_id(conn: dict, id: str, data: dict) -> dict:
     """
     Modify Kubernetes K8s Cluster
 
@@ -1065,7 +1112,8 @@ def _modify_kubernetes_by_id(conn:dict, id:str, data:dict)->dict:
     """
     return put(conn, PCC_KUBERNETES + "/" + id, data)
 
-def _delete_kubernetes_by_id(conn:dict, id:str)->dict:
+
+def _delete_kubernetes_by_id(conn: dict, id: str) -> dict:
     """
     Delete Kuberbetes by id
 
@@ -1078,7 +1126,8 @@ def _delete_kubernetes_by_id(conn:dict, id:str)->dict:
     """
     return delete(conn, PCC_KUBERNETES + "/" + id)
 
-def _add_kubernetes_app(conn:dict, id:str, data:dict)->dict:
+
+def _add_kubernetes_app(conn: dict, id: str, data: dict) -> dict:
     """
     Add Kubernetes App
 
@@ -1100,10 +1149,11 @@ def _add_kubernetes_app(conn:dict, id:str, data:dict)->dict:
 
     [Returns]
         (dict) Response: Add Kubernetes response (includes any errors)
-    """ 
+    """
     return post(conn, PCC_KUBERNETES + "/" + id + "/app", data)
 
-def _delete_kubernetes_app_by_id(conn:dict, id:str, data:dict)->dict:
+
+def _delete_kubernetes_app_by_id(conn: dict, id: str, data: dict) -> dict:
     """
     Delete Kuberbetes App by id
 
@@ -1116,7 +1166,8 @@ def _delete_kubernetes_app_by_id(conn:dict, id:str, data:dict)->dict:
     """
     return delete(conn, PCC_KUBERNETES + "/" + id + "/app/", data)
 
-def _get_kubernetes_status_by_id(conn:dict, id:str)->dict:
+
+def _get_kubernetes_status_by_id(conn: dict, id: str) -> dict:
     """
     Get Kuberbetes Status by id
 
@@ -1129,7 +1180,8 @@ def _get_kubernetes_status_by_id(conn:dict, id:str)->dict:
     """
     return get(conn, PCC_KUBERNETES + "/" + id + "/status")
 
-def _upgrade_kubernetes_by_id(conn:dict, id:str, data:dict)->dict:
+
+def _upgrade_kubernetes_by_id(conn: dict, id: str, data: dict) -> dict:
     """
     Upgrade Kubernetes by id
 
@@ -1144,11 +1196,12 @@ def _upgrade_kubernetes_by_id(conn:dict, id:str, data:dict)->dict:
 
     [Returns]
         (dict) Response: Add Kubernetes response (includes any errors)
-    """ 
+    """
     return post(conn, PCC_KUBERNETES + "/" + id + "/upgrade", data)
 
+
 ## Maas
-def _add_maas(conn:dict, nodeids:list)->dict:
+def _add_maas(conn: dict, nodeids: list) -> dict:
     """
     Post is a trigger for MaaS tenants and hosts script execution
 
@@ -1158,11 +1211,12 @@ def _add_maas(conn:dict, nodeids:list)->dict:
 
     [Returns]
         (dict) Response: Add MaaS response (includes any errors)
-    """ 
+    """
     return post(conn, PCC_MAAS, nodeids)
 
+
 ## Node
-def _get_nodes(conn:dict)->dict:
+def _get_nodes(conn: dict) -> dict:
     """
     Get Nodes
 
@@ -1174,7 +1228,8 @@ def _get_nodes(conn:dict)->dict:
     """
     return get(conn, PCC_NODE)
 
-def _add_node(conn:dict, data:dict)->dict:
+
+def _add_node(conn: dict, data: dict) -> dict:
     """
     Add Node
 
@@ -1532,10 +1587,11 @@ def _add_node(conn:dict, data:dict)->dict:
                     }
     [Returns]
         (dict) Response: Add Node response (includes any errors)
-    """ 
+    """
     return post(conn, PCC_NODE, data)
 
-def _get_node_availability(conn:dict)->dict:
+
+def _get_node_availability(conn: dict) -> dict:
     """
     Get Node Availability
 
@@ -1547,7 +1603,8 @@ def _get_node_availability(conn:dict)->dict:
     """
     return get(conn, PCC_NODE + "/availability")
 
-def _delete_nodes(conn:dict, ids:list)->dict:
+
+def _delete_nodes(conn: dict, ids: list) -> dict:
     """
     Delete Nodes
 
@@ -1560,7 +1617,8 @@ def _delete_nodes(conn:dict, ids:list)->dict:
     """
     return post(conn, PCC_NODE, ids)
 
-def _get_node_desired_interface_by_id(conn:dict, id:str)->dict:
+
+def _get_node_desired_interface_by_id(conn: dict, id: str) -> dict:
     """
     Get Node Desired Interface by id
 
@@ -1573,7 +1631,8 @@ def _get_node_desired_interface_by_id(conn:dict, id:str)->dict:
     """
     return get(conn, PCC_NODE + "/ifacesdesired/" + id)
 
-def _get_node_summary_by_id(conn:dict, id:str)->dict:
+
+def _get_node_summary_by_id(conn: dict, id: str) -> dict:
     """
     Get Node Summary by id
 
@@ -1586,7 +1645,8 @@ def _get_node_summary_by_id(conn:dict, id:str)->dict:
     """
     return get(conn, PCC_NODE + "/summary/" + id)
 
-def _modify_node(conn:dict, data:dict)->dict:
+
+def _modify_node(conn: dict, data: dict) -> dict:
     """
     Modify Node
 
@@ -1944,11 +2004,11 @@ def _modify_node(conn:dict, data:dict)->dict:
                     }
     [Returns]
         (dict) Response: Modify Node response (includes any errors)
-    """ 
+    """
     return put(conn, PCC_NODE + "/update", data)
 
 
-def _modify_node_maas(conn:dict, id:str)->dict:
+def _modify_node_maas(conn: dict, id: str) -> dict:
     """
     Modify Node Maas
 
@@ -1958,11 +2018,12 @@ def _modify_node_maas(conn:dict, id:str)->dict:
 
     [Returns]
         (dict) Response: Modify Node response (includes any errors)
-    """ 
+    """
     data = {}
     return put(conn, PCC_NODE + "/updateMaas/" + id, data)
 
-def _get_node_by_id(conn:dict, id:str)->dict:
+
+def _get_node_by_id(conn: dict, id: str) -> dict:
     """
     Get Node by id
 
@@ -1975,7 +2036,8 @@ def _get_node_by_id(conn:dict, id:str)->dict:
     """
     return get(conn, PCC_NODE + "/" + id)
 
-def _delete_node_by_id(conn:dict, id:str)->dict:
+
+def _delete_node_by_id(conn: dict, id: str) -> dict:
     """
     Delete Node by id
 
@@ -1988,7 +2050,8 @@ def _delete_node_by_id(conn:dict, id:str)->dict:
     """
     return delete(conn, PCC_NODE + "/" + id)
 
-def _get_node_apps_by_id(conn:dict, id:str)->dict:
+
+def _get_node_apps_by_id(conn: dict, id: str) -> dict:
     """
     Get Node Apps by id
 
@@ -2001,7 +2064,8 @@ def _get_node_apps_by_id(conn:dict, id:str)->dict:
     """
     return get(conn, PCC_NODE + "/" + id + "/apps")
 
-def _get_node_interfaces_by_id(conn:dict, id:str)->dict:
+
+def _get_node_interfaces_by_id(conn: dict, id: str) -> dict:
     """
     Get Node Interfaces by id
 
@@ -2014,7 +2078,8 @@ def _get_node_interfaces_by_id(conn:dict, id:str)->dict:
     """
     return get(conn, PCC_NODE + "/" + id + "/ifsPerXeth")
 
-def _modify_node_interfaces_by_id(conn:dict, id:str, data:dict)->dict:
+
+def _modify_node_interfaces_by_id(conn: dict, id: str, data: dict) -> dict:
     """
     Modify Node Interfaces by id
 
@@ -2036,7 +2101,8 @@ def _modify_node_interfaces_by_id(conn:dict, id:str, data:dict)->dict:
     """
     return post(conn, PCC_NODE + "/" + id + "/ifsPerXeth", data)
 
-def _get_node_provision_status_by_id(conn:dict, id:str)->dict:
+
+def _get_node_provision_status_by_id(conn: dict, id: str) -> dict:
     """
     Get Node Provision Status by id
 
@@ -2049,7 +2115,8 @@ def _get_node_provision_status_by_id(conn:dict, id:str)->dict:
     """
     return get(conn, PCC_NODE + "/" + id + "/provisionStatus")
 
-def _get_node_operations_status_by_id(conn:dict, id:str, operations:str)->dict:
+
+def _get_node_operations_status_by_id(conn: dict, id: str, operations: str) -> dict:
     """
     Get Node Operations Status by id
 
@@ -2063,8 +2130,9 @@ def _get_node_operations_status_by_id(conn:dict, id:str, operations:str)->dict:
     """
     return get(conn, PCC_NODE + "/" + id + "/status/" + operations)
 
+
 ## Notification
-def _get_notifications(conn:dict)->dict:
+def _get_notifications(conn: dict) -> dict:
     """
     Get Notifications
 
@@ -2076,7 +2144,8 @@ def _get_notifications(conn:dict)->dict:
     """
     return get(conn, PCC_NOTIFICATIONS)
 
-def _add_notification(conn:dict, data:dict)->dict:
+
+def _add_notification(conn: dict, data: dict) -> dict:
     """
     Add Notification
 
@@ -2105,7 +2174,8 @@ def _add_notification(conn:dict, data:dict)->dict:
     """
     return post(conn, PCC_NOTIFICATIONS, data)
 
-def _confirm_notification(conn:dict, data:dict)->dict:
+
+def _confirm_notification(conn: dict, data: dict) -> dict:
     """
     Confirm Notification
 
@@ -2123,7 +2193,8 @@ def _confirm_notification(conn:dict, data:dict)->dict:
     """
     return post(conn, PCC_NOTIFICATIONS + "/confirm", data)
 
-def _get_notification_history(conn:dict)->dict:
+
+def _get_notification_history(conn: dict) -> dict:
     """
     Get Notification History
 
@@ -2137,7 +2208,7 @@ def _get_notification_history(conn:dict)->dict:
 
 
 ## Portus
-def _get_portus(conn:dict)->dict:
+def _get_portus(conn: dict) -> dict:
     """
     Get Portus
 
@@ -2149,7 +2220,8 @@ def _get_portus(conn:dict)->dict:
     """
     return get(conn, PCC_PORTUS)
 
-def _modify_portus(conn:dict, data:dict)->dict:
+
+def _modify_portus(conn: dict, data: dict) -> dict:
     """
     Modify Portus
 
@@ -2238,7 +2310,8 @@ def _modify_portus(conn:dict, data:dict)->dict:
     """
     return put(conn, PCC_PORTUS, data)
 
-def _add_portus(conn:dict, data:dict)->dict:
+
+def _add_portus(conn: dict, data: dict) -> dict:
     """
     Add Portus
 
@@ -2327,7 +2400,8 @@ def _add_portus(conn:dict, data:dict)->dict:
     """
     return post(conn, PCC_PORTUS, data)
 
-def _get_portus_by_id(conn:dict, id:str)->dict:
+
+def _get_portus_by_id(conn: dict, id: str) -> dict:
     """
     Get Portus by id
 
@@ -2340,7 +2414,8 @@ def _get_portus_by_id(conn:dict, id:str)->dict:
     """
     return get(conn, PCC_PORTUS + "/" + id)
 
-def _delete_portus_by_id(conn:dict, id:str)->dict:
+
+def _delete_portus_by_id(conn: dict, id: str) -> dict:
     """
     Delete Portus by id
 
@@ -2354,7 +2429,7 @@ def _delete_portus_by_id(conn:dict, id:str)->dict:
 
 
 ## Profile
-def _get_profiles(conn:dict)->dict:
+def _get_profiles(conn: dict) -> dict:
     """
     Get Authentication Profiles
 
@@ -2366,7 +2441,8 @@ def _get_profiles(conn:dict)->dict:
     """
     return get(conn, PCC_PROFILE)
 
-def _modify_profile(conn:dict, data:dict)->dict:
+
+def _modify_profile(conn: dict, data: dict) -> dict:
     """
     Modify Authentication Profile
 
@@ -2379,7 +2455,8 @@ def _modify_profile(conn:dict, data:dict)->dict:
     """
     return put(conn, PCC_PROFILE, data)
 
-def _add_profile(conn:dict, data:dict)->dict:
+
+def _add_profile(conn: dict, data: dict) -> dict:
     """
     Add Authentication Profile
 
@@ -2392,7 +2469,8 @@ def _add_profile(conn:dict, data:dict)->dict:
     """
     return post(conn, PCC_PROFILE, data)
 
-def _get_profiles_details(conn:dict)->dict:
+
+def _get_profiles_details(conn: dict) -> dict:
     """
     Get Authentication Profiles Details
 
@@ -2404,7 +2482,8 @@ def _get_profiles_details(conn:dict)->dict:
     """
     return get(conn, PCC_PROFILE + "/details")
 
-def _add_profile_with_validation(conn:dict, data:dict)->dict:
+
+def _add_profile_with_validation(conn: dict, data: dict) -> dict:
     """
     Add Authentication Profile with Validation
 
@@ -2417,7 +2496,8 @@ def _add_profile_with_validation(conn:dict, data:dict)->dict:
     """
     return post(conn, PCC_PROFILE + "/validate", data)
 
-def _get_profile_by_id(conn:dict, id:str)->dict:
+
+def _get_profile_by_id(conn: dict, id: str) -> dict:
     """
     Get Authentication Profile by id
 
@@ -2430,7 +2510,8 @@ def _get_profile_by_id(conn:dict, id:str)->dict:
     """
     return get(conn, PCC_PROFILE + "/" + id)
 
-def _delete_profile_by_id(conn:dict, id:str)->dict:
+
+def _delete_profile_by_id(conn: dict, id: str) -> dict:
     """
     Delete Authentication Profile by id
 
@@ -2443,7 +2524,8 @@ def _delete_profile_by_id(conn:dict, id:str)->dict:
     """
     return delete(conn, PCC_PROFILE + "/" + id)
 
-def _get_profile_details_by_id(conn:dict, id:str)->dict:
+
+def _get_profile_details_by_id(conn: dict, id: str) -> dict:
     """
     Get Authentication Profile Details by id
 
@@ -2456,8 +2538,9 @@ def _get_profile_details_by_id(conn:dict, id:str)->dict:
     """
     return get(conn, PCC_PROFILE + "/" + id + "/details")
 
+
 ## Provisions
-def _get_provisions(conn:dict)->dict:
+def _get_provisions(conn: dict) -> dict:
     """
     Get Provisions
 
@@ -2469,7 +2552,8 @@ def _get_provisions(conn:dict)->dict:
     """
     return get(conn, PCC_PROVISIONS)
 
-def _add_provision(conn:dict, data:dict)->dict:
+
+def _add_provision(conn: dict, data: dict) -> dict:
     """
     Add Provision
 
@@ -2534,7 +2618,8 @@ def _add_provision(conn:dict, data:dict)->dict:
     """
     return post(conn, PCC_PROVISIONS, data)
 
-def _reapply_provision_for_node(conn:dict, nodeid:str)->dict:
+
+def _reapply_provision_for_node(conn: dict, nodeid: str) -> dict:
     """
     Reapply Provision for a Node
 
@@ -2547,7 +2632,8 @@ def _reapply_provision_for_node(conn:dict, nodeid:str)->dict:
     """
     return get(conn, PCC_PROVISIONS + "/reapply/" + nodeid)
 
-def _get_provision_by_id(conn:dict, id:str)->dict:
+
+def _get_provision_by_id(conn: dict, id: str) -> dict:
     """
     Get Provision by id
 
@@ -2560,7 +2646,8 @@ def _get_provision_by_id(conn:dict, id:str)->dict:
     """
     return get(conn, PCC_PROVISIONS + "/" + id)
 
-def _modify_provision_by_id(conn:dict, id:str, data:dict)->dict:
+
+def _modify_provision_by_id(conn: dict, id: str, data: dict) -> dict:
     """
     Modify Provision by id
 
@@ -2628,7 +2715,8 @@ def _modify_provision_by_id(conn:dict, id:str, data:dict)->dict:
     """
     return put(conn, PCC_PROVISIONS + "/" + id, data)
 
-def _add_provision_by_id(conn:dict, id:str, data:dict):
+
+def _add_provision_by_id(conn: dict, id: str, data: dict):
     """
     Provision launches a provisioning
 
@@ -2696,7 +2784,8 @@ def _add_provision_by_id(conn:dict, id:str, data:dict):
     """
     return post(conn, PCC_PROVISIONS + "/" + id, data)
 
-def _get_provision_status_by_id(conn:dict, id:str)->dict:
+
+def _get_provision_status_by_id(conn: dict, id: str) -> dict:
     """
     Get Provision Status by id
 
@@ -2711,7 +2800,7 @@ def _get_provision_status_by_id(conn:dict, id:str)->dict:
 
 
 ## Roles
-def _get_roles(conn:dict)->dict:
+def _get_roles(conn: dict) -> dict:
     """
     Get Roles
 
@@ -2723,7 +2812,8 @@ def _get_roles(conn:dict)->dict:
     """
     return get(conn, PCC_ROLES)
 
-def _add_role(conn:dict, data:dict)->dict:
+
+def _add_role(conn: dict, data: dict) -> dict:
     """
     Add Role
 
@@ -2750,7 +2840,8 @@ def _add_role(conn:dict, data:dict)->dict:
     """
     return post(conn, PCC_ROLES, data)
 
-def _get_role_by_id(conn:dict, id:str)->dict:
+
+def _get_role_by_id(conn: dict, id: str) -> dict:
     """
     Get Roles by id
 
@@ -2763,7 +2854,8 @@ def _get_role_by_id(conn:dict, id:str)->dict:
     """
     return get(conn, PCC_ROLES + "/" + id)
 
-def _modify_role(conn:dict, id:str, data:dict)->dict:
+
+def _modify_role(conn: dict, id: str, data: dict) -> dict:
     """
     Modify Role
 
@@ -2791,7 +2883,8 @@ def _modify_role(conn:dict, id:str, data:dict)->dict:
     """
     return put(conn, PCC_ROLES + "/" + id, data)
 
-def _delete_role_by_id(conn:dict, id:str)->dict:
+
+def _delete_role_by_id(conn: dict, id: str) -> dict:
     """
     Delete Role by id
 
@@ -2804,8 +2897,9 @@ def _delete_role_by_id(conn:dict, id:str)->dict:
     """
     return delete(conn, PCC_ROLES + "/" + id)
 
+
 ## Site
-def _get_sites(conn:dict)->dict:
+def _get_sites(conn: dict) -> dict:
     """
     Get Sites
 
@@ -2817,7 +2911,8 @@ def _get_sites(conn:dict)->dict:
     """
     return get(conn, PCC_SITE)
 
-def _add_site(conn:dict, data:dict)->dict:
+
+def _add_site(conn: dict, data: dict) -> dict:
     """
     Add Site
 
@@ -2837,7 +2932,8 @@ def _add_site(conn:dict, data:dict)->dict:
     """
     return post(conn, PCC_SITE + "/add", data)
 
-def _delete_sites(conn:dict, data:dict)->dict:
+
+def _delete_sites(conn: dict, data: dict) -> dict:
     """
     Delete Sites
 
@@ -2849,7 +2945,8 @@ def _delete_sites(conn:dict, data:dict)->dict:
     """
     return post(conn, PCC_SITE + "/delete", data)
 
-def _modify_site(conn:dict,id:str,data:dict)->dict:
+
+def _modify_site(conn: dict, id: str, data: dict) -> dict:
     """
     Modify Site
 
@@ -2869,7 +2966,8 @@ def _modify_site(conn:dict,id:str,data:dict)->dict:
     """
     return put(conn, PCC_SITE + "/" + id, data)
 
-def _get_site_by_id(conn:dict, id:str)->dict:
+
+def _get_site_by_id(conn: dict, id: str) -> dict:
     """
     Get Site by id
 
@@ -2881,9 +2979,10 @@ def _get_site_by_id(conn:dict, id:str)->dict:
         (dict) Response: Get Site response (includes any errors)
     """
     return get(conn, PCC_SITE + "/" + id)
-    
+
+
 ## Statuses
-def _get_statuses(conn:dict)->dict:
+def _get_statuses(conn: dict) -> dict:
     """
     Get Statuses
 
@@ -2895,7 +2994,8 @@ def _get_statuses(conn:dict)->dict:
     """
     return get(conn, PCC_STATUSES)
 
-def _add_status(conn:dict, data:dict)->dict:
+
+def _add_status(conn: dict, data: dict) -> dict:
     """
     Add Status
 
@@ -2939,7 +3039,8 @@ def _add_status(conn:dict, data:dict)->dict:
     """
     return post(conn, PCC_STATUSES, data)
 
-def _get_status_by_id(conn:dict, id:str)->dict:
+
+def _get_status_by_id(conn: dict, id: str) -> dict:
     """
     Get Status by id
 
@@ -2954,7 +3055,7 @@ def _get_status_by_id(conn:dict, id:str)->dict:
 
 
 ## Storage
-def _get_ceph_clusters(conn:dict)->dict:
+def _get_ceph_clusters(conn: dict) -> dict:
     """
     Get Ceph Clusters
     [Args]
@@ -2963,8 +3064,9 @@ def _get_ceph_clusters(conn:dict)->dict:
         (dict) Response: Get Ceph response (includes any errors)
     """
     return get(conn, PCC_STORAGE + "/ceph/cluster")
-    
-def _get_ceph_clusters_state(conn:dict, id:str, state:str)->dict:
+
+
+def _get_ceph_clusters_state(conn: dict, id: str, state: str) -> dict:
     """
     Get Ceph Clusters State
     [Args]
@@ -2972,9 +3074,10 @@ def _get_ceph_clusters_state(conn:dict, id:str, state:str)->dict:
     [Returns]
         (dict) Response: Get Ceph state response (includes any errors)
     """
-    return get(conn, PCC_STORAGE + "/ceph/cluster/" + id + "/state/" +state)
+    return get(conn, PCC_STORAGE + "/ceph/cluster/" + id + "/state/" + state)
 
-def _modify_ceph_clusters(conn:dict, data:dict)->dict:
+
+def _modify_ceph_clusters(conn: dict, data: dict) -> dict:
     """
     Modify Ceph Cluster
     [Args]
@@ -3308,7 +3411,8 @@ def _modify_ceph_clusters(conn:dict, data:dict)->dict:
     """
     return put(conn, PCC_STORAGE + "/ceph/cluster", data)
 
-def _add_ceph_cluster(conn:dict, data:dict)->dict:
+
+def _add_ceph_cluster(conn: dict, data: dict) -> dict:
     """
     Add Ceph Cluster
     [Args]
@@ -3642,7 +3746,8 @@ def _add_ceph_cluster(conn:dict, data:dict)->dict:
     """
     return post(conn, PCC_STORAGE + "/ceph/cluster", data)
 
-def _modify_ceph_cluster_by_id(conn:dict, id:str, data:dict)->dict:
+
+def _modify_ceph_cluster_by_id(conn: dict, id: str, data: dict) -> dict:
     """
     Modify Ceph Cluster by id
     [Args]
@@ -3977,7 +4082,8 @@ def _modify_ceph_cluster_by_id(conn:dict, id:str, data:dict)->dict:
     """
     return put(conn, PCC_STORAGE + "/ceph/cluster/" + id, data)
 
-def _delete_ceph_cluster_by_id(conn:dict, id:str, data:dict )->dict:
+
+def _delete_ceph_cluster_by_id(conn: dict, id: str, data: dict) -> dict:
     """
     Delete Ceph Cluster by id
     [Args]
@@ -3989,7 +4095,8 @@ def _delete_ceph_cluster_by_id(conn:dict, id:str, data:dict )->dict:
     """
     return delete(conn, PCC_STORAGE + "/ceph/cluster/" + id, data)
 
-def _get_ceph_cluster_by_id(conn:dict, id:str)->dict:
+
+def _get_ceph_cluster_by_id(conn: dict, id: str) -> dict:
     """
     Get Ceph Cluster by id
     [Args]
@@ -3998,9 +4105,21 @@ def _get_ceph_cluster_by_id(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return get(conn, PCC_STORAGE + "/ceph/cluster" + id)
+    return get(conn, PCC_STORAGE + "/ceph/cluster/" + id)
 
-def _get_ceph_fs_by_cluster_id(conn:dict, id:str)->dict:
+def _get_ceph_cluster_health_by_id(conn: dict, id: str) -> dict:
+    """
+    Get Ceph Cluster health by id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) id: idget_ceph_clusters
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/ceph/cluster/" + id + "/state/health")
+
+
+def _get_ceph_fs_by_cluster_id(conn: dict, id: str) -> dict:
     """
     Get Ceph Fs by Cluster id
     [Args]
@@ -4011,7 +4130,8 @@ def _get_ceph_fs_by_cluster_id(conn:dict, id:str)->dict:
     """
     return get(conn, PCC_STORAGE + "/ceph/cluster" + id + "/fs")
 
-def _get_ceph_fs_available_pools_by_cluster_id(conn:dict, id:str)->dict:
+
+def _get_ceph_fs_available_pools_by_cluster_id(conn: dict, id: str) -> dict:
     """
     Get Ceph FS Available Pools by Cluster id
     [Args]
@@ -4022,7 +4142,8 @@ def _get_ceph_fs_available_pools_by_cluster_id(conn:dict, id:str)->dict:
     """
     return get(conn, PCC_STORAGE + "/ceph/cluster" + id + "/fs/pools/available")
 
-def _get_ceph_pools_by_cluster_id(conn:dict, id:str)->dict:
+
+def _get_ceph_pools_by_cluster_id(conn: dict, id: str) -> dict:
     """
     Get Ceph Pools by Cluster id
     [Args]
@@ -4033,7 +4154,8 @@ def _get_ceph_pools_by_cluster_id(conn:dict, id:str)->dict:
     """
     return get(conn, PCC_STORAGE + "/ceph/cluster" + id + "/pools")
 
-def _get_ceph_rdb_available_pools_by_cluster_id(conn:dict, id:str)->dict:
+
+def _get_ceph_rdb_available_pools_by_cluster_id(conn: dict, id: str) -> dict:
     """
     Get Ceph RDB Available Pools by Cluster id
     [Args]
@@ -4044,7 +4166,8 @@ def _get_ceph_rdb_available_pools_by_cluster_id(conn:dict, id:str)->dict:
     """
     return get(conn, PCC_STORAGE + "/ceph/cluster" + id + "/rdb/pools/available")
 
-def _get_ceph_rdbs_by_cluster_id(conn:dict, id:str)->dict:
+
+def _get_ceph_rdbs_by_cluster_id(conn: dict, id: str) -> dict:
     """
     Get Ceph RDBs by Cluster id
     [Args]
@@ -4055,7 +4178,8 @@ def _get_ceph_rdbs_by_cluster_id(conn:dict, id:str)->dict:
     """
     return get(conn, PCC_STORAGE + "/ceph/cluster" + id + "/rdbs")
 
-def _get_ceph_fs(conn:dict)->dict:
+
+def _get_ceph_fs(conn: dict) -> dict:
     """
     Get Ceph FS
     [Args]
@@ -4065,7 +4189,8 @@ def _get_ceph_fs(conn:dict)->dict:
     """
     return get(conn, PCC_STORAGE + "/ceph/fs")
 
-def _modify_ceph_fs(conn:dict, data:dict)->dict:
+
+def _modify_ceph_fs(conn: dict, data: dict) -> dict:
     """
     Modify Ceph FS
     [Args]
@@ -4204,7 +4329,8 @@ def _modify_ceph_fs(conn:dict, data:dict)->dict:
     """
     return put(conn, PCC_STORAGE + "/ceph/fs", data)
 
-def _add_ceph_fs(conn:dict, data:dict)->dict:
+
+def _add_ceph_fs(conn: dict, data: dict) -> dict:
     """
     Add Ceph FS
     [Args]
@@ -4343,7 +4469,8 @@ def _add_ceph_fs(conn:dict, data:dict)->dict:
     """
     return post(conn, PCC_STORAGE + "/ceph/fs", data)
 
-def _get_ceph_fs_by_id(conn:dict, id:str)->dict:
+
+def _get_ceph_fs_by_id(conn: dict, id: str) -> dict:
     """
     Get Ceph FS by id
     [Args]
@@ -4355,7 +4482,7 @@ def _get_ceph_fs_by_id(conn:dict, id:str)->dict:
     return get(conn, PCC_STORAGE + "/ceph/cluster/fs/" + id)
 
 
-def _modify_ceph_fs_by(conn:dict, id:str, data:dict)->dict:
+def _modify_ceph_fs_by(conn: dict, id: str, data: dict) -> dict:
     """
     Modify Ceph FS by id
     [Args]
@@ -4495,7 +4622,8 @@ def _modify_ceph_fs_by(conn:dict, id:str, data:dict)->dict:
     """
     return put(conn, PCC_STORAGE + "/ceph/fs/" + id, data)
 
-def _delete_ceph_fs_by_id(conn:dict, id:str)->dict:
+
+def _delete_ceph_fs_by_id(conn: dict, id: str) -> dict:
     """
     Delete Ceph Fs by id
     [Args]
@@ -4506,7 +4634,8 @@ def _delete_ceph_fs_by_id(conn:dict, id:str)->dict:
     """
     return delete(conn, PCC_STORAGE + "/ceph/fs/" + id)
 
-def _get_ceph_pools(conn:dict)->dict:
+
+def _get_ceph_pools(conn: dict) -> dict:
     """
     Get Ceph Pools
     [Args]
@@ -4516,7 +4645,8 @@ def _get_ceph_pools(conn:dict)->dict:
     """
     return get(conn, PCC_STORAGE + "/ceph/pool")
 
-def _modify_ceph_pool(conn:dict, data:dict)->dict:
+
+def _modify_ceph_pool(conn: dict, data: dict) -> dict:
     """
     Modify Ceph Pool
     [Args]
@@ -4565,7 +4695,8 @@ def _modify_ceph_pool(conn:dict, data:dict)->dict:
     """
     return put(conn, PCC_STORAGE + "/ceph/pool", data)
 
-def _add_ceph_pool(conn:dict, data:dict)->dict:
+
+def _add_ceph_pool(conn: dict, data: dict) -> dict:
     """
     Add Ceph Pool
     [Args]
@@ -4614,7 +4745,8 @@ def _add_ceph_pool(conn:dict, data:dict)->dict:
     """
     return post(conn, PCC_STORAGE + "/ceph/pool", data)
 
-def _get_ceph_pool_types(conn:dict)->dict:
+
+def _get_ceph_pool_types(conn: dict) -> dict:
     """
     Get Ceph Pool Types
     [Args]
@@ -4624,7 +4756,8 @@ def _get_ceph_pool_types(conn:dict)->dict:
     """
     return get(conn, PCC_STORAGE + "/ceph/pool/types")
 
-def _get_ceph_pool_by_id(conn:dict, id:str)->dict:
+
+def _get_ceph_pool_by_id(conn: dict, id: str) -> dict:
     """
     Get Ceph Pool by id
     [Args]
@@ -4635,7 +4768,8 @@ def _get_ceph_pool_by_id(conn:dict, id:str)->dict:
     """
     return get(conn, PCC_STORAGE + "/ceph/pool/" + id)
 
-def _modify_ceph_pool_by_id(conn:dict, id:str, data:dict)->dict:
+
+def _modify_ceph_pool_by_id(conn: dict, id: str, data: dict) -> dict:
     """
     Modify Ceph Pool by id
     [Args]
@@ -4686,7 +4820,7 @@ def _modify_ceph_pool_by_id(conn:dict, id:str, data:dict)->dict:
     return put(conn, PCC_STORAGE + "/ceph/pool/" + id, data)
 
 
-def _delete_ceph_pool_by_id(conn:dict, id:str)->dict:
+def _delete_ceph_pool_by_id(conn: dict, id: str) -> dict:
     """
     Delete Ceph Pool id
     [Args]
@@ -4697,7 +4831,8 @@ def _delete_ceph_pool_by_id(conn:dict, id:str)->dict:
     """
     return delete(conn, PCC_STORAGE + "/ceph/pool/" + id)
 
-def _get_ceph_rdb_by_pool_id(conn:dict, id:str)->dict:
+
+def _get_ceph_rdb_by_pool_id(conn: dict, id: str) -> dict:
     """
     Get Ceph RDB by Pool id
     [Args]
@@ -4708,7 +4843,8 @@ def _get_ceph_rdb_by_pool_id(conn:dict, id:str)->dict:
     """
     return get(conn, PCC_STORAGE + "/ceph/pool/" + id + "/rdbs")
 
-def _get_ceph_quota_units(conn:dict)->dict:
+
+def _get_ceph_quota_units(conn: dict) -> dict:
     """
     Get Ceph Quota Units
     [Args]
@@ -4718,7 +4854,8 @@ def _get_ceph_quota_units(conn:dict)->dict:
     """
     return get(conn, PCC_STORAGE + "/ceph/quota/units")
 
-def _get_ceph_rbds(conn:dict)->dict:
+
+def _get_ceph_rbds(conn: dict) -> dict:
     """
     Get Ceph RBDs
     [Args]
@@ -4728,7 +4865,8 @@ def _get_ceph_rbds(conn:dict)->dict:
     """
     return get(conn, PCC_STORAGE + "/ceph/rbd")
 
-def _modify_ceph_rbds(conn:dict, data:dict)->dict:
+
+def _modify_ceph_rbds(conn: dict, data: dict) -> dict:
     """
     Modify Ceph RBDs
     [Args]
@@ -4757,7 +4895,8 @@ def _modify_ceph_rbds(conn:dict, data:dict)->dict:
     """
     return put(conn, PCC_STORAGE + "/ceph/rbd", data)
 
-def _add_ceph_rbds(conn:dict, data:dict)->dict:
+
+def _add_ceph_rbds(conn: dict, data: dict) -> dict:
     """
     Add Ceph RBDs
     [Args]
@@ -4786,7 +4925,8 @@ def _add_ceph_rbds(conn:dict, data:dict)->dict:
     """
     return post(conn, PCC_STORAGE + "/ceph/rbd", data)
 
-def _delete_ceph_rbd_mountpath_by_id(conn:dict, id:str)->dict:
+
+def _delete_ceph_rbd_mountpath_by_id(conn: dict, id: str) -> dict:
     """
     Delete Ceph RBD Mountpath by id
     [Args]
@@ -4797,7 +4937,8 @@ def _delete_ceph_rbd_mountpath_by_id(conn:dict, id:str)->dict:
     """
     return delete(conn, PCC_STORAGE + "/ceph/rbd/mountpath/" + id)
 
-def _delete_ceph_rbd_by_id(conn:dict, id:str)->dict:
+
+def _delete_ceph_rbd_by_id(conn: dict, id: str) -> dict:
     """
     Delete Ceph RBD Mountpath by id
     [Args]
@@ -4808,7 +4949,8 @@ def _delete_ceph_rbd_by_id(conn:dict, id:str)->dict:
     """
     return delete(conn, PCC_STORAGE + "/ceph/rbd/" + id)
 
-def _get_ceph_rdb_by_id(conn:dict, id:str)->dict:
+
+def _get_ceph_rdb_by_id(conn: dict, id: str) -> dict:
     """
     Get Ceph RDB by id
     [Args]
@@ -4819,7 +4961,8 @@ def _get_ceph_rdb_by_id(conn:dict, id:str)->dict:
     """
     return get(conn, PCC_STORAGE + "/ceph/rbd/" + id)
 
-def _modify_ceph_rdb_by_id(conn:dict, id:str, data:dict)->dict:
+
+def _modify_ceph_rdb_by_id(conn: dict, id: str, data: dict) -> dict:
     """
     Modify Ceph RDB by id
     [Args]
@@ -4849,7 +4992,8 @@ def _modify_ceph_rdb_by_id(conn:dict, id:str, data:dict)->dict:
     """
     return put(conn, PCC_STORAGE + "/ceph/rbd/" + id, data)
 
-def _delete_ceph_rdb_by_id(conn:dict, id:str)->dict:
+
+def _delete_ceph_rdb_by_id(conn: dict, id: str) -> dict:
     """
     Delete Ceph RDB by id
     [Args]
@@ -4860,7 +5004,8 @@ def _delete_ceph_rdb_by_id(conn:dict, id:str)->dict:
     """
     return delete(conn, PCC_STORAGE + "/ceph/rbd/" + id)
 
-def _get_ceph_topologies(conn:dict)->dict:
+
+def _get_ceph_topologies(conn: dict) -> dict:
     """
     Get Ceph Topologies
     [Args]
@@ -4870,7 +5015,8 @@ def _get_ceph_topologies(conn:dict)->dict:
     """
     return get(conn, PCC_STORAGE + "/cephnetworking/topology")
 
-def _get_ceph_controllers(conn:dict)->dict:
+
+def _get_ceph_controllers(conn: dict) -> dict:
     """
     Get Ceph Controllers
     [Args]
@@ -4880,7 +5026,8 @@ def _get_ceph_controllers(conn:dict)->dict:
     """
     return get(conn, PCC_STORAGE + "/controller")
 
-def _get_ceph_controller_by_id(conn:dict, id:str)->dict:
+
+def _get_ceph_controller_by_id(conn: dict, id: str) -> dict:
     """
     Get Ceph Controller by id
     [Args]
@@ -4891,7 +5038,8 @@ def _get_ceph_controller_by_id(conn:dict, id:str)->dict:
     """
     return get(conn, PCC_STORAGE + "/controller/" + id)
 
-def _get_drive(conn:dict)->dict:
+
+def _get_drive(conn: dict) -> dict:
     """
     Get Drive
     [Args]
@@ -4901,7 +5049,8 @@ def _get_drive(conn:dict)->dict:
     """
     return get(conn, PCC_STORAGE + "/drive")
 
-def _get_drive_nodes(conn:dict)->dict:
+
+def _get_drive_nodes(conn: dict) -> dict:
     """
     Get Drive Nodes
     [Args]
@@ -4911,7 +5060,8 @@ def _get_drive_nodes(conn:dict)->dict:
     """
     return get(conn, PCC_STORAGE + "/drive/node")
 
-def _get_drive_node_by_id(conn:dict, id:str)->dict:
+
+def _get_drive_node_by_id(conn: dict, id: str) -> dict:
     """
     Get Drive Node by id
     [Args]
@@ -4922,7 +5072,8 @@ def _get_drive_node_by_id(conn:dict, id:str)->dict:
     """
     return get(conn, PCC_STORAGE + "/drive/node/" + id)
 
-def _get_drive_by_id(conn:dict, id:str)->dict:
+
+def _get_drive_by_id(conn: dict, id: str) -> dict:
     """
     Get Drive by id
     [Args]
@@ -4933,7 +5084,8 @@ def _get_drive_by_id(conn:dict, id:str)->dict:
     """
     return get(conn, PCC_STORAGE + "/drive/" + id)
 
-def _get_filesystems(conn:dict)->dict:
+
+def _get_filesystems(conn: dict) -> dict:
     """
     Get Filesystems
     [Args]
@@ -4943,7 +5095,8 @@ def _get_filesystems(conn:dict)->dict:
     """
     return get(conn, PCC_STORAGE + "/filesystem")
 
-def _get_filesystem_by_id(conn:dict, id:str)->dict:
+
+def _get_filesystem_by_id(conn: dict, id: str) -> dict:
     """
     Get Filesystem by id
     [Args]
@@ -4954,7 +5107,8 @@ def _get_filesystem_by_id(conn:dict, id:str)->dict:
     """
     return get(conn, PCC_STORAGE + "/filesystem/" + id)
 
-def _get_storage_controllers(conn:dict)->dict:
+
+def _get_storage_controllers(conn: dict) -> dict:
     """
     Get Storage Controllers
     [Args]
@@ -4964,7 +5118,8 @@ def _get_storage_controllers(conn:dict)->dict:
     """
     return get(conn, PCC_STORAGE + "/node")
 
-def _get_storage_controller_by_node_id(conn:dict, id:str)->dict:
+
+def _get_storage_controller_by_node_id(conn: dict, id: str) -> dict:
     """
     Get Storage Controller by Node id
     [Args]
@@ -4975,7 +5130,8 @@ def _get_storage_controller_by_node_id(conn:dict, id:str)->dict:
     """
     return get(conn, PCC_STORAGE + "/node/" + id)
 
-def _get_storage_partitions(conn:dict)->dict:
+
+def _get_storage_partitions(conn: dict) -> dict:
     """
     Get Storage Partitions
     [Args]
@@ -4985,7 +5141,8 @@ def _get_storage_partitions(conn:dict)->dict:
     """
     return get(conn, PCC_STORAGE + "/partition")
 
-def _get_storage_partition_by_id(conn:dict, id:str)->dict:
+
+def _get_storage_partition_by_id(conn: dict, id: str) -> dict:
     """
     Get Storage Partition by id
     [Args]
@@ -4996,7 +5153,8 @@ def _get_storage_partition_by_id(conn:dict, id:str)->dict:
     """
     return get(conn, PCC_STORAGE + "/partition/" + id)
 
-def _get_storage_tags(conn:dict)->dict:
+
+def _get_storage_tags(conn: dict) -> dict:
     """
     Get Storage Tags
     [Args]
@@ -5006,7 +5164,8 @@ def _get_storage_tags(conn:dict)->dict:
     """
     return get(conn, PCC_STORAGE + "/tag")
 
-def _get_storage_tester(conn:dict)->dict:
+
+def _get_storage_tester(conn: dict) -> dict:
     """
     Get Storage Tester
     [Args]
@@ -5016,7 +5175,8 @@ def _get_storage_tester(conn:dict)->dict:
     """
     return get(conn, PCC_STORAGE + "/tester")
 
-def _get_storage_quota_units(conn:dict)->dict:
+
+def _get_storage_quota_units(conn: dict) -> dict:
     """
     Get Storage Quota Units
     [Args]
@@ -5026,7 +5186,8 @@ def _get_storage_quota_units(conn:dict)->dict:
     """
     return get(conn, PCC_STORAGE + "/units")
 
-def _get_storage_volumes(conn:dict)->dict:
+
+def _get_storage_volumes(conn: dict) -> dict:
     """
     Get Storage Volumes
     [Args]
@@ -5036,7 +5197,8 @@ def _get_storage_volumes(conn:dict)->dict:
     """
     return get(conn, PCC_STORAGE + "/volume")
 
-def _get_storage_volume_by_id(conn:dict, id:str)->dict:
+
+def _get_storage_volume_by_id(conn: dict, id: str) -> dict:
     """
     Get Storage Volume by id
     [Args]
@@ -5049,7 +5211,7 @@ def _get_storage_volume_by_id(conn:dict, id:str)->dict:
 
 
 ## Templates
-def _get_templates(conn:dict)->dict:
+def _get_templates(conn: dict) -> dict:
     """
     Get Templates
     [Args]
@@ -5059,8 +5221,9 @@ def _get_templates(conn:dict)->dict:
     """
     return get(conn, PCC_TEMPLATES)
 
+
 ## Tenant
-def _add_tenant(conn:dict, data:dict)->dict:
+def _add_tenant(conn: dict, data: dict) -> dict:
     """
     Add Tenant
     [Args]
@@ -5076,8 +5239,9 @@ def _add_tenant(conn:dict, data:dict)->dict:
         (dict) Response: Add Tenant response (includes any errors)
     """
     return post(conn, PCC_TENANT + "/register", data)
-    
-def _modify_tenant(conn:dict, data:dict)->dict:
+
+
+def _modify_tenant(conn: dict, data: dict) -> dict:
     """
     Modify Tenant
     [Args]
@@ -5094,8 +5258,9 @@ def _modify_tenant(conn:dict, data:dict)->dict:
         (dict) Response: Modify Tenant response (includes any errors)
     """
     return post(conn, PCC_TENANT + "/update", data)
-    
-def _delete_tenant_by_id(conn:dict, data:dict)->dict:
+
+
+def _delete_tenant_by_id(conn: dict, data: dict) -> dict:
     """
     Delete Template by id
     [Args]
@@ -5109,9 +5274,10 @@ def _delete_tenant_by_id(conn:dict, data:dict)->dict:
     [Returns]
         (dict) Response: Delete Template response (includes any errors)
     """
-    return post(conn, PCC_TENANT + "/delete", data) 
+    return post(conn, PCC_TENANT + "/delete", data)
 
-def _get_tenant_list(conn:dict)->dict:
+
+def _get_tenant_list(conn: dict) -> dict:
     """
     Get list of tenants from PCC
     [Args]
@@ -5123,7 +5289,7 @@ def _get_tenant_list(conn:dict)->dict:
     return get(conn, PCC_TENANT + "/list")
 
 
-def _update_tenant_to_node(conn:dict , data:dict)->dict:
+def _update_tenant_to_node(conn: dict, data: dict) -> dict:
     """
     Assign tenant user to node
     [Args]
@@ -5135,11 +5301,12 @@ def _update_tenant_to_node(conn:dict , data:dict)->dict:
     [Returns]
         (dict) Response: Assign tenant to Node response (includes any errors)
     """
-    
-    return post(conn, PCC_TENANT+"/nodes/update", data)
+
+    return post(conn, PCC_TENANT + "/nodes/update", data)
+
 
 ##Key Manager(Certificates)
-def _add_certificate(conn:dict, alias:str, description:str, multipart_data:dict)->dict:
+def _add_certificate(conn: dict, alias: str, description: str, multipart_data: dict) -> dict:
     """
     Add Certificate
         [Args]
@@ -5150,8 +5317,9 @@ def _add_certificate(conn:dict, alias:str, description:str, multipart_data:dict)
             (dict) Response: Add Certificate response
     """
     return post_multipart(conn, PCC_KEY_MANAGER + "/certificates/upload/" + alias, multipart_data)
-    
-def _get_certificates(conn:dict)->dict:
+
+
+def _get_certificates(conn: dict) -> dict:
     """
     Get list of certificates from PCC
     [Args]
@@ -5160,10 +5328,10 @@ def _get_certificates(conn:dict)->dict:
         (dict) Response dictionary: Including the list of certificates
         (dict) Error response: If Exception occured
     """
-    return get(conn, PCC_KEY_MANAGER + "/certificates/describe")    
+    return get(conn, PCC_KEY_MANAGER + "/certificates/describe")
 
 
-def _delete_certificate_by_id(conn:dict, id:str)->dict:
+def _delete_certificate_by_id(conn: dict, id: str) -> dict:
     """
     Delete Certificate by id
     [Args]
@@ -5173,11 +5341,11 @@ def _delete_certificate_by_id(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Delete Certificate response (includes any errors)
     """
-    return delete(conn, PCC_KEY_MANAGER + "/certificates/" + id) 
-    
-    
+    return delete(conn, PCC_KEY_MANAGER + "/certificates/" + id)
+
+
 ##Key Manager (keys)
-def _add_keys(conn:dict, alias:str, description:str, multipart_data:dict)->dict:
+def _add_keys(conn: dict, alias: str, description: str, multipart_data: dict) -> dict:
     """
     Add OpenSSH Keys
         [Args]
@@ -5188,9 +5356,10 @@ def _add_keys(conn:dict, alias:str, description:str, multipart_data:dict)->dict:
         [Returns]
             (dict) Response: Add OpenSSH Keys response
     """
-    return post_multipart(conn, PCC_KEY_MANAGER + "/keys/upload/public/" + alias , multipart_data)
-    
-def _get_keys(conn:dict)->dict:
+    return post_multipart(conn, PCC_KEY_MANAGER + "/keys/upload/public/" + alias, multipart_data)
+
+
+def _get_keys(conn: dict) -> dict:
     """
     Get list of certificates from PCC
     [Args]
@@ -5200,8 +5369,9 @@ def _get_keys(conn:dict)->dict:
         (dict) Error response: If Exception occured
     """
     return get(conn, PCC_KEY_MANAGER + "/keys/describe")
-    
-def _delete_keys_by_alias(conn:dict, Alias:str)->dict:
+
+
+def _delete_keys_by_alias(conn: dict, Alias: str) -> dict:
     """
     Delete OpenSSH_keys by Alias
     [Args]
@@ -5212,9 +5382,10 @@ def _delete_keys_by_alias(conn:dict, Alias:str)->dict:
         (dict) Response: Delete OpenSSH_keys response (includes any errors)
     """
     return delete(conn, PCC_KEY_MANAGER + "/keys/" + Alias)
-    
+
+
 ##Deployment
-def _update_deployment(conn:dict, data:dict)->dict:
+def _update_deployment(conn: dict, data: dict) -> dict:
     """
     Modify Node
 
@@ -5230,11 +5401,12 @@ def _update_deployment(conn:dict, data:dict)->dict:
                   }
     [Returns]
         (dict) Response: Update OS response (includes any errors)
-    """ 
+    """
     return post(conn, PCC_DEPLOYMENT, data)
-    
+
+
 ##Images
-def _get_images(conn:dict)->dict:
+def _get_images(conn: dict) -> dict:
     """
     Get list of OS images from PCC
     [Args]
@@ -5245,8 +5417,9 @@ def _get_images(conn:dict)->dict:
     """
     return get(conn, PCC_IMAGES)
 
+
 ##Network Manager
-def _add_network_cluster(conn:dict, data:dict)->dict:
+def _add_network_cluster(conn: dict, data: dict) -> dict:
     """
     Add Network Cluster
     [Args]
@@ -5264,7 +5437,8 @@ def _add_network_cluster(conn:dict, data:dict)->dict:
     """
     return post(conn, PCC_NETWORK_MANAGER, data)
 
-def _delete_network_cluster_by_id(conn:dict, id:str, data:dict)->dict:
+
+def _delete_network_cluster_by_id(conn: dict, id: str, data: dict) -> dict:
     """
     Delete Network Cluster from PCC using id
     [Args]
@@ -5274,9 +5448,10 @@ def _delete_network_cluster_by_id(conn:dict, id:str, data:dict)->dict:
     [Returns]
         (dict) Response: Delete Network Cluster response (includes any errors)
     """
-    return delete(conn, PCC_NETWORK_MANAGER +"/"+ id, data)
+    return delete(conn, PCC_NETWORK_MANAGER + "/" + id, data)
 
-def _get_network_clusters(conn:dict)->dict:
+
+def _get_network_clusters(conn: dict) -> dict:
     """
     Get Network Manager
 
@@ -5288,7 +5463,8 @@ def _get_network_clusters(conn:dict)->dict:
     """
     return get(conn, PCC_NETWORK_MANAGER)
 
-def _modify_network_cluster(conn:dict, data:dict)->dict:
+
+def _modify_network_cluster(conn: dict, data: dict) -> dict:
     """
     Modify Network Cluster
     [Args]
@@ -5304,10 +5480,11 @@ def _modify_network_cluster(conn:dict, data:dict)->dict:
                      }
     [Returns]
         (dict) Response: Add Network Cluster (includes any errors)
-    """   
+    """
     return put(conn, PCC_NETWORK_MANAGER, data)
-    
-def _refresh_network_cluster_by_id(conn:dict, id:str)->dict:
+
+
+def _refresh_network_cluster_by_id(conn: dict, id: str) -> dict:
     """
     Refresh Network Cluster using id
     [Args]
@@ -5317,9 +5494,10 @@ def _refresh_network_cluster_by_id(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Refresh Network Cluster response (includes any errors)
     """
-    return put(conn, PCC_NETWORK_MANAGER +"/refresh/"+ id, None)  
+    return put(conn, PCC_NETWORK_MANAGER + "/refresh/" + id, None)
 
-def _health_check_network_cluster(conn:dict, id:str)->dict:
+
+def _health_check_network_cluster(conn: dict, id: str) -> dict:
     """
     Health Check Network Cluster using id
     [Args]
@@ -5329,9 +5507,10 @@ def _health_check_network_cluster(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Health Check Network Cluster response (includes any errors)
     """
-    return get(conn, PCC_NETWORK_MANAGER +"/health/"+ id)  
-    
-def _connection_health_check_network_cluster(conn:dict, id:str)->dict:
+    return get(conn, PCC_NETWORK_MANAGER + "/health/" + id)
+
+
+def _connection_health_check_network_cluster(conn: dict, id: str) -> dict:
     """
     Connection Health Check Network Cluster using id
     [Args]
@@ -5341,10 +5520,11 @@ def _connection_health_check_network_cluster(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Connection Health Check Network Cluster response (includes any errors)
     """
-    return get(conn, PCC_NETWORK_MANAGER +"/health/conn/"+ id)    
-  
+    return get(conn, PCC_NETWORK_MANAGER + "/health/conn/" + id)
+
+
 ## Erasure Code
-def _get_all_erasure_code_profile(conn:dict)->dict:
+def _get_all_erasure_code_profile(conn: dict) -> dict:
     """
     Get list of all Erasure Code Profiles from PCC
     [Args]
@@ -5354,8 +5534,9 @@ def _get_all_erasure_code_profile(conn:dict)->dict:
         (dict) Error response: If Exception occured
     """
     return get(conn, PCC_ERASURE_CODE_PROFILE)
-    
-def _get_erasure_code_profile(conn:dict, name:str)->dict:
+
+
+def _get_erasure_code_profile(conn: dict, name: str) -> dict:
     """
     Get data of particular Erasure Code Profile from PCC
     [Args]
@@ -5364,9 +5545,10 @@ def _get_erasure_code_profile(conn:dict, name:str)->dict:
         (dict) Response dictionary: Including the list of Erasure code profiles
         (dict) Error response: If Exception occured
     """
-    return get(conn, PCC_ERASURE_CODE_PROFILE + "/" + name)  
-    
-def _add_erasure_code_profile(conn:dict, data:dict)->dict:
+    return get(conn, PCC_ERASURE_CODE_PROFILE + "/" + name)
+
+
+def _add_erasure_code_profile(conn: dict, data: dict) -> dict:
     """
     Add Erasure Code Profile
     [Args]
@@ -5386,9 +5568,10 @@ def _add_erasure_code_profile(conn:dict, data:dict)->dict:
     [Returns]
         (dict) Response: Add Erasure Code Profile response (includes any errors)
     """
-    return post(conn, PCC_ERASURE_CODE_PROFILE , data)
-    
-def _modify_erasure_code_profile(conn:dict, data:dict)->dict:
+    return post(conn, PCC_ERASURE_CODE_PROFILE, data)
+
+
+def _modify_erasure_code_profile(conn: dict, data: dict) -> dict:
     """
     Modify Erasure Code Profile
     [Args]
@@ -5409,9 +5592,10 @@ def _modify_erasure_code_profile(conn:dict, data:dict)->dict:
     [Returns]
         (dict) Response: Modify Erasure Code Profile response (includes any errors)
     """
-    return put(conn, PCC_ERASURE_CODE_PROFILE , data)
+    return put(conn, PCC_ERASURE_CODE_PROFILE, data)
 
-def _delete_erasure_code_profile_by_id(conn:dict, id:str)->dict:
+
+def _delete_erasure_code_profile_by_id(conn: dict, id: str) -> dict:
     """
     Delete erasure_code_profile by Id
     [Args]
@@ -5423,9 +5607,10 @@ def _delete_erasure_code_profile_by_id(conn:dict, id:str)->dict:
     """
     return delete(conn, PCC_ERASURE_CODE_PROFILE + "/" + id)
 
-### Erasure Coded Pool    
-    
-def _get_erasure_ceph_pools_by_cluster_id(conn:dict, id:str)->dict:
+
+### Erasure Coded Pool
+
+def _get_erasure_ceph_pools_by_cluster_id(conn: dict, id: str) -> dict:
     """
     Get Erasure Ceph Pools by Cluster Id
     [Args]
@@ -5435,8 +5620,9 @@ def _get_erasure_ceph_pools_by_cluster_id(conn:dict, id:str)->dict:
         (dict) Response: Get Erasure Ceph pools response (includes any errors)
     """
     return get(conn, PCC_ERASURE_STORAGE + "/ceph/cluster" + id + "/pools")
-    
-def _get_erasure_ceph_pools(conn:dict)->dict:
+
+
+def _get_erasure_ceph_pools(conn: dict) -> dict:
     """
     Get Erasure Ceph Pools
     [Args]
@@ -5446,7 +5632,8 @@ def _get_erasure_ceph_pools(conn:dict)->dict:
     """
     return get(conn, PCC_ERASURE_STORAGE + "/ceph/pool")
 
-def _modify_erasure_ceph_pool(conn:dict, data:dict)->dict:
+
+def _modify_erasure_ceph_pool(conn: dict, data: dict) -> dict:
     """
     Modify Erasure Ceph Pool
     [Args]
@@ -5495,7 +5682,8 @@ def _modify_erasure_ceph_pool(conn:dict, data:dict)->dict:
     """
     return put(conn, PCC_ERASURE_STORAGE + "/ceph/pool", data)
 
-def _add_erasure_ceph_pool(conn:dict, data:dict)->dict:
+
+def _add_erasure_ceph_pool(conn: dict, data: dict) -> dict:
     """
     Add Erasure Ceph Pool
     [Args]
@@ -5544,7 +5732,8 @@ def _add_erasure_ceph_pool(conn:dict, data:dict)->dict:
     """
     return post(conn, PCC_ERASURE_STORAGE + "/ceph/pool", data)
 
-def _get_erasure_ceph_pool_types(conn:dict)->dict:
+
+def _get_erasure_ceph_pool_types(conn: dict) -> dict:
     """
     Get Erasure Ceph Pool Types
     [Args]
@@ -5554,7 +5743,8 @@ def _get_erasure_ceph_pool_types(conn:dict)->dict:
     """
     return get(conn, PCC_ERASURE_STORAGE + "/ceph/pool/types")
 
-def _get_erasure_ceph_pool_by_id(conn:dict, id:str)->dict:
+
+def _get_erasure_ceph_pool_by_id(conn: dict, id: str) -> dict:
     """
     Get Erasure Ceph Pool by Id
     [Args]
@@ -5565,7 +5755,8 @@ def _get_erasure_ceph_pool_by_id(conn:dict, id:str)->dict:
     """
     return get(conn, PCC_ERASURE_STORAGE + "/ceph/pool/" + id)
 
-def _modify_erasure_ceph_pool_by_id(conn:dict, id:str, data:dict)->dict:
+
+def _modify_erasure_ceph_pool_by_id(conn: dict, id: str, data: dict) -> dict:
     """
     Modify Erasure Ceph Pool by Id
     [Args]
@@ -5616,7 +5807,7 @@ def _modify_erasure_ceph_pool_by_id(conn:dict, id:str, data:dict)->dict:
     return put(conn, PCC_ERASURE_STORAGE + "/ceph/pool/" + id, data)
 
 
-def _delete_erasure_ceph_pool_by_id(conn:dict, id:str)->dict:
+def _delete_erasure_ceph_pool_by_id(conn: dict, id: str) -> dict:
     """
     Delete Ceph Pool ID
     [Args]
@@ -5627,7 +5818,8 @@ def _delete_erasure_ceph_pool_by_id(conn:dict, id:str)->dict:
     """
     return delete(conn, PCC_ERASURE_STORAGE + "/ceph/pool/" + id)
 
-def _get_ceph_rdb_by_erasure_pool_id(conn:dict, id:str)->dict:
+
+def _get_ceph_rdb_by_erasure_pool_id(conn: dict, id: str) -> dict:
     """
     Get Ceph RDB by Erasure Pool ID
     [Args]
@@ -5637,11 +5829,10 @@ def _get_ceph_rdb_by_erasure_pool_id(conn:dict, id:str)->dict:
         (dict) Response: Get Ceph response (includes any errors)
     """
     return get(conn, PCC_ERASURE_STORAGE + "/ceph/pool/" + id + "/rdbs")
-    
 
 
 ## Application credential management
-def _add_metadata_profile(conn:dict, multipart_data:dict)->dict:
+def _add_metadata_profile(conn: dict, multipart_data: dict) -> dict:
     """
     Add Metadata Profile
         [Args]
@@ -5672,12 +5863,13 @@ def _add_metadata_profile(conn:dict, multipart_data:dict)->dict:
     """
     print("Inside pcc_internal")
     print("multipart_data: {}".format(multipart_data))
-    response = post_multipart(conn, PCC_APP_CREDENTIALS , multipart_data)
+    response = post_multipart(conn, PCC_APP_CREDENTIALS, multipart_data)
     print("Response in pcc_internal is: {}".format(response))
-    
+
     return response
 
-def _get_metadata_profiles(conn:dict)->dict:
+
+def _get_metadata_profiles(conn: dict) -> dict:
     """
     Get All Metadata Authprofiles
     [Args]
@@ -5686,8 +5878,9 @@ def _get_metadata_profiles(conn:dict)->dict:
         (dict) Response: Get All Metadata Authprofiles response (includes any errors)
     """
     return get(conn, PCC_APP_CREDENTIALS + "metadata")
-    
-def _get_application_credential_profile_by_id(conn:dict, id:str)->dict:
+
+
+def _get_application_credential_profile_by_id(conn: dict, id: str) -> dict:
     """
     Get AuthProfile by ID
     [Args]
@@ -5696,9 +5889,10 @@ def _get_application_credential_profile_by_id(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Get AuthProfile by ID response (includes any errors)
     """
-    return get(conn, PCC_APP_CREDENTIALS + id)  
+    return get(conn, PCC_APP_CREDENTIALS + id)
 
-def _get_application_credential_profile_by_type(conn:dict, type:str)->dict:
+
+def _get_application_credential_profile_by_type(conn: dict, type: str) -> dict:
     """
     Get Profile by Type
     [Args]
@@ -5709,7 +5903,7 @@ def _get_application_credential_profile_by_type(conn:dict, type:str)->dict:
     return get(conn, PCC_APP_CREDENTIALS + "type/" + type)
 
 
-def _get_metadata_profile_by_type(conn:dict, type:str)->dict:
+def _get_metadata_profile_by_type(conn: dict, type: str) -> dict:
     """
     Get Metadata Profile by Type
     [Args]
@@ -5718,8 +5912,9 @@ def _get_metadata_profile_by_type(conn:dict, type:str)->dict:
         (dict) Response: Get Metadata Profile by Type response (includes any errors)
     """
     return get(conn, PCC_APP_CREDENTIALS + "metadata/type/" + type)
-    
-def _get_application_credential_profiles(conn:dict)->dict:
+
+
+def _get_application_credential_profiles(conn: dict) -> dict:
     """
     Get All Authprofiles
     [Args]
@@ -5728,8 +5923,9 @@ def _get_application_credential_profiles(conn:dict)->dict:
         (dict) Response: Get All Authprofiles response (includes any errors)
     """
     return get(conn, PCC_APP_CREDENTIALS)
-    
-def _describe_application_credential_profile_by_id(conn:dict, id:str)->dict:
+
+
+def _describe_application_credential_profile_by_id(conn: dict, id: str) -> dict:
     """
     Describe AuthProfile by Id 
     [Args]
@@ -5738,8 +5934,9 @@ def _describe_application_credential_profile_by_id(conn:dict, id:str)->dict:
         (dict) Response: Describe AuthProfile by Id response (includes any errors)
     """
     return get(conn, PCC_APP_CREDENTIALS + "describe/" + id)
-    
-def _describe_application_credential_profile_per_type(conn:dict, type:str)->dict:
+
+
+def _describe_application_credential_profile_per_type(conn: dict, type: str) -> dict:
     """
     Describe AuthProfile per Type
     [Args]
@@ -5748,9 +5945,9 @@ def _describe_application_credential_profile_per_type(conn:dict, type:str)->dict
         (dict) Response: Describe AuthProfile per Type response (includes any errors)
     """
     return get(conn, PCC_APP_CREDENTIALS + "describe/type/" + type)
-    
-    
-def _describe_metadata_profile_per_type(conn:dict, type:str)->dict:
+
+
+def _describe_metadata_profile_per_type(conn: dict, type: str) -> dict:
     """
     Describe Metadata AuthProfile per Type
     [Args]
@@ -5759,8 +5956,9 @@ def _describe_metadata_profile_per_type(conn:dict, type:str)->dict:
         (dict) Response: Describe Metadata AuthProfile per Type response (includes any errors)
     """
     return get(conn, PCC_APP_CREDENTIALS + "describe/type/" + type)
-    
-def _describe_application_credential_profiles(conn:dict)->dict:
+
+
+def _describe_application_credential_profiles(conn: dict) -> dict:
     """
     Describe AuthProfiles
     [Args]
@@ -5769,8 +5967,9 @@ def _describe_application_credential_profiles(conn:dict)->dict:
         (dict) Response: Describe AuthProfiles response (includes any errors)
     """
     return get(conn, PCC_APP_CREDENTIALS + "describe")
-    
-def _describe_metadata_profiles(conn:dict)->dict:
+
+
+def _describe_metadata_profiles(conn: dict) -> dict:
     """
     Describe Metadata AuthProfiles
     [Args]
@@ -5780,7 +5979,8 @@ def _describe_metadata_profiles(conn:dict)->dict:
     """
     return get(conn, PCC_APP_CREDENTIALS + "metadata/describe")
 
-def _delete_application_credential_profile_by_id(conn:dict, id:str)->dict:
+
+def _delete_application_credential_profile_by_id(conn: dict, id: str) -> dict:
     """
     Delete AuthProfile By Id
     [Args]
@@ -5789,8 +5989,9 @@ def _delete_application_credential_profile_by_id(conn:dict, id:str)->dict:
         (dict) Response: Delete authprofile by id response (includes any errors)
     """
     return delete(conn, PCC_APP_CREDENTIALS + id)
-    
-def _get_profiles_with_additional_data_for_specific_application(conn:dict, type:str, application_id:str)->dict:
+
+
+def _get_profiles_with_additional_data_for_specific_application(conn: dict, type: str, application_id: str) -> dict:
     """
     Get the profiles with additional data for a specific application
     [Args]
@@ -5802,7 +6003,8 @@ def _get_profiles_with_additional_data_for_specific_application(conn:dict, type:
     """
     return get(conn, PCC_APP_CREDENTIALS + type + "/" + application_id)
 
-def _describe_profiles_per_type_and_application(conn:dict, type:str, application_id:str)->dict:
+
+def _describe_profiles_per_type_and_application(conn: dict, type: str, application_id: str) -> dict:
     """
     Describes the app credential profiles per type and application
     [Args]
@@ -5812,9 +6014,10 @@ def _describe_profiles_per_type_and_application(conn:dict, type:str, application
     [Returns]
         (dict) Response: Describes the app credential profiles per type and application (includes any errors)
     """
-    return get(conn, PCC_APP_CREDENTIALS + "describe/"+ type + "/" + application_id)
+    return get(conn, PCC_APP_CREDENTIALS + "describe/" + type + "/" + application_id)
 
-def _get_profile_types(conn:dict)->dict:
+
+def _get_profile_types(conn: dict) -> dict:
     """
     Get profile types
     [Args]
@@ -5823,8 +6026,9 @@ def _get_profile_types(conn:dict)->dict:
         (dict) Response: Get profile types response (includes any errors)
     """
     return get(conn, PCC_APP_CREDENTIALS + "types")
-    
-def _get_profiles_template_per_type(conn:dict, type:str)->dict:
+
+
+def _get_profiles_template_per_type(conn: dict, type: str) -> dict:
     """
     Get profile's template per type
     [Args]
@@ -5833,11 +6037,11 @@ def _get_profiles_template_per_type(conn:dict, type:str)->dict:
     [Returns]
         (dict) Response: Get profile's template per type response (includes any errors)
     """
-    return get(conn, PCC_APP_CREDENTIALS + "template/" +type)
-    
+    return get(conn, PCC_APP_CREDENTIALS + "template/" + type)
+
 
 ##Rados
-def _add_ceph_rgw(conn:dict, data:dict)->dict:
+def _add_ceph_rgw(conn: dict, data: dict) -> dict:
     """
     Add Rados Gateway
     [Args]
@@ -5855,7 +6059,8 @@ def _add_ceph_rgw(conn:dict, data:dict)->dict:
     """
     return post(conn, PCC_RADOS, data)
 
-def _delete_ceph_rgw_by_id(conn:dict, id:str)->dict:
+
+def _delete_ceph_rgw_by_id(conn: dict, id: str) -> dict:
     """
     Delete Rados Gateway from PCC using id
     [Args]
@@ -5865,9 +6070,10 @@ def _delete_ceph_rgw_by_id(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Delete Rados Gateway response (includes any errors)
     """
-    return delete(conn, PCC_RADOS+"/"+ id)
+    return delete(conn, PCC_RADOS + "/" + id)
 
-def _get_ceph_rgws(conn:dict)->dict:
+
+def _get_ceph_rgws(conn: dict) -> dict:
     """
     Get Rados Gateway
 
@@ -5879,7 +6085,8 @@ def _get_ceph_rgws(conn:dict)->dict:
     """
     return get(conn, PCC_RADOS)
 
-def _modify_ceph_rgw(conn:dict, data:dict, id:int)->dict:
+
+def _modify_ceph_rgw(conn: dict, data: dict, id: int) -> dict:
     """
     Modify Rados Gateway
         (dict) data: {
@@ -5893,11 +6100,12 @@ def _modify_ceph_rgw(conn:dict, data:dict, id:int)->dict:
                     {
     [Returns]
         (dict) Response: Add Network Cluster (includes any errors)
-    """   
-    return put(conn, PCC_RADOS+"/"+str(id), data)
-    
+    """
+    return put(conn, PCC_RADOS + "/" + str(id), data)
+
+
 ##Alerts
-def _get_alert_rules(conn:dict)->dict:
+def _get_alert_rules(conn: dict) -> dict:
     """
     Get Alert Rules
 
@@ -5909,7 +6117,8 @@ def _get_alert_rules(conn:dict)->dict:
     """
     return get(conn, PCC_ALERT)
 
-def _add_alert_rule(conn:dict, data:dict)->dict:
+
+def _add_alert_rule(conn: dict, data: dict) -> dict:
     """
     Add Alert Rule
     [Args]
@@ -5927,8 +6136,9 @@ def _add_alert_rule(conn:dict, data:dict)->dict:
         (dict) Response: Add Alert Rule (includes any errors)
     """
     return post(conn, PCC_ALERT, data)
-    
-def _delete_alert_rule_by_id(conn:dict, id:str)->dict:
+
+
+def _delete_alert_rule_by_id(conn: dict, id: str) -> dict:
     """
     Delete Alert Rule from PCC using Id
     [Args]
@@ -5938,10 +6148,10 @@ def _delete_alert_rule_by_id(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Delete Alert Rule response (includes any errors)
     """
-    return delete(conn, PCC_ALERT +"/"+ id)
+    return delete(conn, PCC_ALERT + "/" + id)
 
 
-def _modify_alert_rule(conn:dict, data:dict, id:int)->dict:
+def _modify_alert_rule(conn: dict, data: dict, id: int) -> dict:
     """
     Modify Alert Rule
     [Args]
@@ -5959,10 +6169,11 @@ def _modify_alert_rule(conn:dict, data:dict, id:int)->dict:
     [Returns]
         (dict) Response: Modify Alert Rule (includes any errors)
     """
-    return put(conn, PCC_ALERT+"/"+str(id), data)
+    return put(conn, PCC_ALERT + "/" + str(id), data)
 
-##IPAM   
-def _get_subnet_objs(conn:dict)->dict:
+
+##IPAM
+def _get_subnet_objs(conn: dict) -> dict:
     """
     Get Subnets
 
@@ -5973,8 +6184,9 @@ def _get_subnet_objs(conn:dict)->dict:
         (dict) Response: Get Subnet response (includes any errors)
     """
     return get(conn, PCC_IPAM)
-    
-def _add_subnet_obj(conn:dict, data:dict)->dict:
+
+
+def _add_subnet_obj(conn: dict, data: dict) -> dict:
     """
     Add Subnet
     [Args]
@@ -5992,7 +6204,8 @@ def _add_subnet_obj(conn:dict, data:dict)->dict:
     """
     return post(conn, PCC_IPAM, data)
 
-def _delete_subnet_obj_by_id(conn:dict, id:str)->dict:
+
+def _delete_subnet_obj_by_id(conn: dict, id: str) -> dict:
     """
     Delete Subnet from PCC using Id
     [Args]
@@ -6002,9 +6215,10 @@ def _delete_subnet_obj_by_id(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Delete Subnet(IPAM) response (includes any errors)
     """
-    return delete(conn, PCC_IPAM +"/"+ id)
- 
-def _modify_subnet_obj(conn:dict, data:dict)->dict:
+    return delete(conn, PCC_IPAM + "/" + id)
+
+
+def _modify_subnet_obj(conn: dict, data: dict) -> dict:
     """
     Modify Subnet
     [Args]
@@ -6021,10 +6235,11 @@ def _modify_subnet_obj(conn:dict, data:dict)->dict:
         (dict) Response: Modify Subnet(IPAM) (includes any errors)
     """
     return put(conn, PCC_IPAM, data)
-        
+
+
 ## Policy driven management
 
-def _get_all_scopes(conn:dict)->dict:
+def _get_all_scopes(conn: dict) -> dict:
     """
     Get All Scopes
 
@@ -6036,7 +6251,8 @@ def _get_all_scopes(conn:dict)->dict:
     """
     return get(conn, PCC_SCOPE)
 
-def _get_scope_types(conn:dict)->dict:
+
+def _get_scope_types(conn: dict) -> dict:
     """
     Get Scope Types
 
@@ -6047,8 +6263,9 @@ def _get_scope_types(conn:dict)->dict:
         (dict) Response: Get Scope types response (includes any errors)
     """
     return get(conn, PCC_SCOPE + "/types")
-    
-def _get_scope(conn:dict, id:str)->dict:
+
+
+def _get_scope(conn: dict, id: str) -> dict:
     """
     Get Scope
 
@@ -6058,9 +6275,10 @@ def _get_scope(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Get Scope response (includes any errors)
     """
-    return get(conn, PCC_SCOPE + '/' +id)
-    
-def _get_scope_tree(conn:dict, id:str)->dict:
+    return get(conn, PCC_SCOPE + '/' + id)
+
+
+def _get_scope_tree(conn: dict, id: str) -> dict:
     """
     Get Scope Tree
 
@@ -6070,9 +6288,10 @@ def _get_scope_tree(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Get Scope Tree response (includes any errors)
     """
-    return get(conn, PCC_SCOPE + '/' +id + '?mode=tree')
-    
-def _get_scopes_tree(conn:dict)->dict:
+    return get(conn, PCC_SCOPE + '/' + id + '?mode=tree')
+
+
+def _get_scopes_tree(conn: dict) -> dict:
     """
     Get Scopes Tree
 
@@ -6083,8 +6302,9 @@ def _get_scopes_tree(conn:dict)->dict:
         (dict) Response: Get Scopes Tree response (includes any errors)
     """
     return get(conn, PCC_SCOPE + '/?mode=tree')
-    
-def _add_scope(conn:dict, data:dict)->dict:
+
+
+def _add_scope(conn: dict, data: dict) -> dict:
     """
     Add Scope
     [Args]
@@ -6099,8 +6319,8 @@ def _add_scope(conn:dict, data:dict)->dict:
     """
     return post(conn, PCC_SCOPE, data)
 
-    
-def _add_multiple_nodes_to_scope(conn:dict, data:dict, id:str)->dict:
+
+def _add_multiple_nodes_to_scope(conn: dict, data: dict, id: str) -> dict:
     """
     Add Multiple Nodes To Scope
     [Args]
@@ -6112,9 +6332,9 @@ def _add_multiple_nodes_to_scope(conn:dict, data:dict, id:str)->dict:
         (dict) Response: Add Multiple Nodes To Scope response (includes any errors)
     """
     return post(conn, PCC_SCOPE + id + '/addNodes', data)
-    
-       
-def _modify_scope_by_id(conn:dict, id:str, data:dict)->dict:
+
+
+def _modify_scope_by_id(conn: dict, id: str, data: dict) -> dict:
     """
     Modify Scope by Id
     [Args]
@@ -6136,7 +6356,8 @@ def _modify_scope_by_id(conn:dict, id:str, data:dict)->dict:
     """
     return put(conn, PCC_SCOPE + "/" + str(id), data)
 
-def _delete_scope_by_id(conn:dict, id:str)->dict:
+
+def _delete_scope_by_id(conn: dict, id: str) -> dict:
     """
     Delete Scope Id
     [Args]
@@ -6146,9 +6367,10 @@ def _delete_scope_by_id(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Delete Scope response (includes any errors)
     """
-    return delete(conn, PCC_SCOPE +"/"+ str(id))
-    
-def _apply_policy(conn:dict, id:str, data:dict)->dict:
+    return delete(conn, PCC_SCOPE + "/" + str(id))
+
+
+def _apply_policy(conn: dict, id: str, data: dict) -> dict:
     """
     Apply policy
     [Args]
@@ -6159,10 +6381,10 @@ def _apply_policy(conn:dict, id:str, data:dict)->dict:
     [Returns]
         (dict) Response: Apply policy (includes any errors)
     """
-    return post(conn, PCC_SCOPE+ "/"+ id + "/applyPolicies", data)
+    return post(conn, PCC_SCOPE + "/" + id + "/applyPolicies", data)
 
 
-def _get_all_policies(conn:dict)->dict:
+def _get_all_policies(conn: dict) -> dict:
     """
     Get All Policies
 
@@ -6173,8 +6395,9 @@ def _get_all_policies(conn:dict)->dict:
         (dict) Response: Get All Policies response (includes any errors)
     """
     return get(conn, PCC_POLICY)
-    
-def _get_policy(conn:dict, id:str)->dict:
+
+
+def _get_policy(conn: dict, id: str) -> dict:
     """
     Get Policy
 
@@ -6184,9 +6407,10 @@ def _get_policy(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Get Policy response (includes any errors)
     """
-    return get(conn, PCC_POLICY + '/' + id )
-    
-def _add_policy(conn:dict, data:dict)->dict:
+    return get(conn, PCC_POLICY + '/' + id)
+
+
+def _add_policy(conn: dict, data: dict) -> dict:
     """
     Add Policy
     [Args]
@@ -6211,8 +6435,9 @@ def _add_policy(conn:dict, data:dict)->dict:
         (dict) Response: Add Policy (includes any errors)
     """
     return post(conn, PCC_POLICY, data)
-    
-def _modify_policy_by_id(conn:dict, id:str, data:dict)->dict:
+
+
+def _modify_policy_by_id(conn: dict, id: str, data: dict) -> dict:
     """
     Modify Policy by Id
     [Args]
@@ -6241,7 +6466,8 @@ def _modify_policy_by_id(conn:dict, id:str, data:dict)->dict:
     """
     return put(conn, PCC_POLICY + "/" + id, data)
 
-def _delete_policy_by_id(conn:dict, id:str)->dict:
+
+def _delete_policy_by_id(conn: dict, id: str) -> dict:
     """
     Delete Scope Id
     [Args]
@@ -6251,9 +6477,10 @@ def _delete_policy_by_id(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Delete Policy response (includes any errors)
     """
-    return delete(conn, PCC_POLICY +"/"+ id) 
+    return delete(conn, PCC_POLICY + "/" + id)
 
-def _get_node_rsop(conn:dict, id:str)->dict:
+
+def _get_node_rsop(conn: dict, id: str) -> dict:
     """
     Get Node Resultant Set Of Policies
 
@@ -6264,8 +6491,9 @@ def _get_node_rsop(conn:dict, id:str)->dict:
         (dict) Response: Get Node Resultant Set Of Policies response (includes any errors)
     """
     return get(conn, PCC_NODE + '/' + id + "/rsop")
-    
-def _get_policy_deploy_status_by_scopes(conn:dict, id:str)->dict:   
+
+
+def _get_policy_deploy_status_by_scopes(conn: dict, id: str) -> dict:
     """
     Get Policy deployment status by scope
 
@@ -6275,9 +6503,10 @@ def _get_policy_deploy_status_by_scopes(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Get Policy deployment status by scope response (includes any errors)
     """
-    return get(conn, PCC_SCOPE + "/"+ id + "/status")
-    
-def _get_policy_deploy_status_by_policies(conn:dict, id:str)->dict:   
+    return get(conn, PCC_SCOPE + "/" + id + "/status")
+
+
+def _get_policy_deploy_status_by_policies(conn: dict, id: str) -> dict:
     """
     Get Policy deployment status by policies
 
@@ -6287,9 +6516,10 @@ def _get_policy_deploy_status_by_policies(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Get Policy deployment status by policies response (includes any errors)
     """
-    return get(conn, PCC_POLICY + "/"+ id + "/status")
-    
-def _get_policies_for_scope(conn:dict, id:str)->dict:   
+    return get(conn, PCC_POLICY + "/" + id + "/status")
+
+
+def _get_policies_for_scope(conn: dict, id: str) -> dict:
     """
     Get Policies For Scope
 
@@ -6299,9 +6529,10 @@ def _get_policies_for_scope(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Get Policies for scope response (includes any errors)
     """
-    return get(conn, PCC_SCOPE + "/"+ id + "/policies")
+    return get(conn, PCC_SCOPE + "/" + id + "/policies")
 
-def _get_application_policy_for_scope(conn:dict, id:str, appID:str)->dict:   
+
+def _get_application_policy_for_scope(conn: dict, id: str, appID: str) -> dict:
     """
     Get Application Policy For Scope
 
@@ -6311,10 +6542,10 @@ def _get_application_policy_for_scope(conn:dict, id:str, appID:str)->dict:
     [Returns]
         (dict) Response: Get Application Policy for scope response (includes any errors)
     """
-    return get(conn, PCC_SCOPE + "/"+ id + "/policies/" + appID)
-    
-    
-def _get_historical_data_for_scope(conn:dict, id:str)->dict:   
+    return get(conn, PCC_SCOPE + "/" + id + "/policies/" + appID)
+
+
+def _get_historical_data_for_scope(conn: dict, id: str) -> dict:
     """
     Get Historical data for scope
 
@@ -6324,9 +6555,10 @@ def _get_historical_data_for_scope(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Get Historical Data for Scope response (includes any errors)
     """
-    return get(conn, PCC_SCOPE + "/"+ id + "/history")
-    
-def _get_scope_history_by_timestamp(conn:dict, id:str, start_timestamp:str , end_timestamp:str )->dict:   
+    return get(conn, PCC_SCOPE + "/" + id + "/history")
+
+
+def _get_scope_history_by_timestamp(conn: dict, id: str, start_timestamp: str, end_timestamp: str) -> dict:
     """
     Get Scope History by Timestamp
 
@@ -6338,10 +6570,11 @@ def _get_scope_history_by_timestamp(conn:dict, id:str, start_timestamp:str , end
     [Returns]
         (dict) Response: Get Scope History by Timestamp response (includes any errors)
     """
-    return get(conn, PCC_SCOPE + "/"+ id + "/history?start="+ start_timestamp + "&end=" + end_timestamp )
-    
-#Monitoring and Stats
-def _get_monitor_topics(conn:dict)->dict:   
+    return get(conn, PCC_SCOPE + "/" + id + "/history?start=" + start_timestamp + "&end=" + end_timestamp)
+
+
+# Monitoring and Stats
+def _get_monitor_topics(conn: dict) -> dict:
     """
     Get Monitor Topics
 
@@ -6352,8 +6585,9 @@ def _get_monitor_topics(conn:dict)->dict:
         (dict) Response: Get monitor topics response (includes any errors)
     """
     return get(conn, PCC_MONITOR + "/topic")
-    
-def _get_monitor_specific_topic(conn:dict, topic:str)->dict:   
+
+
+def _get_monitor_specific_topic(conn: dict, topic: str) -> dict:
     """
     Get Monitor Specific Topic
 
@@ -6363,9 +6597,10 @@ def _get_monitor_specific_topic(conn:dict, topic:str)->dict:
     [Returns]
         (dict) Response: Get monitor specific topic response (includes any errors)
     """
-    return get(conn, PCC_MONITOR + "/topic/" + topic + "/latest" )
-        
-def _add_monitor_cache(conn:dict, topic:str, id:str, data:dict)->dict:   
+    return get(conn, PCC_MONITOR + "/topic/" + topic + "/latest")
+
+
+def _add_monitor_cache(conn: dict, topic: str, id: str, data: dict) -> dict:
     """
     Add Monitor Cache
     [Args]
@@ -6377,4 +6612,33 @@ def _add_monitor_cache(conn:dict, topic:str, id:str, data:dict)->dict:
     [Returns]
         (dict) Response: Add Monitor Cache (includes any errors)
     """
-    return post(conn, PCC_MONITOR + "/cache/"+ topic + "/" + id , data)
+    return post(conn, PCC_MONITOR + "/cache/" + topic + "/" + id, data)
+
+
+# Dashboard
+
+def _get_object_graph(conn: dict) -> dict:
+    """
+    Get Object graph
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Get object graphs
+    """
+    return get(conn, PCC_DASHBOARD + "/stats/health/countByType")
+
+def _get_object_metrics(conn: dict) -> dict:
+    """
+    Get Object metrics
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Get object metrics
+    """
+    return get(conn, PCC_DASHBOARD + "/objects")
+
+

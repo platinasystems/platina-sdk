@@ -5,10 +5,11 @@ import json
 import urllib3
 import requests
 
-from platina_sdk import pcc_internal_api as private 
+from platina_sdk import pcc_internal_api as private
+
 
 ## Apps
-def get_apps(conn:dict)->dict:
+def get_apps(conn: dict) -> dict:
     """
     Get Apps
 
@@ -20,7 +21,8 @@ def get_apps(conn:dict)->dict:
     """
     return private._get_apps(conn)
 
-def get_app_by_id(conn:dict, id:str)->dict:
+
+def get_app_by_id(conn: dict, id: str) -> dict:
     """
     Get App by id
 
@@ -31,9 +33,10 @@ def get_app_by_id(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Get Apps response (includes any errors)
     """
-    return private._get_app_by_id(conn,id)
+    return private._get_app_by_id(conn, id)
 
-def get_app_by_name(conn:dict, name:str)->dict:
+
+def get_app_by_name(conn: dict, name: str) -> dict:
     """
     Get App by name
 
@@ -45,8 +48,9 @@ def get_app_by_name(conn:dict, name:str)->dict:
         (dict) Response: Get Apps response (includes any errors)
     """
     return private._get_app_by_name(conn, name)
-    
-def get_policy_enabled_apps(conn:dict)->dict:
+
+
+def get_policy_enabled_apps(conn: dict) -> dict:
     """
     Get Policy Enabled Apps
 
@@ -58,9 +62,10 @@ def get_policy_enabled_apps(conn:dict)->dict:
         (dict) Response: Get Policy enabled Apps response (includes any errors)
     """
     return private._get_policy_enabled_apps(conn)
-    
+
+
 ## Cluster (NodeGroups)
-def get_clusters(conn:dict)->dict:
+def get_clusters(conn: dict) -> dict:
     """
     Get Cluster (Node Group) list from PCC
 
@@ -72,7 +77,8 @@ def get_clusters(conn:dict)->dict:
     """
     return private._get_clusters(conn)
 
-def add_cluster(conn:dict, data:dict)->dict:
+
+def add_cluster(conn: dict, data: dict) -> dict:
     """
     Add Cluster (NodeGroup) to PCC
     [Args]
@@ -92,9 +98,10 @@ def add_cluster(conn:dict, data:dict)->dict:
     [Returns]
         (dict) Response: Add Cluster response (includes any errors)
     """
-    return private._add_cluster(conn,data)
+    return private._add_cluster(conn, data)
 
-def modify_cluster_by_id(conn:dict, id:int, data:dict)->dict:
+
+def modify_cluster_by_id(conn: dict, id: int, data: dict) -> dict:
     """
     Modify Cluster (NodeGroup) by id
     [Args]
@@ -115,7 +122,8 @@ def modify_cluster_by_id(conn:dict, id:int, data:dict)->dict:
     """
     return private._modify_cluster_by_id(conn, id, data)
 
-def get_cluster_by_id(conn:dict, id:int)->dict:
+
+def get_cluster_by_id(conn: dict, id: int) -> dict:
     """
     Get Cluster (Node Group) by id
 
@@ -128,7 +136,8 @@ def get_cluster_by_id(conn:dict, id:int)->dict:
     """
     return private._get_cluster_by_id(conn, id)
 
-def delete_cluster_by_id(conn:dict, id:int)->dict:
+
+def delete_cluster_by_id(conn: dict, id: int) -> dict:
     """
     Delete Cluster (Node Group) from PCC using id
     [Args]
@@ -142,7 +151,7 @@ def delete_cluster_by_id(conn:dict, id:int)->dict:
 
 
 ## Connectivity
-def get_connectivity_by_id(conn:dict, id:int)->dict:
+def get_connectivity_by_id(conn: dict, id: int) -> dict:
     """
     Get Connectivity by id
 
@@ -155,8 +164,9 @@ def get_connectivity_by_id(conn:dict, id:int)->dict:
     """
     return private._get_connectivity_by_id(conn, id)
 
+
 ##Topology
-def get_topologies(conn:dict)->dict:
+def get_topologies(conn: dict) -> dict:
     """
     Get Topologies
 
@@ -168,7 +178,8 @@ def get_topologies(conn:dict)->dict:
     """
     return private._get_topologies(conn)
 
-def get_topology_by_id(conn:dict, id:int)->dict:
+
+def get_topology_by_id(conn: dict, id: int) -> dict:
     """
     Get Topology by id
 
@@ -183,7 +194,7 @@ def get_topology_by_id(conn:dict, id:int)->dict:
 
 
 ## Interface
-def get_all_interfaces_by_id(conn:dict, id:str)->dict:
+def get_all_interfaces_by_id(conn: dict, id: str) -> dict:
     """
     Get All Interfaces by id (path)
 
@@ -194,9 +205,10 @@ def get_all_interfaces_by_id(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Get Interfaces response (includes any errors)
     """
-    return private._get_all_interfaces_by_id(conn,id)
+    return private._get_all_interfaces_by_id(conn, id)
 
-def get_interfaces(conn:dict)->dict:
+
+def get_interfaces(conn: dict) -> dict:
     """
     Get Interfaces
 
@@ -208,7 +220,8 @@ def get_interfaces(conn:dict)->dict:
     """
     return private._get_interfaces(conn)
 
-def get_all_interfaces(conn:dict)->dict:
+
+def get_all_interfaces(conn: dict) -> dict:
     """
     Get All Interfaces
 
@@ -220,7 +233,8 @@ def get_all_interfaces(conn:dict)->dict:
     """
     return private._get_all_interfaces(conn)
 
-def set_interface(conn:dict, data:dict)->dict:
+
+def set_interface(conn: dict, data: dict) -> dict:
     """
     Set Interface - Set interface up
 
@@ -233,7 +247,8 @@ def set_interface(conn:dict, data:dict)->dict:
     """
     return private._set_interface(conn, data)
 
-def apply_interface(conn:dict, data:dict)->dict:
+
+def apply_interface(conn: dict, data: dict) -> dict:
     """
     Apply Interface - Apply interface up
 
@@ -246,7 +261,8 @@ def apply_interface(conn:dict, data:dict)->dict:
     """
     return private._apply_interface(conn, data)
 
-def get_custom_interface(conn:dict)->dict:
+
+def get_custom_interface(conn: dict) -> dict:
     """
     Get Custom Interface
 
@@ -258,7 +274,8 @@ def get_custom_interface(conn:dict)->dict:
     """
     return private._get_custom_interface(conn)
 
-def get_custom_interface_by_id(conn:dict, id:str)->dict:
+
+def get_custom_interface_by_id(conn: dict, id: str) -> dict:
     """
     Get Custom Interface by id
 
@@ -271,7 +288,8 @@ def get_custom_interface_by_id(conn:dict, id:str)->dict:
     """
     return private._get_custom_interface_by_id(conn, id)
 
-def down_interface(conn:dict, data:dict)->dict:
+
+def down_interface(conn: dict, data: dict) -> dict:
     """
     Down Interface - Set interface down
 
@@ -311,7 +329,8 @@ def down_interface(conn:dict, data:dict)->dict:
     """
     return private._down_interface(conn, data)
 
-def up_interface(conn:dict, data:dict)->dict:
+
+def up_interface(conn: dict, data: dict) -> dict:
     """
     Up Interface 
 
@@ -353,7 +372,7 @@ def up_interface(conn:dict, data:dict)->dict:
 
 
 ## Kubernetes
-def get_kubernetes(conn:dict)->dict:
+def get_kubernetes(conn: dict) -> dict:
     """
     Get Kuberbetes
 
@@ -365,7 +384,8 @@ def get_kubernetes(conn:dict)->dict:
     """
     return private._get_kubernetes(conn)
 
-def add_kubernetes(conn:dict, data:dict)->dict:
+
+def add_kubernetes(conn: dict, data: dict) -> dict:
     """
     Add Kubernetes
 
@@ -465,7 +485,8 @@ def add_kubernetes(conn:dict, data:dict)->dict:
     """
     return private._add_kubernetes(conn, data)
 
-def get_kubernetes_strgclasses_by_id(conn:dict, id:str)->dict:
+
+def get_kubernetes_strgclasses_by_id(conn: dict, id: str) -> dict:
     """
     Get Kuberbetes StrgClasses by id
 
@@ -476,9 +497,10 @@ def get_kubernetes_strgclasses_by_id(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Get Kuberbetes response (includes any errors)
     """
-    return private._get_kubernetes_strgclasses_by_id(conn, id )
+    return private._get_kubernetes_strgclasses_by_id(conn, id)
 
-def delete_kubernetes_strgclasses_by_id(conn:dict, id:str)->dict:
+
+def delete_kubernetes_strgclasses_by_id(conn: dict, id: str) -> dict:
     """
     Delete Kuberbetes StrgClasses by id
 
@@ -489,9 +511,10 @@ def delete_kubernetes_strgclasses_by_id(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Delete Kuberbetes response (includes any errors)
     """
-    return private._delete_kubernetes_strgclasses_by_id(conn, id )
+    return private._delete_kubernetes_strgclasses_by_id(conn, id)
 
-def get_kubernetes_info(conn:dict)->dict:
+
+def get_kubernetes_info(conn: dict) -> dict:
     """
     Get Kuberbetes Info
 
@@ -503,7 +526,8 @@ def get_kubernetes_info(conn:dict)->dict:
     """
     return private._get_kubernetes_info(conn)
 
-def test_kubernetes_rbdmap_cluster(conn:dict, id:str, rbdid:str)->dict:
+
+def test_kubernetes_rbdmap_cluster(conn: dict, id: str, rbdid: str) -> dict:
     """
     Test Kubernetes RBD Map Cluster
     
@@ -519,7 +543,8 @@ def test_kubernetes_rbdmap_cluster(conn:dict, id:str, rbdid:str)->dict:
     data = {}
     return private._test_kubernetes_rbdmap_cluster(conn, id, rbdid, data)
 
-def test_kubernetes_stclass_cluster(conn:dict, id:str, rbdid:str)->dict:
+
+def test_kubernetes_stclass_cluster(conn: dict, id: str, rbdid: str) -> dict:
     """
     Test Kubernetes K8s Cluster
 
@@ -535,7 +560,8 @@ def test_kubernetes_stclass_cluster(conn:dict, id:str, rbdid:str)->dict:
     data = {}
     return private._test_kubernetes_stclass_cluster(conn, id, rbdid, data)
 
-def get_kubernetes_by_id(conn:dict, id:str)->dict:
+
+def get_kubernetes_by_id(conn: dict, id: str) -> dict:
     """
     Get Kuberbetes by id
 
@@ -548,7 +574,8 @@ def get_kubernetes_by_id(conn:dict, id:str)->dict:
     """
     return private._get_kubernetes_by_id(conn, id)
 
-def modify_kubernetes_by_id(conn:dict, id:str, data:dict)->dict:
+
+def modify_kubernetes_by_id(conn: dict, id: str, data: dict) -> dict:
     """
     Modify Kubernetes K8s Cluster
 
@@ -579,7 +606,8 @@ def modify_kubernetes_by_id(conn:dict, id:str, data:dict)->dict:
     """
     return private._modify_kubernetes_by_id(conn, id, data)
 
-def delete_kubernetes_by_id(conn:dict, id:str)->dict:
+
+def delete_kubernetes_by_id(conn: dict, id: str) -> dict:
     """
     Delete Kuberbetes by id
 
@@ -592,7 +620,8 @@ def delete_kubernetes_by_id(conn:dict, id:str)->dict:
     """
     return private._delete_kubernetes_by_id(conn, id)
 
-def add_kubernetes_app(conn:dict, id:str, data:dict)->dict:
+
+def add_kubernetes_app(conn: dict, id: str, data: dict) -> dict:
     """
     Add Kubernetes App
 
@@ -614,10 +643,11 @@ def add_kubernetes_app(conn:dict, id:str, data:dict)->dict:
 
     [Returns]
         (dict) Response: Add Kubernetes response (includes any errors)
-    """ 
+    """
     return private._add_kubernetes_app(conn, id, data)
 
-def delete_kubernetes_app_by_id(conn:dict, id:str, data:dict)->dict:
+
+def delete_kubernetes_app_by_id(conn: dict, id: str, data: dict) -> dict:
     """
     Delete Kuberbetes App by id
 
@@ -630,7 +660,8 @@ def delete_kubernetes_app_by_id(conn:dict, id:str, data:dict)->dict:
     """
     return private._delete_kubernetes_app_by_id(conn, id, data)
 
-def get_kubernetes_status_by_id(conn:dict, id:str)->dict:
+
+def get_kubernetes_status_by_id(conn: dict, id: str) -> dict:
     """
     Get Kuberbetes Status by id
 
@@ -643,7 +674,8 @@ def get_kubernetes_status_by_id(conn:dict, id:str)->dict:
     """
     return private._get_kubernetes_status_by_id(conn, id)
 
-def upgrade_kubernetes_by_id(conn:dict, id:str, data:dict)->dict:
+
+def upgrade_kubernetes_by_id(conn: dict, id: str, data: dict) -> dict:
     """
     Upgrade Kubernetes by id
 
@@ -658,11 +690,12 @@ def upgrade_kubernetes_by_id(conn:dict, id:str, data:dict)->dict:
 
     [Returns]
         (dict) Response: Add Kubernetes response (includes any errors)
-    """ 
+    """
     return private._upgrade_kubernetes_by_id(conn, id, data)
 
+
 ## Maas
-def add_maas(conn:dict, nodeids:list)->dict:
+def add_maas(conn: dict, nodeids: list) -> dict:
     """
     Post is a trigger for MaaS tenants and hosts script execution
 
@@ -672,11 +705,12 @@ def add_maas(conn:dict, nodeids:list)->dict:
 
     [Returns]
         (dict) Response: Add MaaS response (includes any errors)
-    """ 
+    """
     return private._add_maas(conn, nodeids)
 
+
 ## Node
-def get_nodes(conn:dict)->dict:
+def get_nodes(conn: dict) -> dict:
     """
     Get Nodes
 
@@ -688,7 +722,8 @@ def get_nodes(conn:dict)->dict:
     """
     return private._get_nodes(conn)
 
-def add_node(conn:dict, data:dict)->dict:
+
+def add_node(conn: dict, data: dict) -> dict:
     """
     Add Node
 
@@ -1046,10 +1081,11 @@ def add_node(conn:dict, data:dict)->dict:
                     }
     [Returns]
         (dict) Response: Add Node response (includes any errors)
-    """ 
+    """
     return private._add_node(conn, data)
 
-def get_node_availability(conn:dict)->dict:
+
+def get_node_availability(conn: dict) -> dict:
     """
     Get Node Availability
 
@@ -1061,7 +1097,8 @@ def get_node_availability(conn:dict)->dict:
     """
     return private._get_node_availability(conn)
 
-def delete_nodes(conn:dict, ids:list)->dict:
+
+def delete_nodes(conn: dict, ids: list) -> dict:
     """
     Delete Nodes
 
@@ -1074,7 +1111,8 @@ def delete_nodes(conn:dict, ids:list)->dict:
     """
     return private._delete_nodes(conn, ids)
 
-def get_node_desired_interface_by_id(conn:dict, id:str)->dict:
+
+def get_node_desired_interface_by_id(conn: dict, id: str) -> dict:
     """
     Get Node Desired Interface by id
 
@@ -1087,7 +1125,8 @@ def get_node_desired_interface_by_id(conn:dict, id:str)->dict:
     """
     return private._get_node_desired_interface_by_id(conn, id)
 
-def get_node_summary_by_id(conn:dict, id:str)->dict:
+
+def get_node_summary_by_id(conn: dict, id: str) -> dict:
     """
     Get Node Summary by id
 
@@ -1100,7 +1139,8 @@ def get_node_summary_by_id(conn:dict, id:str)->dict:
     """
     return private._get_node_summary_by_id(conn, id)
 
-def modify_node(conn:dict, data:dict)->dict:
+
+def modify_node(conn: dict, data: dict) -> dict:
     """
     Modify Node
 
@@ -1458,11 +1498,11 @@ def modify_node(conn:dict, data:dict)->dict:
                     }
     [Returns]
         (dict) Response: Modify Node response (includes any errors)
-    """ 
+    """
     return private._modify_node(conn, data)
 
 
-def modify_node_maas(conn:dict, id:str)->dict:
+def modify_node_maas(conn: dict, id: str) -> dict:
     """
     Modify Node Maas
 
@@ -1472,11 +1512,12 @@ def modify_node_maas(conn:dict, id:str)->dict:
 
     [Returns]
         (dict) Response: Modify Node response (includes any errors)
-    """ 
+    """
     data = {}
     return private._modify_node_maas(conn, id, data)
 
-def get_node_by_id(conn:dict, id:str)->dict:
+
+def get_node_by_id(conn: dict, id: str) -> dict:
     """
     Get Node by id
 
@@ -1489,7 +1530,8 @@ def get_node_by_id(conn:dict, id:str)->dict:
     """
     return private._get_node_by_id(conn, id)
 
-def delete_node_by_id(conn:dict, id:str)->dict:
+
+def delete_node_by_id(conn: dict, id: str) -> dict:
     """
     Delete Node by id
 
@@ -1502,7 +1544,8 @@ def delete_node_by_id(conn:dict, id:str)->dict:
     """
     return private._delete_node_by_id(conn, id)
 
-def get_node_apps_by_id(conn:dict, id:str)->dict:
+
+def get_node_apps_by_id(conn: dict, id: str) -> dict:
     """
     Get Node Apps by id
 
@@ -1515,7 +1558,8 @@ def get_node_apps_by_id(conn:dict, id:str)->dict:
     """
     return private._get_node_apps_by_id(conn, id)
 
-def get_node_interfaces_by_id(conn:dict, id:str)->dict:
+
+def get_node_interfaces_by_id(conn: dict, id: str) -> dict:
     """
     Get Node Interfaces by id
 
@@ -1528,7 +1572,8 @@ def get_node_interfaces_by_id(conn:dict, id:str)->dict:
     """
     return private._get_node_interfaces_by_id(conn, id)
 
-def modify_node_interfaces_by_id(conn:dict, id:str, data:dict)->dict:
+
+def modify_node_interfaces_by_id(conn: dict, id: str, data: dict) -> dict:
     """
     Modify Node Interfaces by id
 
@@ -1550,7 +1595,8 @@ def modify_node_interfaces_by_id(conn:dict, id:str, data:dict)->dict:
     """
     return private._modify_node_interfaces_by_id(conn, id, data)
 
-def get_node_provision_status_by_id(conn:dict, id:str)->dict:
+
+def get_node_provision_status_by_id(conn: dict, id: str) -> dict:
     """
     Get Node Provision Status by id
 
@@ -1561,9 +1607,10 @@ def get_node_provision_status_by_id(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Get Node response (includes any errors)
     """
-    return private._get_node_provision_status_by_id(conn, id )
+    return private._get_node_provision_status_by_id(conn, id)
 
-def get_node_operations_status_by_id(conn:dict, id:str, operations:str)->dict:
+
+def get_node_operations_status_by_id(conn: dict, id: str, operations: str) -> dict:
     """
     Get Node Operations Status by id
 
@@ -1577,8 +1624,9 @@ def get_node_operations_status_by_id(conn:dict, id:str, operations:str)->dict:
     """
     return private._get_node_operations_status_by_id(conn, id, operations)
 
+
 ## Notification
-def get_notifications(conn:dict)->dict:
+def get_notifications(conn: dict) -> dict:
     """
     Get Notifications
 
@@ -1590,7 +1638,8 @@ def get_notifications(conn:dict)->dict:
     """
     return private._get_notifications(conn)
 
-def add_notification(conn:dict, data:dict)->dict:
+
+def add_notification(conn: dict, data: dict) -> dict:
     """
     Add Notification
 
@@ -1619,7 +1668,8 @@ def add_notification(conn:dict, data:dict)->dict:
     """
     return private._add_notification(conn, data)
 
-def confirm_notification(conn:dict, data:dict)->dict:
+
+def confirm_notification(conn: dict, data: dict) -> dict:
     """
     Confirm Notification
 
@@ -1637,7 +1687,8 @@ def confirm_notification(conn:dict, data:dict)->dict:
     """
     return private._confirm_notification(conn, data)
 
-def get_notification_history(conn:dict)->dict:
+
+def get_notification_history(conn: dict) -> dict:
     """
     Get Notification History
 
@@ -1651,7 +1702,7 @@ def get_notification_history(conn:dict)->dict:
 
 
 ## Portus
-def get_portus(conn:dict)->dict:
+def get_portus(conn: dict) -> dict:
     """
     Get Portus
 
@@ -1663,7 +1714,8 @@ def get_portus(conn:dict)->dict:
     """
     return private._get_portus(conn)
 
-def modify_portus(conn:dict, data:dict)->dict:
+
+def modify_portus(conn: dict, data: dict) -> dict:
     """
     Modify Portus
 
@@ -1752,7 +1804,8 @@ def modify_portus(conn:dict, data:dict)->dict:
     """
     return private._modify_portus(conn, data)
 
-def add_portus(conn:dict, data:dict)->dict:
+
+def add_portus(conn: dict, data: dict) -> dict:
     """
     Add Portus
 
@@ -1841,7 +1894,8 @@ def add_portus(conn:dict, data:dict)->dict:
     """
     return private._add_portus(conn, data)
 
-def get_portus_by_id(conn:dict, id:str)->dict:
+
+def get_portus_by_id(conn: dict, id: str) -> dict:
     """
     Get Portus by id
 
@@ -1854,7 +1908,8 @@ def get_portus_by_id(conn:dict, id:str)->dict:
     """
     return private._get_portus_by_id(conn, id)
 
-def delete_portus_by_id(conn:dict, id:str)->dict:
+
+def delete_portus_by_id(conn: dict, id: str) -> dict:
     """
     Delete Portus by id
 
@@ -1868,7 +1923,7 @@ def delete_portus_by_id(conn:dict, id:str)->dict:
 
 
 ## Profile
-def get_profiles(conn:dict)->dict:
+def get_profiles(conn: dict) -> dict:
     """
     Get Authentication Profiles
 
@@ -1880,7 +1935,8 @@ def get_profiles(conn:dict)->dict:
     """
     return private._get_profiles(conn)
 
-def modify_profile(conn:dict, data:dict)->dict:
+
+def modify_profile(conn: dict, data: dict) -> dict:
     """
     Modify Authentication Profile
 
@@ -1893,7 +1949,8 @@ def modify_profile(conn:dict, data:dict)->dict:
     """
     return private._modify_profile(conn, data)
 
-def add_profile(conn:dict, data:dict)->dict:
+
+def add_profile(conn: dict, data: dict) -> dict:
     """
     Add Authentication Profile
 
@@ -1906,7 +1963,8 @@ def add_profile(conn:dict, data:dict)->dict:
     """
     return private._add_profile(conn, data)
 
-def get_profiles_details(conn:dict)->dict:
+
+def get_profiles_details(conn: dict) -> dict:
     """
     Get Authentication Profiles Details
 
@@ -1918,7 +1976,8 @@ def get_profiles_details(conn:dict)->dict:
     """
     return private._get_profiles_details(conn)
 
-def add_profile_with_validation(conn:dict, data:dict)->dict:
+
+def add_profile_with_validation(conn: dict, data: dict) -> dict:
     """
     Add Authentication Profile with Validation
 
@@ -1931,7 +1990,8 @@ def add_profile_with_validation(conn:dict, data:dict)->dict:
     """
     return private._add_profile_with_validation(conn, data)
 
-def get_profile_by_id(conn:dict, id:str)->dict:
+
+def get_profile_by_id(conn: dict, id: str) -> dict:
     """
     Get Authentication Profile by id
 
@@ -1944,7 +2004,8 @@ def get_profile_by_id(conn:dict, id:str)->dict:
     """
     return private._get_profile_by_id(conn, id)
 
-def delete_profile_by_id(conn:dict, id:str)->dict:
+
+def delete_profile_by_id(conn: dict, id: str) -> dict:
     """
     Delete Authentication Profile by id
 
@@ -1957,7 +2018,8 @@ def delete_profile_by_id(conn:dict, id:str)->dict:
     """
     return private._delete_profile_by_id(conn, id)
 
-def get_profile_details_by_id(conn:dict, id:str)->dict:
+
+def get_profile_details_by_id(conn: dict, id: str) -> dict:
     """
     Get Authentication Profile Details by id
 
@@ -1970,8 +2032,9 @@ def get_profile_details_by_id(conn:dict, id:str)->dict:
     """
     return private._get_profile_details_by_id(conn, id)
 
+
 ## Provisions
-def get_provisions(conn:dict)->dict:
+def get_provisions(conn: dict) -> dict:
     """
     Get Provisions
 
@@ -1983,7 +2046,8 @@ def get_provisions(conn:dict)->dict:
     """
     return private._get_provisions(conn)
 
-def add_provision(conn:dict, data:dict)->dict:
+
+def add_provision(conn: dict, data: dict) -> dict:
     """
     Add Provision
 
@@ -2048,7 +2112,8 @@ def add_provision(conn:dict, data:dict)->dict:
     """
     return private._add_provision(conn, data)
 
-def reapply_provision_for_node(conn:dict, nodeid:str)->dict:
+
+def reapply_provision_for_node(conn: dict, nodeid: str) -> dict:
     """
     Reapply Provision for a Node
 
@@ -2061,7 +2126,8 @@ def reapply_provision_for_node(conn:dict, nodeid:str)->dict:
     """
     return private._reapply_provision_for_node(conn, nodeid)
 
-def get_provision_by_id(conn:dict, id:str)->dict:
+
+def get_provision_by_id(conn: dict, id: str) -> dict:
     """
     Get Provision by id
 
@@ -2074,7 +2140,8 @@ def get_provision_by_id(conn:dict, id:str)->dict:
     """
     return private._get_provision_by_id(conn, id)
 
-def modify_provision_by_id(conn:dict, id:str, data:dict)->dict:
+
+def modify_provision_by_id(conn: dict, id: str, data: dict) -> dict:
     """
     Modify Provision by id
 
@@ -2142,7 +2209,8 @@ def modify_provision_by_id(conn:dict, id:str, data:dict)->dict:
     """
     return private._modify_provision_by_id(conn, id, data)
 
-def add_provision_by_id(conn:dict, id:str, data:dict):
+
+def add_provision_by_id(conn: dict, id: str, data: dict):
     """
     Provision launches a provisioning
 
@@ -2210,7 +2278,8 @@ def add_provision_by_id(conn:dict, id:str, data:dict):
     """
     return private._add_provision_by_id(conn, id, data)
 
-def get_provision_status_by_id(conn:dict, id:str)->dict:
+
+def get_provision_status_by_id(conn: dict, id: str) -> dict:
     """
     Get Provision Status by id
 
@@ -2225,7 +2294,7 @@ def get_provision_status_by_id(conn:dict, id:str)->dict:
 
 
 ## Roles
-def get_roles(conn:dict)->dict:
+def get_roles(conn: dict) -> dict:
     """
     Get Roles
 
@@ -2237,7 +2306,8 @@ def get_roles(conn:dict)->dict:
     """
     return private._get_roles(conn)
 
-def add_role(conn:dict, data:dict)->dict:
+
+def add_role(conn: dict, data: dict) -> dict:
     """
     Add Role
 
@@ -2264,7 +2334,8 @@ def add_role(conn:dict, data:dict)->dict:
     """
     return private._add_role(conn, data)
 
-def get_role_by_id(conn:dict, id:str)->dict:
+
+def get_role_by_id(conn: dict, id: str) -> dict:
     """
     Get Roles by id
 
@@ -2277,7 +2348,8 @@ def get_role_by_id(conn:dict, id:str)->dict:
     """
     return private._get_role_by_id(conn, id)
 
-def modify_role(conn:dict, id:str, data:dict)->dict:
+
+def modify_role(conn: dict, id: str, data: dict) -> dict:
     """
     Modify Role
 
@@ -2305,7 +2377,8 @@ def modify_role(conn:dict, id:str, data:dict)->dict:
     """
     return private._modify_role(conn, id, data)
 
-def delete_role_by_id(conn:dict, id:str)->dict:
+
+def delete_role_by_id(conn: dict, id: str) -> dict:
     """
     Delete Role by id
 
@@ -2320,7 +2393,7 @@ def delete_role_by_id(conn:dict, id:str)->dict:
 
 
 ## Site
-def get_sites(conn:dict)->dict:
+def get_sites(conn: dict) -> dict:
     """
     Get Sites
 
@@ -2332,7 +2405,8 @@ def get_sites(conn:dict)->dict:
     """
     return private._get_sites(conn)
 
-def add_site(conn:dict, data:dict)->dict:
+
+def add_site(conn: dict, data: dict) -> dict:
     """
     Add Site
 
@@ -2352,7 +2426,8 @@ def add_site(conn:dict, data:dict)->dict:
     """
     return private._add_site(conn, data)
 
-def delete_sites(conn:dict, data:dict)->dict:
+
+def delete_sites(conn: dict, data: dict) -> dict:
     """
     Delete Sites
 
@@ -2364,7 +2439,8 @@ def delete_sites(conn:dict, data:dict)->dict:
     """
     return private._delete_sites(conn, data)
 
-def modify_site(conn:dict,id:str,data:dict)->dict:
+
+def modify_site(conn: dict, id: str, data: dict) -> dict:
     """
     Modify Site
 
@@ -2384,7 +2460,8 @@ def modify_site(conn:dict,id:str,data:dict)->dict:
     """
     return private._modify_site(conn, id, data)
 
-def get_site_by_id(conn:dict, id:str)->dict:
+
+def get_site_by_id(conn: dict, id: str) -> dict:
     """
     Get Site by id
 
@@ -2396,9 +2473,10 @@ def get_site_by_id(conn:dict, id:str)->dict:
         (dict) Response: Get Site response (includes any errors)
     """
     return private._get_site_by_id(conn, id)
-    
+
+
 ## Statuses
-def get_statuses(conn:dict)->dict:
+def get_statuses(conn: dict) -> dict:
     """
     Get Statuses
 
@@ -2410,7 +2488,8 @@ def get_statuses(conn:dict)->dict:
     """
     return private._get_statuses(conn)
 
-def add_status(conn:dict, data:dict)->dict:
+
+def add_status(conn: dict, data: dict) -> dict:
     """
     Add Status
 
@@ -2454,7 +2533,8 @@ def add_status(conn:dict, data:dict)->dict:
     """
     return private._add_status(conn, data)
 
-def get_status_by_id(conn:dict, id:str)->dict:
+
+def get_status_by_id(conn: dict, id: str) -> dict:
     """
     Get Status by id
 
@@ -2469,7 +2549,7 @@ def get_status_by_id(conn:dict, id:str)->dict:
 
 
 ## Storage
-def get_ceph_clusters(conn:dict)->dict:
+def get_ceph_clusters(conn: dict) -> dict:
     """
     Get Ceph Clusters
     [Args]
@@ -2479,7 +2559,8 @@ def get_ceph_clusters(conn:dict)->dict:
     """
     return private._get_ceph_clusters(conn)
 
-def get_ceph_clusters_state(conn:dict, id:str, state:str)->dict:
+
+def get_ceph_clusters_state(conn: dict, id: str, state: str) -> dict:
     """
     Get Ceph Clusters State
     [Args]
@@ -2487,9 +2568,10 @@ def get_ceph_clusters_state(conn:dict, id:str, state:str)->dict:
     [Returns]
         (dict) Response: Get Ceph state response (includes any errors)
     """
-    return private._get_ceph_clusters_state(conn, id , state)
+    return private._get_ceph_clusters_state(conn, id, state)
 
-def modify_ceph_clusters(conn:dict, data:dict)->dict:
+
+def modify_ceph_clusters(conn: dict, data: dict) -> dict:
     """
     Modify Ceph Cluster
     [Args]
@@ -2823,7 +2905,8 @@ def modify_ceph_clusters(conn:dict, data:dict)->dict:
     """
     return private._modify_ceph_clusters(conn, data)
 
-def add_ceph_cluster(conn:dict, data:dict)->dict:
+
+def add_ceph_cluster(conn: dict, data: dict) -> dict:
     """
     Add Ceph Cluster
     [Args]
@@ -3157,7 +3240,8 @@ def add_ceph_cluster(conn:dict, data:dict)->dict:
     """
     return private._add_ceph_cluster(conn, data)
 
-def modify_ceph_cluster_by_id(conn:dict, id:str, data:dict)->dict:
+
+def modify_ceph_cluster_by_id(conn: dict, id: str, data: dict) -> dict:
     """
     Modify Ceph Cluster by id
     [Args]
@@ -3492,7 +3576,8 @@ def modify_ceph_cluster_by_id(conn:dict, id:str, data:dict)->dict:
     """
     return private._modify_ceph_cluster_by_id(conn, id, data)
 
-def delete_ceph_cluster_by_id(conn:dict, id:str, data:dict)->dict:
+
+def delete_ceph_cluster_by_id(conn: dict, id: str, data: dict) -> dict:
     """
     Delete Ceph Cluster by id
     [Args]
@@ -3504,7 +3589,8 @@ def delete_ceph_cluster_by_id(conn:dict, id:str, data:dict)->dict:
     """
     return private._delete_ceph_cluster_by_id(conn, id, data)
 
-def get_ceph_cluster_by_id(conn:dict, id:str)->dict:
+
+def get_ceph_cluster_by_id(conn: dict, id: str) -> dict:
     """
     Get Ceph Cluster by id
     [Args]
@@ -3515,7 +3601,19 @@ def get_ceph_cluster_by_id(conn:dict, id:str)->dict:
     """
     return private._get_ceph_cluster_by_id(conn, id)
 
-def get_ceph_fs_by_cluster_id(conn:dict, id:str)->dict:
+def get_ceph_cluster_health_by_id(conn: dict, id: str) -> dict:
+    """
+    Get Ceph Cluster by id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) id: id
+    [Returns]
+        (dict) Response: Get Ceph response (includes any errors)
+    """
+    return private._get_ceph_cluster_health_by_id(conn, id)
+
+
+def get_ceph_fs_by_cluster_id(conn: dict, id: str) -> dict:
     """
     Get Ceph Fs by Cluster id
     [Args]
@@ -3526,7 +3624,8 @@ def get_ceph_fs_by_cluster_id(conn:dict, id:str)->dict:
     """
     return private._get_ceph_fs_by_cluster_id(conn, id)
 
-def get_ceph_fs_available_pools_by_cluster_id(conn:dict, id:str)->dict:
+
+def get_ceph_fs_available_pools_by_cluster_id(conn: dict, id: str) -> dict:
     """
     Get Ceph FS Available Pools by Cluster id
     [Args]
@@ -3537,7 +3636,8 @@ def get_ceph_fs_available_pools_by_cluster_id(conn:dict, id:str)->dict:
     """
     return private._get_ceph_fs_available_pools_by_cluster_id(conn, id)
 
-def get_ceph_pools_by_cluster_id(conn:dict, id:str)->dict:
+
+def get_ceph_pools_by_cluster_id(conn: dict, id: str) -> dict:
     """
     Get Ceph Pools by Cluster id
     [Args]
@@ -3548,7 +3648,8 @@ def get_ceph_pools_by_cluster_id(conn:dict, id:str)->dict:
     """
     return private._get_ceph_pools_by_cluster_id(conn, id)
 
-def get_ceph_rdb_available_pools_by_cluster_id(conn:dict, id:str)->dict:
+
+def get_ceph_rdb_available_pools_by_cluster_id(conn: dict, id: str) -> dict:
     """
     Get Ceph RDB Available Pools by Cluster id
     [Args]
@@ -3559,7 +3660,8 @@ def get_ceph_rdb_available_pools_by_cluster_id(conn:dict, id:str)->dict:
     """
     return private._get_ceph_rdb_available_pools_by_cluster_id(conn, id)
 
-def get_ceph_rdbs_by_cluster_id(conn:dict, id:str)->dict:
+
+def get_ceph_rdbs_by_cluster_id(conn: dict, id: str) -> dict:
     """
     Get Ceph RDBs by Cluster id
     [Args]
@@ -3570,7 +3672,8 @@ def get_ceph_rdbs_by_cluster_id(conn:dict, id:str)->dict:
     """
     return private._get_ceph_rdbs_by_cluster_id(conn, id)
 
-def get_ceph_fs(conn:dict)->dict:
+
+def get_ceph_fs(conn: dict) -> dict:
     """
     Get Ceph FS
     [Args]
@@ -3580,7 +3683,8 @@ def get_ceph_fs(conn:dict)->dict:
     """
     return private._get_ceph_fs(conn)
 
-def modify_ceph_fs(conn:dict, data:dict)->dict:
+
+def modify_ceph_fs(conn: dict, data: dict) -> dict:
     """
     Modify Ceph FS
     [Args]
@@ -3719,7 +3823,8 @@ def modify_ceph_fs(conn:dict, data:dict)->dict:
     """
     return private._modify_ceph_fs(conn, data)
 
-def add_ceph_fs(conn:dict, data:dict)->dict:
+
+def add_ceph_fs(conn: dict, data: dict) -> dict:
     """
     Add Ceph FS
     [Args]
@@ -3858,7 +3963,8 @@ def add_ceph_fs(conn:dict, data:dict)->dict:
     """
     return private._add_ceph_fs(conn, data)
 
-def get_ceph_fs_by_id(conn:dict, id:str)->dict:
+
+def get_ceph_fs_by_id(conn: dict, id: str) -> dict:
     """
     Get Ceph FS by id
     [Args]
@@ -3870,7 +3976,7 @@ def get_ceph_fs_by_id(conn:dict, id:str)->dict:
     return private._get_ceph_fs_by_id(conn, id)
 
 
-def modify_ceph_fs_by(conn:dict, id:str, data:dict)->dict:
+def modify_ceph_fs_by(conn: dict, id: str, data: dict) -> dict:
     """
     Modify Ceph FS by id
     [Args]
@@ -4010,7 +4116,8 @@ def modify_ceph_fs_by(conn:dict, id:str, data:dict)->dict:
     """
     return private._modify_ceph_fs_by(conn, id, data)
 
-def delete_ceph_fs_by_id(conn:dict, id:str)->dict:
+
+def delete_ceph_fs_by_id(conn: dict, id: str) -> dict:
     """
     Delete Ceph Fs by id
     [Args]
@@ -4021,7 +4128,8 @@ def delete_ceph_fs_by_id(conn:dict, id:str)->dict:
     """
     return private._delete_ceph_fs_by_id(conn, id)
 
-def get_ceph_pools(conn:dict)->dict:
+
+def get_ceph_pools(conn: dict) -> dict:
     """
     Get Ceph Pools
     [Args]
@@ -4031,7 +4139,8 @@ def get_ceph_pools(conn:dict)->dict:
     """
     return private._get_ceph_pools(conn)
 
-def modify_ceph_pool(conn:dict, data:dict)->dict:
+
+def modify_ceph_pool(conn: dict, data: dict) -> dict:
     """
     Modify Ceph Pool
     [Args]
@@ -4080,7 +4189,8 @@ def modify_ceph_pool(conn:dict, data:dict)->dict:
     """
     return private._modify_ceph_pool(conn, data)
 
-def add_ceph_pool(conn:dict, data:dict)->dict:
+
+def add_ceph_pool(conn: dict, data: dict) -> dict:
     """
     Add Ceph Pool
     [Args]
@@ -4129,7 +4239,8 @@ def add_ceph_pool(conn:dict, data:dict)->dict:
     """
     return private._add_ceph_pool(conn, data)
 
-def get_ceph_pool_types(conn:dict)->dict:
+
+def get_ceph_pool_types(conn: dict) -> dict:
     """
     Get Ceph Pool Types
     [Args]
@@ -4139,7 +4250,8 @@ def get_ceph_pool_types(conn:dict)->dict:
     """
     return private._get_ceph_pool_types(conn)
 
-def get_ceph_pool_by_id(conn:dict, id:str)->dict:
+
+def get_ceph_pool_by_id(conn: dict, id: str) -> dict:
     """
     Get Ceph Pool by id
     [Args]
@@ -4150,7 +4262,8 @@ def get_ceph_pool_by_id(conn:dict, id:str)->dict:
     """
     return private._get_ceph_pool_by_id(conn, id)
 
-def modify_ceph_pool_by_id(conn:dict, id:str, data:dict)->dict:
+
+def modify_ceph_pool_by_id(conn: dict, id: str, data: dict) -> dict:
     """
     Modify Ceph Pool by id
     [Args]
@@ -4201,7 +4314,7 @@ def modify_ceph_pool_by_id(conn:dict, id:str, data:dict)->dict:
     return private._modify_ceph_pool_by_id(conn, id, data)
 
 
-def delete_ceph_pool_by_id(conn:dict, id:str)->dict:
+def delete_ceph_pool_by_id(conn: dict, id: str) -> dict:
     """
     Delete Ceph Pool id
     [Args]
@@ -4212,7 +4325,8 @@ def delete_ceph_pool_by_id(conn:dict, id:str)->dict:
     """
     return private._delete_ceph_pool_by_id(conn, id)
 
-def get_ceph_rdb_by_pool_id(conn:dict, id:str)->dict:
+
+def get_ceph_rdb_by_pool_id(conn: dict, id: str) -> dict:
     """
     Get Ceph RDB by Pool id
     [Args]
@@ -4223,7 +4337,8 @@ def get_ceph_rdb_by_pool_id(conn:dict, id:str)->dict:
     """
     return private._get_ceph_rdb_by_pool_id(conn, id)
 
-def get_ceph_quota_units(conn:dict)->dict:
+
+def get_ceph_quota_units(conn: dict) -> dict:
     """
     Get Ceph Quota Units
     [Args]
@@ -4233,7 +4348,8 @@ def get_ceph_quota_units(conn:dict)->dict:
     """
     return private._get_ceph_quota_units(conn)
 
-def get_ceph_rbds(conn:dict)->dict:
+
+def get_ceph_rbds(conn: dict) -> dict:
     """
     Get Ceph RBDs
     [Args]
@@ -4243,7 +4359,8 @@ def get_ceph_rbds(conn:dict)->dict:
     """
     return private._get_ceph_rbds(conn)
 
-def modify_ceph_rbds(conn:dict, data:dict)->dict:
+
+def modify_ceph_rbds(conn: dict, data: dict) -> dict:
     """
     Modify Ceph RBDs
     [Args]
@@ -4272,7 +4389,8 @@ def modify_ceph_rbds(conn:dict, data:dict)->dict:
     """
     return private._modify_ceph_rbds(conn, data)
 
-def add_ceph_rbds(conn:dict, data:dict)->dict:
+
+def add_ceph_rbds(conn: dict, data: dict) -> dict:
     """
     Add Ceph RBDs
     [Args]
@@ -4301,7 +4419,8 @@ def add_ceph_rbds(conn:dict, data:dict)->dict:
     """
     return private._add_ceph_rbds(conn, data)
 
-def delete_ceph_rbd_mountpath_by_id(conn:dict, id:str)->dict:
+
+def delete_ceph_rbd_mountpath_by_id(conn: dict, id: str) -> dict:
     """
     Delete Ceph RBD Mountpath by id
     [Args]
@@ -4312,7 +4431,8 @@ def delete_ceph_rbd_mountpath_by_id(conn:dict, id:str)->dict:
     """
     return private._delete_ceph_rbd_mountpath_by_id(conn, id)
 
-def delete_ceph_rbd_by_id(conn:dict, id:str)->dict:
+
+def delete_ceph_rbd_by_id(conn: dict, id: str) -> dict:
     """
     Delete Ceph RBD Mountpath by id
     [Args]
@@ -4323,7 +4443,8 @@ def delete_ceph_rbd_by_id(conn:dict, id:str)->dict:
     """
     return private._delete_ceph_rbd_by_id(conn, id)
 
-def get_ceph_rdb_by_id(conn:dict, id:str)->dict:
+
+def get_ceph_rdb_by_id(conn: dict, id: str) -> dict:
     """
     Get Ceph RDB by id
     [Args]
@@ -4334,7 +4455,8 @@ def get_ceph_rdb_by_id(conn:dict, id:str)->dict:
     """
     return private._get_ceph_rdb_by_id(conn, id)
 
-def modify_ceph_rdb_by_id(conn:dict, id:str, data:dict)->dict:
+
+def modify_ceph_rdb_by_id(conn: dict, id: str, data: dict) -> dict:
     """
     Modify Ceph RDB by id
     [Args]
@@ -4364,7 +4486,8 @@ def modify_ceph_rdb_by_id(conn:dict, id:str, data:dict)->dict:
     """
     return private._modify_ceph_rdb_by_id(conn, id, data)
 
-def delete_ceph_rdb_by_id(conn:dict, id:str)->dict:
+
+def delete_ceph_rdb_by_id(conn: dict, id: str) -> dict:
     """
     Delete Ceph RDB by id
     [Args]
@@ -4375,7 +4498,8 @@ def delete_ceph_rdb_by_id(conn:dict, id:str)->dict:
     """
     return private._delete_ceph_rdb_by_id(conn, id)
 
-def get_ceph_topologies(conn:dict)->dict:
+
+def get_ceph_topologies(conn: dict) -> dict:
     """
     Get Ceph Topologies
     [Args]
@@ -4385,7 +4509,8 @@ def get_ceph_topologies(conn:dict)->dict:
     """
     return private._get_ceph_topologies(conn)
 
-def get_ceph_controllers(conn:dict)->dict:
+
+def get_ceph_controllers(conn: dict) -> dict:
     """
     Get Ceph Controllers
     [Args]
@@ -4395,7 +4520,8 @@ def get_ceph_controllers(conn:dict)->dict:
     """
     return private._get_ceph_controllers(conn)
 
-def get_ceph_controller_by_id(conn:dict, id:str)->dict:
+
+def get_ceph_controller_by_id(conn: dict, id: str) -> dict:
     """
     Get Ceph Controller by id
     [Args]
@@ -4406,7 +4532,8 @@ def get_ceph_controller_by_id(conn:dict, id:str)->dict:
     """
     return private._get_ceph_controller_by_id(conn, id)
 
-def get_drive(conn:dict)->dict:
+
+def get_drive(conn: dict) -> dict:
     """
     Get Drive
     [Args]
@@ -4416,7 +4543,8 @@ def get_drive(conn:dict)->dict:
     """
     return private._get_drive(conn)
 
-def get_drive_nodes(conn:dict)->dict:
+
+def get_drive_nodes(conn: dict) -> dict:
     """
     Get Drive Nodes
     [Args]
@@ -4426,7 +4554,8 @@ def get_drive_nodes(conn:dict)->dict:
     """
     return private._get_drive_nodes(conn)
 
-def get_drive_node_by_id(conn:dict, id:str)->dict:
+
+def get_drive_node_by_id(conn: dict, id: str) -> dict:
     """
     Get Drive Node by id
     [Args]
@@ -4437,7 +4566,8 @@ def get_drive_node_by_id(conn:dict, id:str)->dict:
     """
     return private._get_drive_node_by_id(conn, id)
 
-def get_drive_by_id(conn:dict, id:str)->dict:
+
+def get_drive_by_id(conn: dict, id: str) -> dict:
     """
     Get Drive by id
     [Args]
@@ -4448,7 +4578,8 @@ def get_drive_by_id(conn:dict, id:str)->dict:
     """
     return private._get_drive_by_id(conn, id)
 
-def get_filesystems(conn:dict)->dict:
+
+def get_filesystems(conn: dict) -> dict:
     """
     Get Filesystems
     [Args]
@@ -4458,7 +4589,8 @@ def get_filesystems(conn:dict)->dict:
     """
     return private._get_filesystems(conn)
 
-def get_filesystem_by_id(conn:dict, id:str)->dict:
+
+def get_filesystem_by_id(conn: dict, id: str) -> dict:
     """
     Get Filesystem by id
     [Args]
@@ -4469,7 +4601,8 @@ def get_filesystem_by_id(conn:dict, id:str)->dict:
     """
     return private._get_filesystem_by_id(conn, id)
 
-def get_storage_controllers(conn:dict)->dict:
+
+def get_storage_controllers(conn: dict) -> dict:
     """
     Get Storage Controllers
     [Args]
@@ -4479,7 +4612,8 @@ def get_storage_controllers(conn:dict)->dict:
     """
     return private._get_storage_controllers(conn)
 
-def get_storage_controller_by_node_id(conn:dict, id:str)->dict:
+
+def get_storage_controller_by_node_id(conn: dict, id: str) -> dict:
     """
     Get Storage Controller by Node id
     [Args]
@@ -4490,7 +4624,8 @@ def get_storage_controller_by_node_id(conn:dict, id:str)->dict:
     """
     return private._get_storage_controller_by_node_id(conn, id)
 
-def get_storage_partitions(conn:dict)->dict:
+
+def get_storage_partitions(conn: dict) -> dict:
     """
     Get Storage Partitions
     [Args]
@@ -4500,7 +4635,8 @@ def get_storage_partitions(conn:dict)->dict:
     """
     return private._get_storage_partitions(conn)
 
-def get_storage_partition_by_id(conn:dict, id:str)->dict:
+
+def get_storage_partition_by_id(conn: dict, id: str) -> dict:
     """
     Get Storage Partition by id
     [Args]
@@ -4511,7 +4647,8 @@ def get_storage_partition_by_id(conn:dict, id:str)->dict:
     """
     return private._get_storage_partition_by_id(conn, id)
 
-def get_storage_tags(conn:dict)->dict:
+
+def get_storage_tags(conn: dict) -> dict:
     """
     Get Storage Tags
     [Args]
@@ -4521,7 +4658,8 @@ def get_storage_tags(conn:dict)->dict:
     """
     return private._get_storage_tags(conn)
 
-def get_storage_tester(conn:dict)->dict:
+
+def get_storage_tester(conn: dict) -> dict:
     """
     Get Storage Tester
     [Args]
@@ -4531,7 +4669,8 @@ def get_storage_tester(conn:dict)->dict:
     """
     return private._get_storage_tester(conn)
 
-def get_storage_quota_units(conn:dict)->dict:
+
+def get_storage_quota_units(conn: dict) -> dict:
     """
     Get Storage Quota Units
     [Args]
@@ -4541,7 +4680,8 @@ def get_storage_quota_units(conn:dict)->dict:
     """
     return private._get_storage_quota_units(conn)
 
-def get_storage_volumes(conn:dict)->dict:
+
+def get_storage_volumes(conn: dict) -> dict:
     """
     Get Storage Volumes
     [Args]
@@ -4551,7 +4691,8 @@ def get_storage_volumes(conn:dict)->dict:
     """
     return private._get_storage_volumes(conn)
 
-def get_storage_volume_by_id(conn:dict, id:str)->dict:
+
+def get_storage_volume_by_id(conn: dict, id: str) -> dict:
     """
     Get Storage Volume by id
     [Args]
@@ -4564,7 +4705,7 @@ def get_storage_volume_by_id(conn:dict, id:str)->dict:
 
 
 ## Templates
-def get_templates(conn:dict)->dict:
+def get_templates(conn: dict) -> dict:
     """
     Get Templates
     [Args]
@@ -4576,7 +4717,7 @@ def get_templates(conn:dict)->dict:
 
 
 ## Tenant
-def add_tenant(conn:dict, data:dict)->dict:
+def add_tenant(conn: dict, data: dict) -> dict:
     """
     Add Tenant
     [Args]
@@ -4592,8 +4733,9 @@ def add_tenant(conn:dict, data:dict)->dict:
         (dict) Response: Add Tenant response (includes any errors)
     """
     return private._add_tenant(conn, data)
-    
-def modify_tenant(conn:dict, data:dict)->dict:
+
+
+def modify_tenant(conn: dict, data: dict) -> dict:
     """
     Modify Tenant
     [Args]
@@ -4610,8 +4752,9 @@ def modify_tenant(conn:dict, data:dict)->dict:
         (dict) Response: Modify Tenant response (includes any errors)
     """
     return private._modify_tenant(conn, data)
-    
-def delete_tenant_by_id(conn:dict, data:dict)->dict:
+
+
+def delete_tenant_by_id(conn: dict, data: dict) -> dict:
     """
     Delete Template by id
     [Args]
@@ -4625,9 +4768,10 @@ def delete_tenant_by_id(conn:dict, data:dict)->dict:
     [Returns]
         (dict) Response: Delete Template response (includes any errors)
     """
-    return private._delete_tenant_by_id(conn, data) 
+    return private._delete_tenant_by_id(conn, data)
 
-def get_tenant_list(conn:dict)->dict:
+
+def get_tenant_list(conn: dict) -> dict:
     """
     Get list of tenants from PCC
     [Args]
@@ -4639,7 +4783,7 @@ def get_tenant_list(conn:dict)->dict:
     return private._get_tenant_list(conn)
 
 
-def update_tenant_to_node(conn:dict , data:dict)->dict:
+def update_tenant_to_node(conn: dict, data: dict) -> dict:
     """
     Assign tenant user to node
     [Args]
@@ -4651,11 +4795,12 @@ def update_tenant_to_node(conn:dict , data:dict)->dict:
     [Returns]
         (dict) Response: Assign tenant to Node response (includes any errors)
     """
-    
+
     return private._update_tenant_to_node(conn, data)
 
+
 ##Key Manager(Certificates)
-def add_certificate(conn:dict, alias:str, description:str, multipart_data:dict)->dict:
+def add_certificate(conn: dict, alias: str, description: str, multipart_data: dict) -> dict:
     """
     Add Certificate
         [Args]
@@ -4666,8 +4811,9 @@ def add_certificate(conn:dict, alias:str, description:str, multipart_data:dict)-
             (dict) Response: Add Certificate response
     """
     return private._add_certificate(conn, alias, description, multipart_data)
-    
-def get_certificates(conn:dict)->dict:
+
+
+def get_certificates(conn: dict) -> dict:
     """
     Get list of certificates from PCC
     [Args]
@@ -4676,10 +4822,10 @@ def get_certificates(conn:dict)->dict:
         (dict) Response dictionary: Including the list of certificates
         (dict) Error response: If Exception occured
     """
-    return private._get_certificates(conn)    
+    return private._get_certificates(conn)
 
 
-def delete_certificate_by_id(conn:dict, id:str)->dict:
+def delete_certificate_by_id(conn: dict, id: str) -> dict:
     """
     Delete Certificate by id
     [Args]
@@ -4689,11 +4835,11 @@ def delete_certificate_by_id(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Delete Certificate response (includes any errors)
     """
-    return private._delete_certificate_by_id(conn, id) 
-    
-    
+    return private._delete_certificate_by_id(conn, id)
+
+
 ##Key Manager (keys)
-def add_keys(conn:dict, alias:str, description:str,multipart_data:dict)->dict:
+def add_keys(conn: dict, alias: str, description: str, multipart_data: dict) -> dict:
     """
     Add OpenSSH Keys
         [Args]
@@ -4705,9 +4851,10 @@ def add_keys(conn:dict, alias:str, description:str,multipart_data:dict)->dict:
             (dict) Response: Add OpenSSH Keys response
     """
 
-    return private._add_keys(conn,alias, description, multipart_data)
-    
-def get_keys(conn:dict)->dict:
+    return private._add_keys(conn, alias, description, multipart_data)
+
+
+def get_keys(conn: dict) -> dict:
     """
     Get list of certificates from PCC
     [Args]
@@ -4717,8 +4864,9 @@ def get_keys(conn:dict)->dict:
         (dict) Error response: If Exception occured
     """
     return private._get_keys(conn)
-    
-def delete_keys_by_alias(conn:dict, alias:str)->dict:
+
+
+def delete_keys_by_alias(conn: dict, alias: str) -> dict:
     """
     Delete OpenSSH_keys by Alias
     [Args]
@@ -4729,9 +4877,10 @@ def delete_keys_by_alias(conn:dict, alias:str)->dict:
         (dict) Response: Delete OpenSSH_keys response (includes any errors)
     """
     return private._delete_keys_by_alias(conn, alias)
-    
+
+
 ##Deployment
-def update_deployment(conn:dict, data:dict)->dict:
+def update_deployment(conn: dict, data: dict) -> dict:
     """
     Modify Node
 
@@ -4747,11 +4896,12 @@ def update_deployment(conn:dict, data:dict)->dict:
                   }
     [Returns]
         (dict) Response: Update OS response (includes any errors)
-    """ 
+    """
     return private._update_deployment(conn, data)
-    
+
+
 ##Images
-def get_images(conn:dict)->dict:
+def get_images(conn: dict) -> dict:
     """
     Get list of OS images from PCC
     [Args]
@@ -4762,8 +4912,9 @@ def get_images(conn:dict)->dict:
     """
     return private._get_images(conn)
 
+
 ##Network Manager
-def add_network_cluster(conn:dict, data:dict)->dict:
+def add_network_cluster(conn: dict, data: dict) -> dict:
     """
     Add Network Cluster
     [Args]
@@ -4782,7 +4933,7 @@ def add_network_cluster(conn:dict, data:dict)->dict:
     return private._add_network_cluster(conn, data)
 
 
-def delete_network_cluster_by_id(conn:dict, id:str, data:dict)->dict:
+def delete_network_cluster_by_id(conn: dict, id: str, data: dict) -> dict:
     """
     Delete Network Cluster from PCC using Id
     [Args]
@@ -4794,7 +4945,8 @@ def delete_network_cluster_by_id(conn:dict, id:str, data:dict)->dict:
     """
     return private._delete_network_cluster_by_id(conn, id, data)
 
-def get_network_clusters(conn:dict)->dict:
+
+def get_network_clusters(conn: dict) -> dict:
     """
     Get Network Manager
 
@@ -4806,7 +4958,8 @@ def get_network_clusters(conn:dict)->dict:
     """
     return private._get_network_clusters(conn)
 
-def modify_network_cluster(conn:dict, data:dict)->dict:
+
+def modify_network_cluster(conn: dict, data: dict) -> dict:
     """
     Modify Network Cluster
     [Args]
@@ -4825,7 +4978,8 @@ def modify_network_cluster(conn:dict, data:dict)->dict:
     """
     return private._modify_network_cluster(conn, data)
 
-def refresh_network_cluster_by_id(conn:dict, id:str)->dict:
+
+def refresh_network_cluster_by_id(conn: dict, id: str) -> dict:
     """
     Refresh Network Cluster using id
     [Args]
@@ -4835,9 +4989,10 @@ def refresh_network_cluster_by_id(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Refresh Network Cluster response (includes any errors)
     """
-    return private._refresh_network_cluster_by_id(conn,id)
+    return private._refresh_network_cluster_by_id(conn, id)
 
-def health_check_network_cluster(conn:dict, id:str)->dict:
+
+def health_check_network_cluster(conn: dict, id: str) -> dict:
     """
     Health Check Network Cluster using id
     [Args]
@@ -4847,9 +5002,10 @@ def health_check_network_cluster(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Health Check Network Cluster response (includes any errors)
     """
-    return private._health_check_network_cluster(conn, id)  
-    
-def connection_health_check_network_cluster(conn:dict, id:str)->dict:
+    return private._health_check_network_cluster(conn, id)
+
+
+def connection_health_check_network_cluster(conn: dict, id: str) -> dict:
     """
     Connection Health Check Network Cluster using id
     [Args]
@@ -4859,10 +5015,11 @@ def connection_health_check_network_cluster(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Connection Health Check Network Cluster response (includes any errors)
     """
-    return private._connection_health_check_network_cluster(conn, id)    
-    
+    return private._connection_health_check_network_cluster(conn, id)
+
+
 ## Erasure Code
-def get_all_erasure_code_profile(conn:dict)->dict:
+def get_all_erasure_code_profile(conn: dict) -> dict:
     """
     Get list of all Erasure Code Profiles from PCC
     [Args]
@@ -4872,8 +5029,9 @@ def get_all_erasure_code_profile(conn:dict)->dict:
         (dict) Error response: If Exception occured
     """
     return private._get_all_erasure_code_profile(conn)
-    
-def get_erasure_code_profile(conn:dict, name:str)->dict:
+
+
+def get_erasure_code_profile(conn: dict, name: str) -> dict:
     """
     Get data of particular Erasure Code Profile from PCC
     [Args]
@@ -4882,9 +5040,10 @@ def get_erasure_code_profile(conn:dict, name:str)->dict:
         (dict) Response dictionary: Including the list of Erasure code profiles
         (dict) Error response: If Exception occured
     """
-    return private._get_erasure_code_profile(conn, name)  
-    
-def add_erasure_code_profile(conn:dict, data:dict)->dict:
+    return private._get_erasure_code_profile(conn, name)
+
+
+def add_erasure_code_profile(conn: dict, data: dict) -> dict:
     """
     Add Erasure Code Profile
     [Args]
@@ -4905,8 +5064,9 @@ def add_erasure_code_profile(conn:dict, data:dict)->dict:
         (dict) Response: Add Erasure Code Profile response (includes any errors)
     """
     return private._add_erasure_code_profile(conn, data)
-    
-def modify_erasure_code_profile(conn:dict, data:dict)->dict:
+
+
+def modify_erasure_code_profile(conn: dict, data: dict) -> dict:
     """
     Modify Erasure Code Profile
     [Args]
@@ -4929,7 +5089,8 @@ def modify_erasure_code_profile(conn:dict, data:dict)->dict:
     """
     return private._modify_erasure_code_profile(conn, data)
 
-def delete_erasure_code_profile_by_id(conn:dict, id:str)->dict:
+
+def delete_erasure_code_profile_by_id(conn: dict, id: str) -> dict:
     """
     Delete erasure_code_profile by Id
     [Args]
@@ -4941,9 +5102,10 @@ def delete_erasure_code_profile_by_id(conn:dict, id:str)->dict:
     """
     return private._delete_erasure_code_profile_by_id(conn, id)
 
-### Erasure Coded Pool    
-    
-def get_erasure_ceph_pools_by_cluster_id(conn:dict, id:str)->dict:
+
+### Erasure Coded Pool
+
+def get_erasure_ceph_pools_by_cluster_id(conn: dict, id: str) -> dict:
     """
     Get Erasure Ceph Pools by Cluster Id
     [Args]
@@ -4952,9 +5114,10 @@ def get_erasure_ceph_pools_by_cluster_id(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Get Erasure Ceph pools response (includes any errors)
     """
-    return private._get_erasure_ceph_pools_by_cluster_id(conn,id)
-    
-def get_erasure_ceph_pools(conn:dict)->dict:
+    return private._get_erasure_ceph_pools_by_cluster_id(conn, id)
+
+
+def get_erasure_ceph_pools(conn: dict) -> dict:
     """
     Get Erasure Ceph Pools
     [Args]
@@ -4964,7 +5127,8 @@ def get_erasure_ceph_pools(conn:dict)->dict:
     """
     return private._get_erasure_ceph_pools(conn)
 
-def modify_erasure_ceph_pool(conn:dict, data:dict)->dict:
+
+def modify_erasure_ceph_pool(conn: dict, data: dict) -> dict:
     """
     Modify Erasure Ceph Pool
     [Args]
@@ -5013,7 +5177,8 @@ def modify_erasure_ceph_pool(conn:dict, data:dict)->dict:
     """
     return private._modify_erasure_ceph_pool(conn, data)
 
-def add_erasure_ceph_pool(conn:dict, data:dict)->dict:
+
+def add_erasure_ceph_pool(conn: dict, data: dict) -> dict:
     """
     Add Erasure Ceph Pool
     [Args]
@@ -5062,7 +5227,8 @@ def add_erasure_ceph_pool(conn:dict, data:dict)->dict:
     """
     return private._add_erasure_ceph_pool(conn, data)
 
-def get_erasure_ceph_pool_types(conn:dict)->dict:
+
+def get_erasure_ceph_pool_types(conn: dict) -> dict:
     """
     Get Erasure Ceph Pool Types
     [Args]
@@ -5072,7 +5238,8 @@ def get_erasure_ceph_pool_types(conn:dict)->dict:
     """
     return private._get_erasure_ceph_pool_types(conn)
 
-def get_erasure_ceph_pool_by_id(conn:dict, id:str)->dict:
+
+def get_erasure_ceph_pool_by_id(conn: dict, id: str) -> dict:
     """
     Get Erasure Ceph Pool by Id
     [Args]
@@ -5083,7 +5250,8 @@ def get_erasure_ceph_pool_by_id(conn:dict, id:str)->dict:
     """
     return private._get_erasure_ceph_pool_by_id(conn, id)
 
-def modify_erasure_ceph_pool_by_id(conn:dict, id:str, data:dict)->dict:
+
+def modify_erasure_ceph_pool_by_id(conn: dict, id: str, data: dict) -> dict:
     """
     Modify Erasure Ceph Pool by Id
     [Args]
@@ -5134,7 +5302,7 @@ def modify_erasure_ceph_pool_by_id(conn:dict, id:str, data:dict)->dict:
     return private._modify_erasure_ceph_pool_by_id(conn, id, data)
 
 
-def delete_erasure_ceph_pool_by_id(conn:dict, id:str)->dict:
+def delete_erasure_ceph_pool_by_id(conn: dict, id: str) -> dict:
     """
     Delete Ceph Pool ID
     [Args]
@@ -5145,7 +5313,8 @@ def delete_erasure_ceph_pool_by_id(conn:dict, id:str)->dict:
     """
     return private._delete_erasure_ceph_pool_by_id(conn, id)
 
-def get_ceph_rdb_by_erasure_pool_id(conn:dict, id:str)->dict:
+
+def get_ceph_rdb_by_erasure_pool_id(conn: dict, id: str) -> dict:
     """
     Get Ceph RDB by Erasure Pool ID
     [Args]
@@ -5155,10 +5324,10 @@ def get_ceph_rdb_by_erasure_pool_id(conn:dict, id:str)->dict:
         (dict) Response: Get Ceph response (includes any errors)
     """
     return private._get_ceph_rdb_by_erasure_pool_id(conn, id)
-    
-    
+
+
 ## Application credential management
-def add_metadata_profile(conn:dict, multipart_data:dict)->dict:
+def add_metadata_profile(conn: dict, multipart_data: dict) -> dict:
     """
     Add Metadata Profile
         [Args]
@@ -5187,11 +5356,11 @@ def add_metadata_profile(conn:dict, multipart_data:dict)->dict:
         [Returns]
             (dict) Response: Add Metadata Profile response
             
-    """    
+    """
     return private._add_metadata_profile(conn, multipart_data)
-    
 
-def get_metadata_profiles(conn:dict)->dict:
+
+def get_metadata_profiles(conn: dict) -> dict:
     """
     Get All Metadata Authprofiles
     [Args]
@@ -5200,8 +5369,9 @@ def get_metadata_profiles(conn:dict)->dict:
         (dict) Response: Get All Metadata Authprofiles response (includes any errors)
     """
     return private._get_metadata_profiles(conn)
-    
-def get_application_credential_profile_by_id(conn:dict, id:str)->dict:
+
+
+def get_application_credential_profile_by_id(conn: dict, id: str) -> dict:
     """
     Get AuthProfile by ID
     [Args]
@@ -5212,7 +5382,8 @@ def get_application_credential_profile_by_id(conn:dict, id:str)->dict:
     """
     return private._get_application_credential_profile_by_id(conn, id)
 
-def get_application_credential_profile_by_type(conn:dict, type:str)->dict:
+
+def get_application_credential_profile_by_type(conn: dict, type: str) -> dict:
     """
     Get Profile by Type
     [Args]
@@ -5223,7 +5394,7 @@ def get_application_credential_profile_by_type(conn:dict, type:str)->dict:
     return private._get_application_credential_profile_by_type(conn, type)
 
 
-def get_metadata_profile_by_type(conn:dict, type:str)->dict:
+def get_metadata_profile_by_type(conn: dict, type: str) -> dict:
     """
     Get Metadata Profile by Type
     [Args]
@@ -5232,8 +5403,9 @@ def get_metadata_profile_by_type(conn:dict, type:str)->dict:
         (dict) Response: Get Metadata Profile by Type response (includes any errors)
     """
     return private._get_metadata_profile_by_type(conn, type)
-    
-def get_application_credential_profiles(conn:dict)->dict:
+
+
+def get_application_credential_profiles(conn: dict) -> dict:
     """
     Get All Authprofiles
     [Args]
@@ -5242,8 +5414,9 @@ def get_application_credential_profiles(conn:dict)->dict:
         (dict) Response: Get All Authprofiles response (includes any errors)
     """
     return private._get_application_credential_profiles(conn)
-    
-def describe_application_credential_profile_by_id(conn:dict, id:str)->dict:
+
+
+def describe_application_credential_profile_by_id(conn: dict, id: str) -> dict:
     """
     Describe AuthProfile by Id 
     [Args]
@@ -5252,8 +5425,9 @@ def describe_application_credential_profile_by_id(conn:dict, id:str)->dict:
         (dict) Response: Describe AuthProfile by Id response (includes any errors)
     """
     return private._describe_application_credential_profile_by_id(conn, id)
-    
-def describe_application_credential_profile_per_type(conn:dict, type:str)->dict:
+
+
+def describe_application_credential_profile_per_type(conn: dict, type: str) -> dict:
     """
     Describe AuthProfile per Type
     [Args]
@@ -5262,9 +5436,9 @@ def describe_application_credential_profile_per_type(conn:dict, type:str)->dict:
         (dict) Response: Describe AuthProfile per Type response (includes any errors)
     """
     return private._describe_application_credential_profile_per_type(conn, type)
-    
-    
-def describe_metadata_profile_per_type(conn:dict, type:str)->dict:
+
+
+def describe_metadata_profile_per_type(conn: dict, type: str) -> dict:
     """
     Describe Metadata AuthProfile per Type
     [Args]
@@ -5273,8 +5447,9 @@ def describe_metadata_profile_per_type(conn:dict, type:str)->dict:
         (dict) Response: Describe Metadata AuthProfile per Type response (includes any errors)
     """
     return private._describe_metadata_profile_per_type(conn, type)
-    
-def describe_application_credential_profiles(conn:dict)->dict:
+
+
+def describe_application_credential_profiles(conn: dict) -> dict:
     """
     Describe AuthProfiles
     [Args]
@@ -5283,8 +5458,9 @@ def describe_application_credential_profiles(conn:dict)->dict:
         (dict) Response: Describe AuthProfiles response (includes any errors)
     """
     return private._describe_application_credential_profiles(conn)
-    
-def describe_metadata_profiles(conn:dict)->dict:
+
+
+def describe_metadata_profiles(conn: dict) -> dict:
     """
     Describe Metadata AuthProfiles
     [Args]
@@ -5294,7 +5470,8 @@ def describe_metadata_profiles(conn:dict)->dict:
     """
     return private._describe_metadata_profiles(conn)
 
-def delete_application_credential_profile_by_id(conn:dict, id:str)->dict:
+
+def delete_application_credential_profile_by_id(conn: dict, id: str) -> dict:
     """
     Delete AuthProfile By Id
     [Args]
@@ -5303,8 +5480,9 @@ def delete_application_credential_profile_by_id(conn:dict, id:str)->dict:
         (dict) Response: Delete authprofile by id response (includes any errors)
     """
     return private._delete_application_credential_profile_by_id(conn, id)
-    
-def get_profiles_with_additional_data_for_specific_application(conn:dict, type:str, application_id:str)->dict:
+
+
+def get_profiles_with_additional_data_for_specific_application(conn: dict, type: str, application_id: str) -> dict:
     """
     Get the profiles with additional data for a specific application
     [Args]
@@ -5316,7 +5494,8 @@ def get_profiles_with_additional_data_for_specific_application(conn:dict, type:s
     """
     return private._get_profiles_with_additional_data_for_specific_application(conn, type, application_id)
 
-def describe_profiles_per_type_and_application(conn:dict, type:str, application_id:str)->dict:
+
+def describe_profiles_per_type_and_application(conn: dict, type: str, application_id: str) -> dict:
     """
     Describes the app credential profiles per type and application
     [Args]
@@ -5328,7 +5507,8 @@ def describe_profiles_per_type_and_application(conn:dict, type:str, application_
     """
     return private._describe_profiles_per_type_and_application(conn, type, application_id)
 
-def get_profile_types(conn:dict)->dict:
+
+def get_profile_types(conn: dict) -> dict:
     """
     Get profile types
     [Args]
@@ -5337,8 +5517,9 @@ def get_profile_types(conn:dict)->dict:
         (dict) Response: Get profile types response (includes any errors)
     """
     return private._get_profile_types(conn)
-    
-def get_profiles_template_per_type(conn:dict, type:str)->dict:
+
+
+def get_profiles_template_per_type(conn: dict, type: str) -> dict:
     """
     Get profile's template per type
     [Args]
@@ -5348,10 +5529,10 @@ def get_profiles_template_per_type(conn:dict, type:str)->dict:
         (dict) Response: Get profile's template per type response (includes any errors)
     """
     return private._get_profiles_template_per_type(conn, type)
-    
+
 
 ##Rados
-def add_ceph_rgw(conn:dict, data:dict)->dict:
+def add_ceph_rgw(conn: dict, data: dict) -> dict:
     """
     Add Rados Gateway
     [Args]
@@ -5369,7 +5550,8 @@ def add_ceph_rgw(conn:dict, data:dict)->dict:
     """
     return private._add_ceph_rgw(conn, data)
 
-def delete_ceph_rgw_by_id(conn:dict, id:str)->dict:
+
+def delete_ceph_rgw_by_id(conn: dict, id: str) -> dict:
     """
     Delete Rados Gateway from PCC using id
     [Args]
@@ -5379,9 +5561,10 @@ def delete_ceph_rgw_by_id(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Delete Rados Gateway response (includes any errors)
     """
-    return private._delete_ceph_rgw_by_id(conn,id)
+    return private._delete_ceph_rgw_by_id(conn, id)
 
-def get_ceph_rgws(conn:dict)->dict:
+
+def get_ceph_rgws(conn: dict) -> dict:
     """
     Get Rados Gateway
 
@@ -5393,7 +5576,8 @@ def get_ceph_rgws(conn:dict)->dict:
     """
     return private._get_ceph_rgws(conn)
 
-def modify_ceph_rgw(conn:dict, data:dict, id:int)->dict:
+
+def modify_ceph_rgw(conn: dict, data: dict, id: int) -> dict:
     """
     Modify Rados Gateway
         (dict) data: {
@@ -5407,11 +5591,12 @@ def modify_ceph_rgw(conn:dict, data:dict, id:int)->dict:
                     {
     [Returns]
         (dict) Response: Add Network Cluster (includes any errors)
-    """   
+    """
     return private._modify_ceph_rgw(conn, data, id)
-    
+
+
 ##Alerts
-def get_alert_rules(conn:dict)->dict:
+def get_alert_rules(conn: dict) -> dict:
     """
     Get Alert Rules
 
@@ -5423,7 +5608,8 @@ def get_alert_rules(conn:dict)->dict:
     """
     return private._get_alert_rules(conn)
 
-def add_alert_rule(conn:dict, data:dict)->dict:
+
+def add_alert_rule(conn: dict, data: dict) -> dict:
     """
     Add Alert Rule
     [Args]
@@ -5442,8 +5628,9 @@ def add_alert_rule(conn:dict, data:dict)->dict:
         (dict) Response: Add Alert Rule (includes any errors)
     """
     return private._add_alert_rule(conn, data)
-       
-def delete_alert_rule_by_id(conn:dict, id:str)->dict:
+
+
+def delete_alert_rule_by_id(conn: dict, id: str) -> dict:
     """
     Delete Alert Rule from PCC using Id
     [Args]
@@ -5456,7 +5643,7 @@ def delete_alert_rule_by_id(conn:dict, id:str)->dict:
     return private._delete_alert_rule_by_id(conn, id)
 
 
-def modify_alert_rule(conn:dict, data:dict, id:int)->dict:
+def modify_alert_rule(conn: dict, data: dict, id: int) -> dict:
     """
     Modify Alert Rule
     [Args]
@@ -5475,9 +5662,10 @@ def modify_alert_rule(conn:dict, data:dict, id:int)->dict:
         (dict) Response: Modify Alert Rule (includes any errors)
     """
     return private._modify_alert_rule(conn, data, id)
-    
+
+
 ##IPAM
-def get_subnet_objs(conn:dict)->dict:
+def get_subnet_objs(conn: dict) -> dict:
     """
     Get Subnet
 
@@ -5488,8 +5676,9 @@ def get_subnet_objs(conn:dict)->dict:
         (dict) Response: Get Subnet response (includes any errors)
     """
     return private._get_subnet_objs(conn)
-    
-def add_subnet_obj(conn:dict, data:dict)->dict:
+
+
+def add_subnet_obj(conn: dict, data: dict) -> dict:
     """
     Add Subnet
     [Args]
@@ -5507,7 +5696,8 @@ def add_subnet_obj(conn:dict, data:dict)->dict:
     """
     return private._add_subnet_obj(conn, data)
 
-def delete_subnet_obj_by_id(conn:dict, id:str)->dict:
+
+def delete_subnet_obj_by_id(conn: dict, id: str) -> dict:
     """
     Delete Subnet from PCC using Id
     [Args]
@@ -5519,7 +5709,8 @@ def delete_subnet_obj_by_id(conn:dict, id:str)->dict:
     """
     return private._delete_subnet_obj_by_id(conn, str(id))
 
-def modify_subnet_obj(conn:dict, data:dict)->dict:
+
+def modify_subnet_obj(conn: dict, data: dict) -> dict:
     """
     Modify Subnet
     [Args]
@@ -5537,9 +5728,10 @@ def modify_subnet_obj(conn:dict, data:dict)->dict:
     """
     return private._modify_subnet_obj(conn, data)
 
+
 ## Policy driven management
 
-def get_all_scopes(conn:dict)->dict:
+def get_all_scopes(conn: dict) -> dict:
     """
     Get All Scopes
 
@@ -5550,8 +5742,9 @@ def get_all_scopes(conn:dict)->dict:
         (dict) Response: Get All Scopes response (includes any errors)
     """
     return private._get_all_scopes(conn)
-    
-def get_scope_types(conn:dict)->dict:
+
+
+def get_scope_types(conn: dict) -> dict:
     """
     Get Scope Types
 
@@ -5562,8 +5755,9 @@ def get_scope_types(conn:dict)->dict:
         (dict) Response: Get Scope types response (includes any errors)
     """
     return private._get_scope_types(conn)
-    
-def get_scope(conn:dict, id:str)->dict:
+
+
+def get_scope(conn: dict, id: str) -> dict:
     """
     Get Scope
 
@@ -5573,9 +5767,10 @@ def get_scope(conn:dict, id:str)->dict:
     [Returns]
         (dict) Response: Get Scope response (includes any errors)
     """
-    return private._get_scope(conn,id)
-    
-def get_scope_tree(conn:dict, id:int)->dict:
+    return private._get_scope(conn, id)
+
+
+def get_scope_tree(conn: dict, id: int) -> dict:
     """
     Get Scope Tree
 
@@ -5587,7 +5782,8 @@ def get_scope_tree(conn:dict, id:int)->dict:
     """
     return _get_scope_tree(conn, id)
 
-def get_scopes_tree(conn:dict)->dict:
+
+def get_scopes_tree(conn: dict) -> dict:
     """
     Get Scopes Tree
 
@@ -5598,8 +5794,9 @@ def get_scopes_tree(conn:dict)->dict:
         (dict) Response: Get Scopes Tree response (includes any errors)
     """
     return _get_scopes_tree(conn)
-    
-def add_scope(conn:dict, data:dict)->dict:
+
+
+def add_scope(conn: dict, data: dict) -> dict:
     """
     Add Scope
     [Args]
@@ -5614,7 +5811,8 @@ def add_scope(conn:dict, data:dict)->dict:
     """
     return private._add_scope(conn, data)
 
-def add_multiple_nodes_to_scope(conn:dict, data:dict, id:str)->dict:
+
+def add_multiple_nodes_to_scope(conn: dict, data: dict, id: str) -> dict:
     """
     Add Multiple Nodes To Scope
     [Args]
@@ -5626,8 +5824,9 @@ def add_multiple_nodes_to_scope(conn:dict, data:dict, id:str)->dict:
         (dict) Response: Add Multiple Nodes To Scope response (includes any errors)
     """
     return _add_multiple_nodes_to_scope(conn, data, id)
-        
-def modify_scope_by_id(conn:dict, id:str, data:dict)->dict:
+
+
+def modify_scope_by_id(conn: dict, id: str, data: dict) -> dict:
     """
     Modify Scope by Id
     [Args]
@@ -5646,7 +5845,8 @@ def modify_scope_by_id(conn:dict, id:str, data:dict)->dict:
     """
     return private._modify_scope_by_id(conn, id, data)
 
-def delete_scope_by_id(conn:dict, id:str)->dict:
+
+def delete_scope_by_id(conn: dict, id: str) -> dict:
     """
     Delete Scope Id
     [Args]
@@ -5657,8 +5857,9 @@ def delete_scope_by_id(conn:dict, id:str)->dict:
         (dict) Response: Delete Scope response (includes any errors)
     """
     return private._delete_scope_by_id(conn, id)
-    
-def apply_policy(conn:dict, id:str, data:dict)->dict:
+
+
+def apply_policy(conn: dict, id: str, data: dict) -> dict:
     """
     Apply policy
     [Args]
@@ -5672,7 +5873,7 @@ def apply_policy(conn:dict, id:str, data:dict)->dict:
     return private._apply_policy(conn, id, data)
 
 
-def get_all_policies(conn:dict)->dict:
+def get_all_policies(conn: dict) -> dict:
     """
     Get All Policies
 
@@ -5683,8 +5884,9 @@ def get_all_policies(conn:dict)->dict:
         (dict) Response: Get All Policies response (includes any errors)
     """
     return private._get_all_policies(conn)
-    
-def get_policy(conn:dict, id:str)->dict:
+
+
+def get_policy(conn: dict, id: str) -> dict:
     """
     Get Policy
 
@@ -5695,8 +5897,9 @@ def get_policy(conn:dict, id:str)->dict:
         (dict) Response: Get Policy response (includes any errors)
     """
     return private._get_policy(conn, id)
-    
-def add_policy(conn:dict, data:dict)->dict:
+
+
+def add_policy(conn: dict, data: dict) -> dict:
     """
     Add Policy
     [Args]
@@ -5721,8 +5924,9 @@ def add_policy(conn:dict, data:dict)->dict:
         (dict) Response: Add Policy (includes any errors)
     """
     return private._add_policy(conn, data)
-    
-def modify_policy_by_id(conn:dict, id:str, data:dict)->dict:
+
+
+def modify_policy_by_id(conn: dict, id: str, data: dict) -> dict:
     """
     Modify Policy by Id
     [Args]
@@ -5751,7 +5955,8 @@ def modify_policy_by_id(conn:dict, id:str, data:dict)->dict:
     """
     return private._modify_policy_by_id(conn, id, data)
 
-def delete_policy_by_id(conn:dict, id:str)->dict:
+
+def delete_policy_by_id(conn: dict, id: str) -> dict:
     """
     Delete Scope Id
     [Args]
@@ -5763,7 +5968,8 @@ def delete_policy_by_id(conn:dict, id:str)->dict:
     """
     return private._delete_policy_by_id(conn, id)
 
-def get_node_rsop(conn:dict, id:str)->dict:
+
+def get_node_rsop(conn: dict, id: str) -> dict:
     """
     Get Node Resultant Set Of Policies
 
@@ -5774,8 +5980,9 @@ def get_node_rsop(conn:dict, id:str)->dict:
         (dict) Response: Get Node Resultant Set Of Policies response (includes any errors)
     """
     return private._get_node_rsop(conn, id)
-    
-def get_policy_deploy_status_by_scopes(conn:dict, id:str)->dict:   
+
+
+def get_policy_deploy_status_by_scopes(conn: dict, id: str) -> dict:
     """
     Get Policy deployment status by scope
 
@@ -5786,8 +5993,9 @@ def get_policy_deploy_status_by_scopes(conn:dict, id:str)->dict:
         (dict) Response: Get Policy deployment status by scope response (includes any errors)
     """
     return private._get_policy_deploy_status_by_scopes(conn, id)
-    
-def get_policy_deploy_status_by_policies(conn:dict, id:str)->dict:   
+
+
+def get_policy_deploy_status_by_policies(conn: dict, id: str) -> dict:
     """
     Get Policy deployment status by policies
 
@@ -5798,8 +6006,9 @@ def get_policy_deploy_status_by_policies(conn:dict, id:str)->dict:
         (dict) Response: Get Policy deployment status by policies response (includes any errors)
     """
     return private._get_policy_deploy_status_by_policies(conn, id)
-        
-def get_policies_for_scope(conn:dict, id:str)->dict:   
+
+
+def get_policies_for_scope(conn: dict, id: str) -> dict:
     """
     Get Policies For Scope
 
@@ -5811,7 +6020,8 @@ def get_policies_for_scope(conn:dict, id:str)->dict:
     """
     return private._get_policies_for_scope(conn, id)
 
-def get_application_policy_for_scope(conn:dict, id:str, appID:str)->dict:   
+
+def get_application_policy_for_scope(conn: dict, id: str, appID: str) -> dict:
     """
     Get Application Policy For Scope
 
@@ -5823,7 +6033,8 @@ def get_application_policy_for_scope(conn:dict, id:str, appID:str)->dict:
     """
     return private._get_application_policy_for_scope(conn, id, appID)
 
-def get_historical_data_for_scope(conn:dict, id:str)->dict:   
+
+def get_historical_data_for_scope(conn: dict, id: str) -> dict:
     """
     Get Historical data for scope
 
@@ -5834,8 +6045,9 @@ def get_historical_data_for_scope(conn:dict, id:str)->dict:
         (dict) Response: Get Historical Data for Scope response (includes any errors)
     """
     return private._get_historical_data_for_scope(conn, id)
-    
-def get_scope_history_by_timestamp(conn:dict, id:str, start_timestamp:str , end_timestamp:str )->dict:   
+
+
+def get_scope_history_by_timestamp(conn: dict, id: str, start_timestamp: str, end_timestamp: str) -> dict:
     """
     Get Scope History by Timestamp
 
@@ -5848,9 +6060,10 @@ def get_scope_history_by_timestamp(conn:dict, id:str, start_timestamp:str , end_
         (dict) Response: Get Scope History by Timestamp response (includes any errors)
     """
     return _get_scope_history_by_timestamp(conn, id, start_timestamp, end_timestamp)
-        
-#Monitoring and Stats
-def get_monitor_topics(conn:dict)->dict:   
+
+
+# Monitoring and Stats
+def get_monitor_topics(conn: dict) -> dict:
     """
     Get Monitor Topics
 
@@ -5861,8 +6074,9 @@ def get_monitor_topics(conn:dict)->dict:
         (dict) Response: Get monitor topics response (includes any errors)
     """
     return private._get_monitor_topics(conn)
-    
-def get_monitor_specific_topic(conn:dict, topic:str)->dict:   
+
+
+def get_monitor_specific_topic(conn: dict, topic: str) -> dict:
     """
     Get Monitor Specific Topic
 
@@ -5873,8 +6087,9 @@ def get_monitor_specific_topic(conn:dict, topic:str)->dict:
         (dict) Response: Get monitor specific topic response (includes any errors)
     """
     return private._get_monitor_specific_topic(conn, topic)
-    
-def add_monitor_cache(conn:dict, topic:str, id:str, data:dict)->dict:   
+
+
+def add_monitor_cache(conn: dict, topic: str, id: str, data: dict) -> dict:
     """
     Add Monitor Cache
     [Args]
@@ -5887,3 +6102,36 @@ def add_monitor_cache(conn:dict, topic:str, id:str, data:dict)->dict:
         (dict) Response: Add Monitor Cache (includes any errors)
     """
     return private._add_monitor_cache(conn, topic, id, data)
+
+
+# Dashboard
+
+def get_object_graph(conn: dict) -> dict:
+
+    """
+   Get Dashboard object graph
+
+   [Args]
+       (dict) conn: Connection dictionary obtained after logging in
+
+   [Returns]
+       (dict) Response: Get dashboard object graph response
+
+    """
+
+    return private._get_object_graph(conn)
+
+def get_object_metrics(conn: dict) -> dict:
+
+    """
+   Get Dashboard object metrics
+
+   [Args]
+       (dict) conn: Connection dictionary obtained after logging in
+
+   [Returns]
+       (dict) Response: Get dashboard object metrics response
+
+    """
+
+    return private._get_object_metrics(conn)
