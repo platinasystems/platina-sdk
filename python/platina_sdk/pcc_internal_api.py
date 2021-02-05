@@ -4154,6 +4154,114 @@ def _get_ceph_pools_by_cluster_id(conn: dict, id: str) -> dict:
     """
     return get(conn, PCC_STORAGE + "/ceph/cluster" + id + "/pools")
 
+def _get_ceph_pools_documentation(conn: dict) -> dict:
+    """
+    Get Ceph Pools Documentation
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Get Ceph Pools Documentation response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/ceph/pool/doc")
+
+def _add_ceph_cache_pool(conn: dict, data: dict) -> dict:
+    """
+    Add CEPH cache pool
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: status
+                {
+                    "storagePoolID": ,
+                    "name": str,
+                    "mode": str,
+                    "type": str,
+                    "targetMaxBytes": int,
+                    "targetMaxObjects": int,
+                    "cacheTargetDirtyRatio": float,
+                    "cacheTargetFullRatio": float,
+                    "cacheMinFlushAge": int,
+                    "cacheMinEvictAge": int,
+                    "hitFilter": str,
+                    "hitSetCount": int,
+                    "hitSetPeriod": int,
+                    "size": int,
+                    "quota": str,
+                    "quotaUnit": str
+                    "osdClass": str
+
+                }
+    [Returns]
+        (dict) Response: Add CEPH cache pool response (includes any errors)
+    """
+    return post(conn, PCC_STORAGE + "/pool/caches")
+
+def _get_ceph_cache_pool_by_cache_id(conn: dict, id: str) -> dict:
+    """
+    Get Ceph Cache Pool by Pool id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) id: id
+    [Returns]
+        (dict) Response: Get Ceph Cache Pool by Cache Id response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/ceph/pool/caches/" + id)
+
+def _get_ceph_pool_caches(conn: dict) -> dict:
+    """
+    Get Ceph Pool Caches
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Get Ceph Pool Caches response (includes any errors)
+    """
+    return get(conn, PCC_STORAGE + "/ceph/pool/caches")
+
+def _update_ceph_cache_pool(conn: dict, data: dict, id: str) -> dict:
+    """
+    Update CEPH cache pool
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: status
+                {
+                    "storagePoolID": ,
+                    "name": str,
+                    "mode": str,
+                    "type": str,
+                    "targetMaxBytes": int,
+                    "targetMaxObjects": int,
+                    "cacheTargetDirtyRatio": float,
+                    "cacheTargetFullRatio": float,
+                    "cacheMinFlushAge": int,
+                    "cacheMinEvictAge": int,
+                    "hitFilter": str,
+                    "hitSetCount": int,
+                    "hitSetPeriod": int,
+                    "size": int,
+                    "quota": str,
+                    "quotaUnit": str
+                    "osdClass": str
+
+                }
+               (str) id: id of cache pool
+    [Returns]
+        (dict) Response: Update CEPH cache pool response (includes any errors)
+    """
+    return put(conn, PCC_STORAGE + "/pool/caches/" + id)
+
+def _delete_ceph_cache_pool_by_id(conn: dict, id: str) -> dict:
+    """
+    Delete Ceph Cache Pool by id
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) id: id
+    [Returns]
+        (dict) Response: Delete Ceph Cache Pool response (includes any errors)
+    """
+    return delete(conn, PCC_STORAGE + "/ceph/pool/caches/" + id)
 
 def _get_ceph_rdb_available_pools_by_cluster_id(conn: dict, id: str) -> dict:
     """
