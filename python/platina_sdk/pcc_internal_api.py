@@ -4195,7 +4195,7 @@ def _add_ceph_cache_pool(conn: dict, data: dict) -> dict:
     [Returns]
         (dict) Response: Add CEPH cache pool response (includes any errors)
     """
-    return post(conn, PCC_STORAGE + "/pool/caches", data)
+    return post(conn, PCC_STORAGE + "/ceph/pool/caches", data)
 
 def _get_ceph_cache_pool_by_cache_id(conn: dict, id: str) -> dict:
     """
@@ -4250,7 +4250,7 @@ def _update_ceph_cache_pool(conn: dict, data: dict, id: str) -> dict:
     [Returns]
         (dict) Response: Update CEPH cache pool response (includes any errors)
     """
-    return put(conn, PCC_STORAGE + "/pool/caches/" + id, data)
+    return put(conn, PCC_STORAGE + "/ceph/pool/caches/" + id, data)
 
 def _delete_ceph_cache_pool_by_id(conn: dict, id: str) -> dict:
     """
