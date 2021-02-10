@@ -4152,7 +4152,7 @@ def _get_ceph_pools_by_cluster_id(conn: dict, id: str) -> dict:
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return get(conn, PCC_STORAGE + "/ceph/cluster" + id + "/pools")
+    return get(conn, PCC_STORAGE + "/ceph/cluster/" + id + "/pools")
 
 def _get_ceph_pools_documentation(conn: dict) -> dict:
     """
