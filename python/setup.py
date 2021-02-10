@@ -1,4 +1,4 @@
-from setuptools import setup, find_namespace_packages
+from setuptools import setup, find_packages
 from os.path import abspath, dirname, join
 
 PROJECT_NAME = "platina_sdk"
