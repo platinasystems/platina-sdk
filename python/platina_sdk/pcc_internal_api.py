@@ -6179,7 +6179,7 @@ def _delete_ceph_rgw_by_id(conn: dict, id: str) -> dict:
     [Returns]
         (dict) Response: Delete Rados Gateway response (includes any errors)
     """
-    return delete(conn, PCC_RADOS + "/" + str(id))
+    return delete(conn, PCC_RADOS + "rgws//" + str(id))
 
 
 def _get_ceph_rgws(conn: dict, id: str) -> dict:
@@ -6210,7 +6210,7 @@ def _modify_ceph_rgw(conn: dict, data: dict, id: int) -> dict:
     [Returns]
         (dict) Response: Add Network Cluster (includes any errors)
     """
-    return put(conn, PCC_RADOS + "/" + str(id), data)
+    return put(conn, PCC_RADOS + "rgws//" + str(id), data)
 
 
 ##Alerts
