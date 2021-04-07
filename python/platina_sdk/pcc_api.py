@@ -5672,7 +5672,7 @@ def delete_ceph_rgw_by_id(conn: dict, id: str) -> dict:
     return private._delete_ceph_rgw_by_id(conn, id)
 
 
-def get_ceph_rgws(conn: dict) -> dict:
+def get_ceph_rgws(conn: dict, id: str) -> dict:
     """
     Get Rados Gateway
 
@@ -5682,7 +5682,7 @@ def get_ceph_rgws(conn: dict) -> dict:
     [Returns]
         (dict) Response: Get Rados Gateways response (includes any errors)
     """
-    return private._get_ceph_rgws(conn)
+    return private._get_ceph_rgws(conn, id)
 
 
 def modify_ceph_rgw(conn: dict, data: dict, id: int) -> dict:

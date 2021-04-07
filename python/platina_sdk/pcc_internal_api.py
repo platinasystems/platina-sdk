@@ -47,7 +47,8 @@ PCC_DEPLOYMENT = "/maas/deployments"
 PCC_ERASURE_STORAGE = PCCSERVER + "/v1/storage"
 PCC_APP_CREDENTIALS = PCCSERVER + "/app-credentials/"
 PCC_ERASURE_CODE_PROFILE = PCCSERVER + "/v1/storage/ceph/pool/erasure-coded-profiles"
-PCC_RADOS = PCCSERVER + "/v2/storage/ceph/rgws/"
+PCC_RADOS = PCCSERVER + "/v2/storage/ceph/"
+PCC_RADOS_GET = PCCSERVER + "/storage/ceph/cluster/"
 PCC_ALERT = "/platina-monitor/alerts/rules"
 PCC_IPAM = PCCSERVER + "/subnet-objs"
 PCC_SCOPE = PCCSERVER + "/scopes"
@@ -6165,7 +6166,7 @@ def _add_ceph_rgw(conn: dict, data: dict) -> dict:
     [Returns]
         (dict) Response: Add Rados Gateway (includes any errors)
     """
-    return post(conn, PCC_RADOS, data)
+    return post(conn, PCC_RADOS + '/rgws/', data)
 
 
 def _delete_ceph_rgw_by_id(conn: dict, id: str) -> dict:
@@ -6178,20 +6179,20 @@ def _delete_ceph_rgw_by_id(conn: dict, id: str) -> dict:
     [Returns]
         (dict) Response: Delete Rados Gateway response (includes any errors)
     """
-    return delete(conn, PCC_RADOS + "/" + id)
+    return delete(conn, PCC_RADOS + "rgws//" + str(id))
 
 
-def _get_ceph_rgws(conn: dict) -> dict:
+def _get_ceph_rgws(conn: dict, id: str) -> dict:
     """
     Get Rados Gateway
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-
+ 
     [Returns]
         (dict) Response: Get Rados Gateways response (includes any errors)
     """
-    return get(conn, PCC_RADOS)
+    return get(conn, PCC_RADOS_GET + str(id) + '/rgws')
 
 
 def _modify_ceph_rgw(conn: dict, data: dict, id: int) -> dict:
@@ -6209,7 +6210,7 @@ def _modify_ceph_rgw(conn: dict, data: dict, id: int) -> dict:
     [Returns]
         (dict) Response: Add Network Cluster (includes any errors)
     """
-    return put(conn, PCC_RADOS + "/" + str(id), data)
+    return put(conn, PCC_RADOS + "rgws//" + str(id), data)
 
 
 ##Alerts
