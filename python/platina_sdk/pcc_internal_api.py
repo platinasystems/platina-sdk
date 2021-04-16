@@ -55,6 +55,7 @@ PCC_SCOPE = PCCSERVER + "/scopes"
 PCC_POLICY = PCCSERVER + "/policies"
 PCC_MONITOR = "/monitor"
 PCC_DASHBOARD = PCCSERVER + "/dashboard"
+PCC_USER_MANAGEMENT = '/user-management'
 
 
 ## Agent
@@ -6751,3 +6752,25 @@ def _get_object_metrics(conn: dict) -> dict:
     return get(conn, PCC_DASHBOARD + "/objects")
 
 
+def _add_role(conn: dict, data: dict) -> dict:
+    """
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: {
+                "name": self.Name,
+                "description": self.Description,
+                "owner": int(self.owner),
+                "groupOperations":[{"id":1},{"id":3},{"id":5},{"id":7},{"id":9}]
+            }
+
+    [Returns]
+        (dict) Response: Add roles response (includes any errors)
+    """
+    return post(conn,PCC_USER_MANAGEMENT + '/role/register' ,data)
+
+def add_user(conn: dict, data: dict) -> dict:
+    """
+    add user
+    """
+    return post(conn,PCC_USER_MANAGEMENT + '/user/register', data)
