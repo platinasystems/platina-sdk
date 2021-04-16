@@ -6243,3 +6243,28 @@ def get_object_metrics(conn: dict) -> dict:
     """
 
     return private._get_object_metrics(conn)
+
+
+def add_role(conn: dict, data: dict) -> dict:
+    """
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: {
+                "name": self.Name,
+                "description": self.Description,
+                "owner": int(self.owner),
+                "groupOperations":[{"id":1},{"id":3},{"id":5},{"id":7},{"id":9}]
+            }
+
+    [Returns]
+        (dict) Response: Add roles response (includes any errors)
+    """
+    return private._add_role(conn, data)
+
+
+def add_user(conn: dict, data: dict) -> dict:
+    """
+    add user.
+    """
+    return private._add_user(conn, data)
