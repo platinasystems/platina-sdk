@@ -6771,6 +6771,6 @@ def _add_role(conn: dict, data: dict) -> dict:
 
 def add_user(conn: dict, data: dict) -> dict:
     """
-    add user.
+    add user
     """
     return post(conn,PCC_USER_MANAGEMENT + '/user/register', data)

@@ -6265,6 +6265,6 @@ def add_role(conn: dict, data: dict) -> dict:
 
 def add_user(conn: dict, data: dict) -> dict:
     """
-    add user.
+    add user
     """
     return private._add_user(conn, data)
