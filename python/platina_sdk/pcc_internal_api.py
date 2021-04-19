@@ -56,7 +56,7 @@ PCC_POLICY = PCCSERVER + "/policies"
 PCC_MONITOR = "/monitor"
 PCC_DASHBOARD = PCCSERVER + "/dashboard"
 PCC_USER_MANAGEMENT = '/user-management'
-PCC_USER_ROLES = PCC_USER_MANAGEMENT + '/role/'
+PCC_USER_ROLES = PCC_USER_MANAGEMENT + '/role'
 
 ## Agent
 def _get_agents(conn: dict) -> dict:
@@ -6780,4 +6780,4 @@ def _get_user_roles(conn: dict)-> dict:
     get user role.
     """
 
-    return get(conn,PCC_USER_ROLES + "/list")
+    return get(conn,PCC_USER_ROLES )
