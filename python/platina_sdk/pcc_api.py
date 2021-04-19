@@ -6245,7 +6245,7 @@ def get_object_metrics(conn: dict) -> dict:
     return private._get_object_metrics(conn)
 
 
-def add_role(conn: dict, data: dict) -> dict:
+def add_user_role(conn: dict, data: dict) -> dict:
     """
 
     [Args]
@@ -6260,11 +6260,24 @@ def add_role(conn: dict, data: dict) -> dict:
     [Returns]
         (dict) Response: Add roles response (includes any errors)
     """
-    return private._add_role(conn, data)
+    return private._add_user_role(conn, data)
 
+#https://172.17.3.226:9999/user-management/user/set-password
+def add_user_password(conn: dict, data: dict) -> dict:
+    """
+    add_user_password.
+    """
+    return private._add_user_password(conn, data)
 
 def add_user(conn: dict, data: dict) -> dict:
     """
     add user.
     """
     return private._add_user(conn, data)
+
+def get_user_roles(conn: dict)-> dict:
+    """
+    get user role.
+    """
+
+    return private._get_user_roles(conn)
