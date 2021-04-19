@@ -6260,7 +6260,7 @@ def add_user_role(conn: dict, data: dict) -> dict:
     [Returns]
         (dict) Response: Add roles response (includes any errors)
     """
-    return private._add_role(conn, data)
+    return private._add_user_role(conn, data)
 
 
 def add_user(conn: dict, data: dict) -> dict:
