@@ -6262,6 +6262,12 @@ def add_user_role(conn: dict, data: dict) -> dict:
     """
     return private._add_user_role(conn, data)
 
+#https://172.17.3.226:9999/user-management/user/set-password
+def add_user_password(conn: dict, data: dict) -> dict:
+    """
+    add_user_password.
+    """
+    return private._add_user_password(conn, data)
 
 def add_user(conn: dict, data: dict) -> dict:
     """

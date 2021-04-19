@@ -6769,6 +6769,13 @@ def _add_user_role(conn: dict, data: dict) -> dict:
     """
     return post(conn,PCC_USER_ROLES + '/register' ,data)
 
+#https://172.17.3.226:9999/user-management/user/set-password
+def _add_user_password(conn: dict, data: dict) -> dict:
+    """
+    add_user_password.
+    """
+    return post(conn,PCC_USER_MANAGEMENT + '/user/set-password',data)
+
 def _add_user(conn: dict, data: dict) -> dict:
     """
     add user.
