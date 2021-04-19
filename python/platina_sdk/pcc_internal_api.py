@@ -6780,4 +6780,4 @@ def _get_user_roles(conn: dict)-> dict:
     get user role.
     """
 
-    return get(conn,PCC_USER_ROLES )
+    return get(conn,PCC_USER_ROLES + "/list")
