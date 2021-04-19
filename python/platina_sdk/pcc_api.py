@@ -6245,7 +6245,7 @@ def get_object_metrics(conn: dict) -> dict:
     return private._get_object_metrics(conn)
 
 
-def add_role(conn: dict, data: dict) -> dict:
+def add_user_role(conn: dict, data: dict) -> dict:
     """
 
     [Args]
@@ -6268,3 +6268,10 @@ def add_user(conn: dict, data: dict) -> dict:
     add user.
     """
     return private._add_user(conn, data)
+
+def get_user_roles(conn: dict)-> dict:
+    """
+    get user role.
+    """
+
+    return private._get_user_roles(conn)
