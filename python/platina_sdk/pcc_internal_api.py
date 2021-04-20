@@ -6800,4 +6800,4 @@ def _delete_user(conn: dict, data: dict) -> dict:
         (dict) Response: Delete User response (includes any errors)
         /user-management/user/delete
     """
-    return delete(conn, PCC_USER + "/delete" , data)
+    return post(conn, PCC_USER + "/delete" , data)
