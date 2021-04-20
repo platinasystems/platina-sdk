@@ -6281,3 +6281,14 @@ def get_user_roles(conn: dict)-> dict:
     """
 
     return private._get_user_roles(conn)
+
+def delete_user(conn: dict, data: dict) -> dict:
+    """
+    Delete User
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: payload
+    [Returns]
+        (dict) Response: Delete User response (includes any errors)
+    """
+    return private._delete_user(conn, data)
