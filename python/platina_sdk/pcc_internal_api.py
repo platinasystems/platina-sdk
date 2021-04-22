@@ -6801,3 +6801,10 @@ def _delete_user(conn: dict, data: dict) -> dict:
         /user-management/user/delete
     """
     return post(conn, PCC_USER + "/delete" , data)
+
+def _get_ceph_version_list(conn: dict, id:str)-> dict:
+    """
+    get ceph version list.
+    """
+
+    return get(conn,PCC_STORAGE + '/ceph/cluster/' + str(id) + '/state/nodes')

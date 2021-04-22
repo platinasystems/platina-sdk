@@ -6292,3 +6292,10 @@ def delete_user(conn: dict, data: dict) -> dict:
         (dict) Response: Delete User response (includes any errors)
     """
     return private._delete_user(conn, data)
+
+def get_ceph_version_list(conn: dict, id:str)-> dict:
+    """
+    get ceph version list.
+    """
+
+    return private._get_ceph_version_list(conn,id)
