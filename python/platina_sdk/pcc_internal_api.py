@@ -56,7 +56,8 @@ PCC_POLICY = PCCSERVER + "/policies"
 PCC_MONITOR = "/monitor"
 PCC_DASHBOARD = PCCSERVER + "/dashboard"
 PCC_USER_MANAGEMENT = '/user-management'
-
+PCC_USER_ROLES = PCC_USER_MANAGEMENT + '/role'
+PCC_USER = PCC_USER_MANAGEMENT + '/user'
 
 ## Agent
 def _get_agents(conn: dict) -> dict:
@@ -2801,7 +2802,7 @@ def _get_provision_status_by_id(conn: dict, id: str) -> dict:
     return get(conn, PCC_PROVISIONS + "/" + id + "/statuses")
 
 
-## Roles
+## Node Roles
 def _get_roles(conn: dict) -> dict:
     """
     Get Roles
@@ -6751,8 +6752,8 @@ def _get_object_metrics(conn: dict) -> dict:
     """
     return get(conn, PCC_DASHBOARD + "/objects")
 
-
-def _add_role(conn: dict, data: dict) -> dict:
+## User Roles
+def _add_user_role(conn: dict, data: dict) -> dict:
     """
 
     [Args]
@@ -6767,10 +6768,43 @@ def _add_role(conn: dict, data: dict) -> dict:
     [Returns]
         (dict) Response: Add roles response (includes any errors)
     """
-    return post(conn,PCC_USER_MANAGEMENT + '/role/register' ,data)
+    return post(conn,PCC_USER_ROLES + '/register' ,data)
 
-def add_user(conn: dict, data: dict) -> dict:
+#https://172.17.3.226:9999/user-management/user/set-password
+def _add_user_password(conn: dict, data: dict) -> dict:
+    """
+    add_user_password.
+    """
+    return post(conn,PCC_USER + '/set-password',data)
+
+def _add_user(conn: dict, data: dict) -> dict:
     """
     add user.
     """
-    return post(conn,PCC_USER_MANAGEMENT + '/user/register', data)
+    return post(conn,PCC_USER + '/register', data)
+
+def _get_user_roles(conn: dict)-> dict:
+    """
+    get user role.
+    """
+
+    return get(conn,PCC_USER_ROLES + "/list")
+
+def _delete_user(conn: dict, data: dict) -> dict:
+    """
+    Delete User
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: payload
+    [Returns]
+        (dict) Response: Delete User response (includes any errors)
+        /user-management/user/delete
+    """
+    return post(conn, PCC_USER + "/delete" , data)
+
+def _get_ceph_version_list(conn: dict, id:str)-> dict:
+    """
+    get ceph version list.
+    """
+
+    return get(conn,PCC_STORAGE + '/ceph/cluster/' + str(id) + '/state/nodes')
