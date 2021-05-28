@@ -6299,3 +6299,29 @@ def get_ceph_version_list(conn: dict, id:str)-> dict:
     """
 
     return private._get_ceph_version_list(conn,id)
+
+
+def get_event_log(conn: dict) -> dict:
+    """
+    Get Apps
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: Get event log response (includes any errors)
+    """
+    return private._get_event_log(conn)
+
+def get_node_audit_status(conn: dict,id : str) -> dict:
+    """
+    Get Apps
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) id: node id
+
+    [Returns]
+        (dict) Response: Get node audit details (includes any errors)
+    """
+    return private._get_node_audit_status(conn,id)
