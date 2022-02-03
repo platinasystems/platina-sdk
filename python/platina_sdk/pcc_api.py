@@ -6325,3 +6325,111 @@ def get_node_audit_status(conn: dict,id : str) -> dict:
         (dict) Response: Get node audit details (includes any errors)
     """
     return private._get_node_audit_status(conn,id)
+
+def get_trusts(conn: dict) -> dict:
+    """
+        Get Trusts
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+
+        [Returns]
+            (dict) Response: Trust details
+        """
+    return private._get_trusts(conn)
+
+def get_trust_by_id(conn: dict, id : str) -> dict:
+    """
+        Get Trust by id
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+            (str) id: trust id
+
+        [Returns]
+            (dict) Response: Trust details
+        """
+    return private._get_trust_by_id(conn, id)
+
+
+def get_trust_file(conn: dict, id: str) -> dict:
+    """
+        Get Trust File
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+            (str) id: trust id
+
+        [Returns]
+            (dict) Response: Trust file
+        """
+    return private._get_trust_file(conn, id)
+
+
+def select_trust_target(conn: dict,id : str, data: dict) -> dict:
+    """
+        Select the target for the trust (nodes or rgws)
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+            (str) id: node id
+            (dict) data: {}
+        [Returns]
+            (dict) Response: Trust details
+        """
+    return private._select_trust_target(conn, id, data)
+
+
+def start_trust_creation(conn: dict, data: dict) -> dict:
+    """
+        Start trust creation
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+            (dict) data: {}
+
+        [Returns]
+            (dict) Response: Trust details
+        """
+    return private._start_trust_creation(conn, data)
+
+
+def end_trust_creation(conn: dict, data: dict) -> dict:
+    """
+        End trust creation
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+            (dict) data: {}
+
+        [Returns]
+            (dict) Response: Trust details
+        """
+    return private._end_trust_creation(conn, data)
+
+
+def delete_trusts(conn: dict) -> dict:
+    """
+        Delete all trusts
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+
+        [Returns]
+            (dict) Trust delete Response
+        """
+    return private._delete_trusts(conn)
+
+
+def delete_trust_by_id(conn: dict, id : str) -> dict:
+    """
+        Delete trust by id
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+            (str) id: trust id
+
+        [Returns]
+            (dict) Trust delete Response
+        """
+    return private._delete_trust_by_id(conn, id)

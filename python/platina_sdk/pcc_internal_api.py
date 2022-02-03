@@ -19,7 +19,6 @@ PCC_ENVIRONMENT = PCCSERVER + "/environment"
 PCC_FILES = PCCSERVER + "/files"
 PCC_HARDWARE_INVENTORY = PCCSERVER + "/hardware-inventory"
 PCC_TYPE = PCCSERVER + "/type"
-PCC_STATUSES = PCCSERVER + "/statuses"
 PCC_APPS = PCCSERVER + "/templates"
 PCC_POLICY_APPS = PCCSERVER + "/apps"
 PCC_CLUSTER = PCCSERVER + "/cluster"
@@ -58,6 +57,7 @@ PCC_DASHBOARD = PCCSERVER + "/dashboard"
 PCC_USER_MANAGEMENT = '/user-management'
 PCC_USER_ROLES = PCC_USER_MANAGEMENT + '/role'
 PCC_USER = PCC_USER_MANAGEMENT + '/user'
+PCC_TRUSTS = PCCSERVER + '/trusts'
 
 ## Agent
 def _get_agents(conn: dict) -> dict:
@@ -159,7 +159,7 @@ def _add_configurations(conn: dict, data: dict) -> dict:
     return post(conn, PCC_CONFIGURATIONS, data)
 
 
-def _get_configurations_by_id(conn: dict, Id: int) -> dict:
+def _get_configurations_by_id(conn: dict, id: int) -> dict:
     """
     Get Configurations by Id
 
@@ -203,7 +203,7 @@ def _modify_configurations(conn: dict, data: dict) -> dict:
     return put(conn, PCC_CONFIGURATIONS, data)
 
 
-def _delete_configurations_by_id(conn: dict, Id: int) -> dict:
+def _delete_configurations_by_id(conn: dict, id: int) -> dict:
     """
     Delete Configurations by Id
 
@@ -231,7 +231,7 @@ def _get_environments(conn: dict) -> dict:
     return get(conn, PCC_ENVIRONMENT)
 
 
-def _get_environment_by_id(conn: dict, Id: int) -> dict:
+def _get_environment_by_id(conn: dict, id: int) -> dict:
     """
     Get Environment by Id
 
@@ -242,7 +242,7 @@ def _get_environment_by_id(conn: dict, Id: int) -> dict:
     [Returns]
         (dict) Response: Get Environment response (includes any errors)
     """
-    return get(conn, PCC_ENVIRONMENT + "/" + str(Id))
+    return get(conn, PCC_ENVIRONMENT + "/" + str(id))
 
 
 ## Files
@@ -292,7 +292,7 @@ def _download_file(conn: dict, name: str) -> dict:
     return get(conn, PCC_FILES + "/download/" + name)
 
 
-def _get_file_by_id(conn: dict, Id: str) -> dict:
+def _get_file_by_id(conn: dict, id: str) -> dict:
     """
     Get File by Id
 
@@ -303,7 +303,7 @@ def _get_file_by_id(conn: dict, Id: str) -> dict:
     [Returns]
         (dict) Response: Get Files response (includes any errors)
     """
-    return get(conn, PCC_FILES + "/" + Id)
+    return get(conn, PCC_FILES + "/" + id)
 
 
 def _modify_file(conn: dict, data: dict) -> dict:
@@ -325,7 +325,7 @@ def _modify_file(conn: dict, data: dict) -> dict:
     return put(conn, PCC_FILES, data)
 
 
-def _delete_file_by_id(conn: dict, Id: str) -> dict:
+def _delete_file_by_id(conn: dict, id: str) -> dict:
     """
     Delete File by Id
 
@@ -336,7 +336,7 @@ def _delete_file_by_id(conn: dict, Id: str) -> dict:
     [Returns]
         (dict) Response: Delete File response (includes any errors)
     """
-    return delete(conn, PCC_FILES + "/" + Id)
+    return delete(conn, PCC_FILES + "/" + id)
 
 
 ## HardwareInventory
@@ -379,7 +379,7 @@ def _get_hardware_inventory_discovery(conn: dict) -> dict:
     return get(conn, PCC_HARDWARE_INVENTORY + "/discovery")
 
 
-def _get_hardware_inventory_by_node_id(conn: dict, nodeId: str) -> dict:
+def _get_hardware_inventory_by_node_id(conn: dict, node_id: str) -> dict:
     """
     Get Hardware Inventory by Node Id
 
@@ -390,7 +390,7 @@ def _get_hardware_inventory_by_node_id(conn: dict, nodeId: str) -> dict:
     [Returns]
         (dict) Response: Get Hardware Inventory response (includes any errors)
     """
-    return get(conn, PCC_HARDWARE_INVENTORY + "/" + nodeId)
+    return get(conn, PCC_HARDWARE_INVENTORY + "/" + node_id)
 
 
 ## Type
@@ -997,14 +997,14 @@ def _add_kubernetes(conn: dict, data: dict) -> dict:
 
 def _get_kubernetes_strgclasses_by_id(conn: dict, id: str) -> dict:
     """
-    Get Kuberbetes StrgClasses by id
+    Get Kubernetes StrgClasses by id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
         (str) id: id of the cluster
 
     [Returns]
-        (dict) Response: Get Kuberbetes response (includes any errors)
+        (dict) Response: Get Kubernetes response (includes any errors)
     """
     return get(conn, PCC_KUBERNETES + "/cluster/" + id + "/strgclasses")
 
@@ -5417,7 +5417,7 @@ def _update_tenant_to_node(conn: dict, data: dict) -> dict:
 
 
 ##Key Manager(Certificates)
-def _add_certificate(conn: dict, alias: str, description: str, multipart_data: dict) -> dict:
+def _add_certificate(conn: dict, alias: str, multipart_data: dict) -> dict:
     """
     Add Certificate
         [Args]
@@ -5456,7 +5456,7 @@ def _delete_certificate_by_id(conn: dict, id: str) -> dict:
 
 
 ##Key Manager (keys)
-def _add_keys(conn: dict, alias: str, description: str, multipart_data: dict) -> dict:
+def _add_keys(conn: dict, alias: str, multipart_data: dict) -> dict:
     """
     Add OpenSSH Keys
         [Args]
@@ -5482,7 +5482,7 @@ def _get_keys(conn: dict) -> dict:
     return get(conn, PCC_KEY_MANAGER + "/keys/describe")
 
 
-def _delete_keys_by_alias(conn: dict, Alias: str) -> dict:
+def _delete_keys_by_alias(conn: dict, alias: str) -> dict:
     """
     Delete OpenSSH_keys by Alias
     [Args]
@@ -5492,7 +5492,7 @@ def _delete_keys_by_alias(conn: dict, Alias: str) -> dict:
     [Returns]
         (dict) Response: Delete OpenSSH_keys response (includes any errors)
     """
-    return delete(conn, PCC_KEY_MANAGER + "/keys/" + Alias)
+    return delete(conn, PCC_KEY_MANAGER + "/keys/" + alias)
 
 
 ##Deployment
@@ -6643,7 +6643,7 @@ def _get_policies_for_scope(conn: dict, id: str) -> dict:
     return get(conn, PCC_SCOPE + "/" + id + "/policies")
 
 
-def _get_application_policy_for_scope(conn: dict, id: str, appID: str) -> dict:
+def _get_application_policy_for_scope(conn: dict, id: str, app_id: str) -> dict:
     """
     Get Application Policy For Scope
 
@@ -6653,7 +6653,7 @@ def _get_application_policy_for_scope(conn: dict, id: str, appID: str) -> dict:
     [Returns]
         (dict) Response: Get Application Policy for scope response (includes any errors)
     """
-    return get(conn, PCC_SCOPE + "/" + id + "/policies/" + appID)
+    return get(conn, PCC_SCOPE + "/" + id + "/policies/" + app_id)
 
 
 def _get_historical_data_for_scope(conn: dict, id: str) -> dict:
@@ -6834,3 +6834,111 @@ def _get_node_audit_status(conn: dict,id : str) -> dict:
         (dict) Response: Get node audit details (includes any errors)
     """
     return get(conn,PCCSERVER + "/v2/node/" + id + "/apps")
+
+def _get_trusts(conn: dict) -> dict:
+    """
+        Get Trusts
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+
+        [Returns]
+            (dict) Response: Trust details
+        """
+    return get(conn, PCC_TRUSTS)
+
+def _get_trust_by_id(conn: dict, id : str) -> dict:
+    """
+        Get Trust by id
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+            (str) id: trust id
+
+        [Returns]
+            (dict) Response: Trust details
+        """
+    return get(conn, PCC_TRUSTS + "/" + id)
+
+
+def _get_trust_file(conn: dict, id: str) -> dict:
+    """
+        Get Trust File
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+            (str) id: trust id
+
+        [Returns]
+            (dict) Response: Trust file
+        """
+    return get(conn, PCC_TRUSTS + "/" + id + "/download")
+
+
+def _select_trust_target(conn: dict,id : str, data: dict) -> dict:
+    """
+        Select the target for the trust (nodes or rgws)
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+            (str) id: node id
+            (dict) data: {}
+        [Returns]
+            (dict) Response: Trust details
+        """
+    return put(conn, PCC_TRUSTS + "/" + id, data)
+
+
+def _start_trust_creation(conn: dict, data: dict) -> dict:
+    """
+        Start trust creation
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+            (dict) data: {}
+
+        [Returns]
+            (dict) Response: Trust details
+        """
+    return post(conn, PCC_TRUSTS, data)
+
+
+def _end_trust_creation(conn: dict, data: dict) -> dict:
+    """
+        End trust creation
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+            (dict) data: {}
+
+        [Returns]
+            (dict) Response: Trust details
+        """
+    return post_multipart(conn, PCC_TRUSTS, data)
+
+
+def _delete_trusts(conn: dict) -> dict:
+    """
+        Delete all trusts
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+
+        [Returns]
+            (dict) Trust delete Response
+        """
+    return delete(conn, PCC_TRUSTS)
+
+
+def _delete_trust_by_id(conn: dict, id : str) -> dict:
+    """
+        Delete trust by id
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+            (str) id: trust id
+
+        [Returns]
+            (dict) Trust delete Response
+        """
+    return delete(conn, PCC_TRUSTS + "/" + id)
