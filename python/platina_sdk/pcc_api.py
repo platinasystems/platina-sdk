@@ -4908,7 +4908,7 @@ def update_tenant_to_node(conn: dict, data: dict) -> dict:
 
 
 ##Key Manager(Certificates)
-def add_certificate(conn: dict, alias: str, description: str, multipart_data: dict) -> dict:
+def add_certificate(conn: dict, alias: str, multipart_data: dict) -> dict:
     """
     Add Certificate
         [Args]
@@ -4918,7 +4918,7 @@ def add_certificate(conn: dict, alias: str, description: str, multipart_data: di
         [Returns]
             (dict) Response: Add Certificate response
     """
-    return private._add_certificate(conn, alias, description, multipart_data)
+    return private._add_certificate(conn, alias, multipart_data)
 
 
 def get_certificates(conn: dict) -> dict:
