@@ -4947,7 +4947,7 @@ def delete_certificate_by_id(conn: dict, id: str) -> dict:
 
 
 ##Key Manager (keys)
-def add_keys(conn: dict, alias: str, description: str, multipart_data: dict) -> dict:
+def add_keys(conn: dict, alias: str, multipart_data: dict) -> dict:
     """
     Add OpenSSH Keys
         [Args]
@@ -4959,7 +4959,7 @@ def add_keys(conn: dict, alias: str, description: str, multipart_data: dict) -> 
             (dict) Response: Add OpenSSH Keys response
     """
 
-    return private._add_keys(conn, alias, description, multipart_data)
+    return private._add_keys(conn, alias, multipart_data)
 
 
 def get_keys(conn: dict) -> dict:
