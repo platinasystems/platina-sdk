@@ -6942,3 +6942,73 @@ def _delete_trust_by_id(conn: dict, id : str) -> dict:
             (dict) Trust delete Response
         """
     return delete(conn, PCC_TRUSTS + "/" + id)
+
+def _get_osds_by_cluster_id(conn: dict, id: str) -> dict:
+    """
+        List All OSDs
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+            (str) id: cluster id
+
+        [Returns]
+            (dict) Response: list of cluster osds
+        """
+    return get(conn, PCC_STORAGE + "/ceph/cluster/"+ id +"/state/osds")
+
+def _get_used_drives_by_cluster_id(conn: dict, id: str) -> dict:
+    """
+        List Used Drives
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+            (str) id: cluster id
+
+        [Returns]
+            (dict) Response: list of used drives in the cluster
+        """
+    return get(conn, PCC_STORAGE + "/ceph/cluster/"+ id +"/drives/used")
+
+def _get_unused_drives_by_cluster_id(conn: dict, id: str) -> dict:
+    """
+        List Unused Drives
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+            (str) id: cluster id
+
+        [Returns]
+            (dict) Response: list of unused drives in the cluster
+        """
+    return get(conn, PCC_STORAGE + "/ceph/cluster/"+ id +"/drives/unused")
+
+def _add_osd_to_cluster(conn: dict, id: str, data: dict) -> dict:
+    """
+        Add OSD to  cluster
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+            (str) id: cluster id
+            (dict) data: list of ids of drives to be added as osd
+                {
+                  "driveIDs":[101]
+                }
+
+        [Returns]
+            (dict) Response: result of the add operation
+        """
+    return post(conn, PCC_STORAGE + "/ceph/cluster/" + id +"/osd/add", data)
+
+def _delete_osd_from_cluster(conn: dict, osd_id: str, cluster_id: str) -> dict:
+    """
+        Delete the OSD from the cluster
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+            (str) osd_id: osd id
+            (str) cluster_id: cluster id
+
+        [Returns]
+            (dict) Response: result of the delete operation
+        """
+    return delete(conn, PCC_STORAGE + "/ceph/cluster/" + cluster_id + "/osd/" + osd_id)
