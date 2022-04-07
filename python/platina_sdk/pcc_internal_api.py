@@ -1009,18 +1009,19 @@ def _get_kubernetes_strgclasses_by_id(conn: dict, id: str) -> dict:
     return get(conn, PCC_KUBERNETES + "/cluster/" + id + "/strgclasses")
 
 
-def _delete_kubernetes_strgclasses_by_id(conn: dict, id: str) -> dict:
+def _delete_kubernetes_strgclasses_by_id(conn: dict, id: str, data: dict) -> dict:
     """
     Delete Kuberbetes StrgClasses by id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
         (str) id: id of the cluster
+        (dict) data: list of StorageClass to delete
 
     [Returns]
         (dict) Response: Delete Kuberbetes response (includes any errors)
     """
-    return delete(conn, PCC_KUBERNETES + "/cluster/" + id + "/strgclasses")
+    return delete(conn, PCC_KUBERNETES + "/cluster/" + id + "/strgclasses", data)
 
 
 def _get_kubernetes_info(conn: dict) -> dict:
