@@ -123,6 +123,28 @@ def post_multipart(conn, url_path, multipart_data):
     response = obj.post(url, files=multipart_data, headers=headers, proxies=conn['proxies'],verify=False)
     return _serialize_response(time.time(), response)
 
+def put_multipart(conn, url_path, multipart_data):
+    # DISABLE SSL error
+    if "options" in conn and "insecure" in conn["options"] and conn["options"]["insecure"]:
+        urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+    headers = {
+        'Authorization': 'Bearer %s' % conn['token']
+    }
+
+    url = conn['url'] + url_path
+    print("MULTIPART API:- " + str(url))
+
+    obj = {}
+    if "options" in conn and "use_session" in conn["options"] and conn["options"]["use_session"] == False:
+        # We're not using a session object here, just the token in the headers.
+        obj = requests
+    else:
+        obj = conn['session']
+
+    response = obj.put(url, files=multipart_data, headers=headers, proxies=conn['proxies'], verify=False)
+    return _serialize_response(time.time(), response)
+
 def _serialize_response(start_time, response):
     execution_time = time.time() - start_time
     if response is None:

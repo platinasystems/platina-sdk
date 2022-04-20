@@ -5,7 +5,7 @@ import json
 import urllib3
 import requests
 
-from platina_sdk.utils import get, post, put, delete, post_multipart
+from platina_sdk.utils import get, post, put, delete, post_multipart, put_multipart
 
 REQUESTS_CA_BUNDLE_UBUNTU = "/etc/ssl/certs/ca-certificates.crt"
 
@@ -2201,7 +2201,7 @@ def _confirm_notification(conn: dict, data: dict) -> dict:
 def _get_notification_history(conn: dict) -> dict:
     """
     Get Notification History
-
+    
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
 
@@ -5980,6 +5980,42 @@ def _add_metadata_profile(conn: dict, multipart_data: dict) -> dict:
 
     return response
 
+def _update_metadata_profile(conn: dict, id: str, multipart_data: dict) -> dict:
+    """
+    Add Metadata Profile
+        [Args]
+            (str) id: id of the profile
+            (dict) Data:
+                  {
+
+                    "name":"test",
+                    "type":"ceph",
+                    "applicationId":null,
+                    "active":true,
+                    "profile":{
+                        "username":"testuser",
+                        "email":"test123@test.com",
+                        "active":true,
+                        "maxBuckets":"2000",
+                        "maxBucketObjects":2000,
+                        "maxBucketSize":3994,
+                        "maxObjectSize":2000,
+                        "maxUserSize":7,
+                        "maxUserObjects":30
+                    },
+                    "files":[]
+
+                }
+
+        [Returns]
+            (dict) Response: Add Metadata Profile response
+    """
+    print("Inside pcc_internal")
+    print("multipart_data: {}".format(multipart_data))
+    response = put_multipart(conn, PCC_APP_CREDENTIALS + id, multipart_data)
+    print("Response in pcc_internal is: {}".format(response))
+
+    return response
 
 def _get_metadata_profiles(conn: dict) -> dict:
     """

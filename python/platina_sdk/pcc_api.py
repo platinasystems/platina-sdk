@@ -5468,6 +5468,38 @@ def add_metadata_profile(conn: dict, multipart_data: dict) -> dict:
     """
     return private._add_metadata_profile(conn, multipart_data)
 
+def update_metadata_profile(conn: dict, id: str, multipart_data: dict) -> dict:
+    """
+    Add Metadata Profile
+        [Args]
+            (str) id: id of the profile
+            (dict) Data:
+                  {
+
+                    "name":"test",
+                    "type":"ceph",
+                    "applicationId":null,
+                    "active":true,
+                    "profile":{
+                        "username":"testuser",
+                        "email":"test123@test.com",
+                        "active":true,
+                        "maxBuckets":"2000",
+                        "maxBucketObjects":2000,
+                        "maxBucketSize":3994,
+                        "maxObjectSize":2000,
+                        "maxUserSize":7,
+                        "maxUserObjects":30
+                    },
+                    "files":[]
+
+                }
+
+        [Returns]
+            (dict) Response: Add Metadata Profile response
+
+    """
+    return private._update_metadata_profile(conn, id, multipart_data)
 
 def get_metadata_profiles(conn: dict) -> dict:
     """
