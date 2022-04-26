@@ -58,6 +58,7 @@ PCC_USER_MANAGEMENT = '/user-management'
 PCC_USER_ROLES = PCC_USER_MANAGEMENT + '/role'
 PCC_USER = PCC_USER_MANAGEMENT + '/user'
 PCC_TRUSTS = PCCSERVER + '/trusts'
+PCC_TAGS = PCCSERVER + '/tags'
 
 ## Agent
 def _get_agents(conn: dict) -> dict:
@@ -7049,3 +7050,65 @@ def _delete_osd_from_cluster(conn: dict, osd_id: str, cluster_id: str) -> dict:
             (dict) Response: result of the delete operation
         """
     return delete(conn, PCC_STORAGE + "/ceph/cluster/" + cluster_id + "/osd/" + osd_id)
+
+def _get_tags(conn: dict) -> dict:
+    """
+        List Tags
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+
+        [Returns]
+            (dict) Response: list of tags in pccserver
+        """
+    return get(conn, PCC_TAGS)
+
+def _add_tag(conn: dict, data: dict) -> dict:
+    """
+        Add tag to pccserver
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+            (dict) data:
+                {
+                  {“name”:“test”,
+                  “description”:“test”,
+                  “policyIDs”:[]}
+                }
+
+        [Returns]
+            (dict) Response: result of the add operation
+        """
+    return post(conn, PCC_TAGS, data)
+
+def _edit_tag(conn: dict, id: str, data: dict) -> dict:
+    """
+        Edit tag
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+            (str) id: id of the tag
+            (dict) data:
+                {
+                  {“name”:“test”,
+                  “description”:“test”,
+                  “policyIDs”:[]}
+                }
+
+        [Returns]
+            (dict) Response: result of the add operation
+        """
+    return put(conn, PCC_TAGS + "/" + id, data)
+
+def _delete_tag(conn: dict, id: str) -> dict:
+    """
+        Delete tag
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+            (str) id: id of the tag
+
+        [Returns]
+            (dict) Response: result of the delete operation
+        """
+    return delete(conn, PCC_TAGS + "/" + id)

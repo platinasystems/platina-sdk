@@ -6536,3 +6536,65 @@ def delete_osd_from_cluster(conn: dict, osd_id: str, cluster_id: str) -> dict:
             (dict) Response: result of the delete operation
         """
     return private._delete_osd_from_cluster(conn, osd_id, cluster_id)
+
+def get_tags(conn: dict) -> dict:
+    """
+        List Tags
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+
+        [Returns]
+            (dict) Response: list of tags in pccserver
+        """
+    return private._get_tags(conn)
+
+def add_tag(conn: dict, data: dict) -> dict:
+    """
+        Add tag to pccserver
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+            (dict) data:
+                {
+                  {“name”:“test”,
+                  “description”:“test”,
+                  “policyIDs”:[]}
+                }
+
+        [Returns]
+            (dict) Response: result of the add operation
+        """
+    return private._add_tag(conn, data)
+
+def edit_tag(conn: dict, id: str, data: dict) -> dict:
+    """
+        Edit tag
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+            (str) id: id of the tag
+            (dict) data:
+                {
+                  {“name”:“test”,
+                  “description”:“test”,
+                  “policyIDs”:[]}
+                }
+
+        [Returns]
+            (dict) Response: result of the edit operation
+        """
+    return private._edit_tag(conn, id, data)
+
+def delete_tag(conn: dict, id: str) -> dict:
+    """
+        Delete tag
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+            (str) id: id of the tag
+
+        [Returns]
+            (dict) Response: result of the delete operation
+        """
+    return private._delete_tag(conn, id)
