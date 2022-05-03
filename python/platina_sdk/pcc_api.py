@@ -6598,3 +6598,19 @@ def delete_tag(conn: dict, id: str) -> dict:
             (dict) Response: result of the delete operation
         """
     return private._delete_tag(conn, id)
+
+def query_metric(conn: dict, query: dict) -> dict:
+    """
+        Query topic metrics from platina-monitor
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+            (dict) query:
+                {
+                  {“query”:“cpuTemp”}
+                }
+
+        [Returns]
+            (dict) Response: result of the query
+        """
+    return private._query_metric(conn, query)

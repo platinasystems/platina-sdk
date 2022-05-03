@@ -59,6 +59,7 @@ PCC_USER_ROLES = PCC_USER_MANAGEMENT + '/role'
 PCC_USER = PCC_USER_MANAGEMENT + '/user'
 PCC_TRUSTS = PCCSERVER + '/trusts'
 PCC_TAGS = PCCSERVER + '/tags'
+PCC_PLATINA_MONITOR = "/platina-monitor"
 
 ## Agent
 def _get_agents(conn: dict) -> dict:
@@ -7112,3 +7113,20 @@ def _delete_tag(conn: dict, id: str) -> dict:
             (dict) Response: result of the delete operation
         """
     return delete(conn, PCC_TAGS + "/" + id)
+
+
+def _query_metric(conn: dict, query: dict) -> dict:
+    """
+        Query topic metrics from platina-monitor
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+            (dict) query:
+                {
+                  {“query”:“cpuTemp”}
+                }
+
+        [Returns]
+            (dict) Response: result of the query
+        """
+    return post(conn, PCC_PLATINA_MONITOR + "/monitor/query", query)
