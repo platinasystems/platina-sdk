@@ -6548,7 +6548,7 @@ def delete_osd_from_cluster(conn: dict, osd_id: str, cluster_id: str, extra: str
         """
     return private._delete_osd_from_cluster(conn, osd_id, cluster_id, extra)
 
-def delete_osd_from_cluster_with_wipe(conn: dict, osd_id: str, cluster_id: str) -> dict:
+def delete_osd_from_cluster_with_wipe(conn: dict, osd_id: str, cluster_id: str, extra: str) -> dict:
     """
         Delete the OSD from the cluster and wipe disk
 
@@ -6556,11 +6556,12 @@ def delete_osd_from_cluster_with_wipe(conn: dict, osd_id: str, cluster_id: str) 
             (dict) conn: Connection dictionary obtained after logging in
             (str) osd_id: osd id
             (str) cluster_id: cluster id
+            (str) extra: e.g. "?code=gags345a"
 
         [Returns]
             (dict) Response: result of the delete operation
         """
-    return private._delete_osd_from_cluster_with_wipe(conn, osd_id, cluster_id)
+    return private._delete_osd_from_cluster_with_wipe(conn, osd_id, cluster_id, extra)
 
 def get_tags(conn: dict) -> dict:
     """

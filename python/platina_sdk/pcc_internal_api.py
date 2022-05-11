@@ -7051,7 +7051,7 @@ def _delete_osd_from_cluster(conn: dict, osd_id: str, cluster_id: str, extra: st
         """
     return delete(conn, PCC_STORAGE + "/ceph/cluster/" + cluster_id + "/osd/" + osd_id + extra)
 
-def _delete_osd_from_cluster_with_wipe(conn: dict, osd_id: str, cluster_id: str) -> dict:
+def _delete_osd_from_cluster_with_wipe(conn: dict, osd_id: str, cluster_id: str, extra: str) -> dict:
     """
         Delete the OSD from the cluster and wipe disk
 
@@ -7063,7 +7063,8 @@ def _delete_osd_from_cluster_with_wipe(conn: dict, osd_id: str, cluster_id: str)
         [Returns]
             (dict) Response: result of the delete operation
         """
-    return delete(conn, PCC_STORAGE + "/ceph/cluster/" + cluster_id + "/osd/" + osd_id + "?wipe=true")
+
+    return delete(conn, PCC_STORAGE + "/ceph/cluster/" + cluster_id + "/osd/" + osd_id + "?wipe=true" + extra.replace("?", "&"))
 
 def _get_tags(conn: dict) -> dict:
     """
