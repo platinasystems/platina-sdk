@@ -3578,17 +3578,19 @@ def modify_ceph_cluster_by_id(conn: dict, id: str, data: dict) -> dict:
     return private._modify_ceph_cluster_by_id(conn, id, data)
 
 
-def delete_ceph_cluster_by_id(conn: dict, id: str, data: dict) -> dict:
+def delete_ceph_cluster_by_id(conn: dict, id: str, data: dict, extra: str) -> dict:
     """
     Delete Ceph Cluster by id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
         (str) id: id
         (dict) data: (boolean) forceRemove
+        (str) extra: e.g. "?code=gags345a"
+
     [Returns]
         (dict) Response: Delete Ceph response (includes any errors)
     """
-    return private._delete_ceph_cluster_by_id(conn, id, data)
+    return private._delete_ceph_cluster_by_id(conn, id, data, extra)
 
 
 def get_ceph_cluster_by_id(conn: dict, id: str) -> dict:
@@ -4226,16 +4228,18 @@ def modify_ceph_fs_by(conn: dict, id: str, data: dict) -> dict:
     return private._modify_ceph_fs_by(conn, id, data)
 
 
-def delete_ceph_fs_by_id(conn: dict, id: str) -> dict:
+def delete_ceph_fs_by_id(conn: dict, id: str, extra: str) -> dict:
     """
     Delete Ceph Fs by id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
         (str) id: id
+        (str) extra: e.g. "?code=gags345a"
+
     [Returns]
         (dict) Response: Delete Ceph response (includes any errors)
     """
-    return private._delete_ceph_fs_by_id(conn, id)
+    return private._delete_ceph_fs_by_id(conn, id, extra)
 
 
 def get_ceph_pools(conn: dict) -> dict:
@@ -4423,16 +4427,17 @@ def modify_ceph_pool_by_id(conn: dict, id: str, data: dict) -> dict:
     return private._modify_ceph_pool_by_id(conn, id, data)
 
 
-def delete_ceph_pool_by_id(conn: dict, id: str) -> dict:
+def delete_ceph_pool_by_id(conn: dict, id: str, extra: str) -> dict:
     """
     Delete Ceph Pool id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
         (str) id: id
+        (str) extra: e.g. "?code=gags345a"
     [Returns]
         (dict) Response: Delete Ceph response (includes any errors)
     """
-    return private._delete_ceph_pool_by_id(conn, id)
+    return private._delete_ceph_pool_by_id(conn, id, extra)
 
 
 def get_ceph_rdb_by_pool_id(conn: dict, id: str) -> dict:
@@ -4535,22 +4540,25 @@ def delete_ceph_rbd_mountpath_by_id(conn: dict, id: str) -> dict:
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
         (str) id: id
+
     [Returns]
         (dict) Response: Delete Ceph response (includes any errors)
     """
     return private._delete_ceph_rbd_mountpath_by_id(conn, id)
 
 
-def delete_ceph_rbd_by_id(conn: dict, id: str) -> dict:
+def delete_ceph_rbd_by_id(conn: dict, id: str, extra: str) -> dict:
     """
     Delete Ceph RBD Mountpath by id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
         (str) id: id
+        (str) extra: e.g. "?code=gags345a"
+
     [Returns]
         (dict) Response: Delete Ceph response (includes any errors)
     """
-    return private._delete_ceph_rbd_by_id(conn, id)
+    return private._delete_ceph_rbd_by_id(conn, id, extra)
 
 
 def get_ceph_rdb_by_id(conn: dict, id: str) -> dict:
@@ -5692,17 +5700,19 @@ def add_ceph_rgw(conn: dict, data: dict) -> dict:
     return private._add_ceph_rgw(conn, data)
 
 
-def delete_ceph_rgw_by_id(conn: dict, id: str) -> dict:
+def delete_ceph_rgw_by_id(conn: dict, id: str, extra: str) -> dict:
     """
     Delete Rados Gateway from PCC using id
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
         (int) id: id of the Rados Gateway to be deleted
+        (str) extra: e.g. "?code=gags345a"
+
 
     [Returns]
         (dict) Response: Delete Rados Gateway response (includes any errors)
     """
-    return private._delete_ceph_rgw_by_id(conn, id)
+    return private._delete_ceph_rgw_by_id(conn, id, extra)
 
 
 def get_ceph_rgws(conn: dict, id: str) -> dict:
@@ -6523,7 +6533,7 @@ def add_osd_to_cluster(conn: dict, id: str, data: dict) -> dict:
         """
     return private._add_osd_to_cluster(conn, id, data)
 
-def delete_osd_from_cluster(conn: dict, osd_id: str, cluster_id: str) -> dict:
+def delete_osd_from_cluster(conn: dict, osd_id: str, cluster_id: str, extra: str) -> dict:
     """
         Delete the OSD from the cluster
 
@@ -6531,11 +6541,12 @@ def delete_osd_from_cluster(conn: dict, osd_id: str, cluster_id: str) -> dict:
             (dict) conn: Connection dictionary obtained after logging in
             (str) osd_id: osd id
             (str) cluster_id: cluster id
+            (str) extra: e.g. "?code=gags345a"
 
         [Returns]
             (dict) Response: result of the delete operation
         """
-    return private._delete_osd_from_cluster(conn, osd_id, cluster_id)
+    return private._delete_osd_from_cluster(conn, osd_id, cluster_id, extra)
 
 def delete_osd_from_cluster_with_wipe(conn: dict, osd_id: str, cluster_id: str) -> dict:
     """
