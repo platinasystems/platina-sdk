@@ -6537,6 +6537,20 @@ def delete_osd_from_cluster(conn: dict, osd_id: str, cluster_id: str) -> dict:
         """
     return private._delete_osd_from_cluster(conn, osd_id, cluster_id)
 
+def delete_osd_from_cluster_with_wipe(conn: dict, osd_id: str, cluster_id: str) -> dict:
+    """
+        Delete the OSD from the cluster and wipe disk
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+            (str) osd_id: osd id
+            (str) cluster_id: cluster id
+
+        [Returns]
+            (dict) Response: result of the delete operation
+        """
+    return private._delete_osd_from_cluster_with_wipe(conn, osd_id, cluster_id)
+
 def get_tags(conn: dict) -> dict:
     """
         List Tags
