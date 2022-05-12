@@ -6533,35 +6533,20 @@ def add_osd_to_cluster(conn: dict, id: str, data: dict) -> dict:
         """
     return private._add_osd_to_cluster(conn, id, data)
 
-def delete_osd_from_cluster(conn: dict, osd_id: str, cluster_id: str, extra: str) -> dict:
+def delete_osd_from_cluster(conn: dict, id: str, extra: str, data: dict) -> dict:
     """
         Delete the OSD from the cluster
 
         [Args]
             (dict) conn: Connection dictionary obtained after logging in
-            (str) osd_id: osd id
-            (str) cluster_id: cluster id
+            (str) id: cluster id
             (str) extra: e.g. "?code=gags345a"
+            (dict) data: {"ids":[3], "wipe":true}
 
         [Returns]
             (dict) Response: result of the delete operation
         """
-    return private._delete_osd_from_cluster(conn, osd_id, cluster_id, extra)
-
-def delete_osd_from_cluster_with_wipe(conn: dict, osd_id: str, cluster_id: str, extra: str) -> dict:
-    """
-        Delete the OSD from the cluster and wipe disk
-
-        [Args]
-            (dict) conn: Connection dictionary obtained after logging in
-            (str) osd_id: osd id
-            (str) cluster_id: cluster id
-            (str) extra: e.g. "?code=gags345a"
-
-        [Returns]
-            (dict) Response: result of the delete operation
-        """
-    return private._delete_osd_from_cluster_with_wipe(conn, osd_id, cluster_id, extra)
+    return private._delete_osd_from_cluster(conn, id, extra, data)
 
 def get_tags(conn: dict) -> dict:
     """

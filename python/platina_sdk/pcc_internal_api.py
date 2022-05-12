@@ -7035,36 +7035,20 @@ def _add_osd_to_cluster(conn: dict, id: str, data: dict) -> dict:
         """
     return post(conn, PCC_STORAGE + "/ceph/cluster/" + id +"/osd/add", data)
 
-def _delete_osd_from_cluster(conn: dict, osd_id: str, cluster_id: str, extra: str) -> dict:
+def _delete_osd_from_cluster(conn: dict, id: str, extra: str, data: dict) -> dict:
     """
         Delete the OSD from the cluster
 
         [Args]
             (dict) conn: Connection dictionary obtained after logging in
-            (str) osd_id: osd id
-            (str) cluster_id: cluster id
+            (str) id: cluster id
             (str) extra: e.g. "?code=gags345a"
-
-
-        [Returns]
-            (dict) Response: result of the delete operation
-        """
-    return delete(conn, PCC_STORAGE + "/ceph/cluster/" + cluster_id + "/osd/" + osd_id + extra)
-
-def _delete_osd_from_cluster_with_wipe(conn: dict, osd_id: str, cluster_id: str, extra: str) -> dict:
-    """
-        Delete the OSD from the cluster and wipe disk
-
-        [Args]
-            (dict) conn: Connection dictionary obtained after logging in
-            (str) osd_id: osd id
-            (str) cluster_id: cluster id
+            (dict) data: {"ids":[3], "wipe":true}
 
         [Returns]
             (dict) Response: result of the delete operation
         """
-
-    return delete(conn, PCC_STORAGE + "/ceph/cluster/" + cluster_id + "/osd/" + osd_id + "?wipe=true" + extra.replace("?", "&"))
+    return delete(conn, PCC_STORAGE + "/ceph/cluster/" + id + "/osd" + extra, data)
 
 def _get_tags(conn: dict) -> dict:
     """
