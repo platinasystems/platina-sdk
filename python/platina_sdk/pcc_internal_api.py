@@ -60,6 +60,7 @@ PCC_USER = PCC_USER_MANAGEMENT + '/user'
 PCC_TRUSTS = PCCSERVER + '/trusts'
 PCC_TAGS = PCCSERVER + '/tags'
 PCC_PLATINA_MONITOR = "/platina-monitor"
+PCC_PROMETHIUS_CHART = PCC_PLATINA_MONITOR+"/monitor/query_range"
 
 ## Agent
 def _get_agents(conn: dict) -> dict:
@@ -7128,3 +7129,19 @@ def _query_metric(conn: dict, query: dict) -> dict:
             (dict) Response: result of the query
         """
     return post(conn, PCC_PLATINA_MONITOR + "/monitor/query", query)
+
+def _query_promethius_metrics(conn: dict, query: dict) -> dict:
+    """
+        Query promethius metrics from platina-monitor
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+            (dict) query:
+                {
+                  {“query”:healthLevel&start=2022-10-06T15:45:58.989Z&end=2022-10-06T16:45:58.989Z&step=36} OR {"query":"healthLevel{nodeName=\"sv60\"}&start=2022-10-06T15:45:58.989Z&end=2022-10-06T16:45:5.989Z&step=36"}
+                }
+
+        [Returns]
+            (dict) Response: result of the query
+    """
+    return post(conn, PCC_PROMETHIUS_CHART, query)
