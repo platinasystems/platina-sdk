@@ -6626,9 +6626,9 @@ def query_metric(conn: dict, query: dict) -> dict:
         """
     return private._query_metric(conn, query)
 
-def query_promethius_metrics(conn: dict, query: dict) -> dict:
+def query_range_metric(conn: dict, query: dict) -> dict:
     """
-        Query promethius metrics from platina-monitor
+        Query prometheus metrics from platina-monitor
 
         [Args]
             (dict) conn: Connection dictionary obtained after logging in
@@ -6640,4 +6640,4 @@ def query_promethius_metrics(conn: dict, query: dict) -> dict:
         [Returns]
             (dict) Response: result of the query
     """
-    return private._query_promethius_metrics(conn, query)
+    return private._query_range_metric(conn, query)
