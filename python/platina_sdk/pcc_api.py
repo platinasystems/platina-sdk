@@ -6625,3 +6625,19 @@ def query_metric(conn: dict, query: dict) -> dict:
             (dict) Response: result of the query
         """
     return private._query_metric(conn, query)
+
+def query_range_metric(conn: dict, query: dict) -> dict:
+    """
+        Query prometheus metrics from platina-monitor
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+            (dict) query:
+                {
+                  {“query”:healthLevel&start=2022-10-06T15:45:58.989Z&end=2022-10-06T16:45:58.989Z&step=36}
+                }
+
+        [Returns]
+            (dict) Response: result of the query
+    """
+    return private._query_range_metric(conn, query)
