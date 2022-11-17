@@ -6641,3 +6641,15 @@ def query_range_metric(conn: dict, query: dict) -> dict:
             (dict) Response: result of the query
     """
     return private._query_range_metric(conn, query)
+
+def audit_search(conn: dict) -> dict:
+    """
+        Query audit search endpoint
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+
+        [Returns]
+            (dict) Response: result of the query
+        """
+    return private._audit_search(conn)

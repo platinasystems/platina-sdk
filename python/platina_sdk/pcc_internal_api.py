@@ -60,6 +60,7 @@ PCC_USER = PCC_USER_MANAGEMENT + '/user'
 PCC_TRUSTS = PCCSERVER + '/trusts'
 PCC_TAGS = PCCSERVER + '/tags'
 PCC_PLATINA_MONITOR = "/platina-monitor"
+PCC_AUDIT = PCCSERVER + "/audit"
 
 ## Agent
 def _get_agents(conn: dict) -> dict:
@@ -7144,3 +7145,15 @@ def _query_range_metric(conn: dict, query: dict) -> dict:
             (dict) Response: result of the query
     """
     return post(conn, PCC_PLATINA_MONITOR + "/monitor/query_range", query)
+
+def _audit_search(conn: dict) -> dict:
+    """
+        Query audit search endpoint
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+
+        [Returns]
+            (dict) Response: result of the query
+    """
+    return get(conn, PCC_AUDIT + "/search")
