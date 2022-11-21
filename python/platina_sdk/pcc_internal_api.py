@@ -7157,3 +7157,17 @@ def _audit_search(conn: dict) -> dict:
             (dict) Response: result of the query
     """
     return get(conn, PCC_AUDIT + "/search")
+
+def _set_node_maintenance(conn: dict, id: str, data: dict) -> dict:
+    """
+        Set the specified node maintenance mode
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+            (str) id: id of the node
+            (dict) data: e.g. {"enter":true}
+
+        [Returns]
+            (dict) Response: result of operation
+        """
+    return post(conn, PCCSERVER + "/node/"+ id +"/maintenance", data)
