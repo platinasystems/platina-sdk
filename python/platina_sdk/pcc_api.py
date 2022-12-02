@@ -608,18 +608,20 @@ def modify_kubernetes_by_id(conn: dict, id: str, data: dict) -> dict:
     return private._modify_kubernetes_by_id(conn, id, data)
 
 
-def delete_kubernetes_by_id(conn: dict, id: str) -> dict:
+def delete_kubernetes_by_id(conn: dict, id: str, data: dict, extra: str) -> dict:
     """
     Delete Kuberbetes by id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
         (str) id: id of the cluster
+        (dict) data: (boolean) forceRemove
+        (str) extra: e.g. "?code=gags345a"
 
     [Returns]
         (dict) Response: Delete Kuberbetes response (includes any errors)
     """
-    return private._delete_kubernetes_by_id(conn, id)
+    return private._delete_kubernetes_by_id(conn, id, data, extra)
 
 
 def add_kubernetes_app(conn: dict, id: str, data: dict) -> dict:
