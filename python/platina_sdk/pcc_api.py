@@ -6550,6 +6550,20 @@ def delete_osd_from_cluster(conn: dict, id: str, extra: str, data: dict) -> dict
         """
     return private._delete_osd_from_cluster(conn, id, extra, data)
 
+def reconcile_osds(conn: dict, id: str, data: dict) -> dict:
+    """
+        Reconcile CEPH OSDs
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+            (str) id: cluster id
+            (dict) data: {“ids”:[0,2,3,4,5]}
+
+        [Returns]
+            (dict) Response: result of the operation
+        """
+    return private._reconcile_osds(conn, id, data)
+
 def get_tags(conn: dict) -> dict:
     """
         List Tags

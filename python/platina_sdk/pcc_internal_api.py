@@ -7053,6 +7053,20 @@ def _delete_osd_from_cluster(conn: dict, id: str, extra: str, data: dict) -> dic
         """
     return delete(conn, PCC_STORAGE + "/ceph/cluster/" + id + "/osd" + extra, data)
 
+def _reconcile_osds(conn: dict, id: str, data: dict) -> dict:
+    """
+        Reconcile CEPH OSDs
+
+        [Args]
+            (dict) conn: Connection dictionary obtained after logging in
+            (str) id: cluster id
+            (dict) data: {“ids”:[0,2,3,4,5]}
+
+        [Returns]
+            (dict) Response: result of the operation
+        """
+    return post(conn, PCC_STORAGE + "/ceph/cluster/" + id + "/osd/reconcile", data)
+
 def _get_tags(conn: dict) -> dict:
     """
         List Tags
