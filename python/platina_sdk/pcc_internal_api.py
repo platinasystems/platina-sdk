@@ -3086,7 +3086,7 @@ def _get_ceph_clusters_state(conn: dict, id: str, state: str) -> dict:
     return get(conn, PCC_STORAGE + "/ceph/cluster/" + id + "/state/" + state)
 
 
-def _modify_ceph_clusters(conn: dict, data: dict) -> dict:
+def _modify_ceph_clusters(conn: dict, data: dict, extra: str) -> dict:
     """
     Modify Ceph Cluster
     [Args]
@@ -3415,10 +3415,11 @@ def _modify_ceph_clusters(conn: dict, data: dict) -> dict:
                     ],
                     "version": "string"
                 }
+        (str) extra: e.g. "?code=gags345a"
     [Returns]
         (dict) Response: Get Ceph response (includes any errors)
     """
-    return put(conn, PCC_STORAGE + "/ceph/cluster", data)
+    return put(conn, PCC_STORAGE + "/ceph/cluster" + extra, data)
 
 
 def _add_ceph_cluster(conn: dict, data: dict) -> dict:
