@@ -6842,13 +6842,26 @@ def _delete_user(conn: dict, data: dict) -> dict:
     """
     return post(conn, PCC_USER + "/delete" , data)
 
-def _get_ceph_version_list(conn: dict, id:str)-> dict:
+def _get_ceph_state_nodes(conn: dict, id:str)-> dict:
     """
-    get ceph version list.
+    Get CEPH nodes state
     """
 
     return get(conn,PCC_STORAGE + '/ceph/cluster/' + str(id) + '/state/nodes')
 
+def _get_ceph_state_mons(conn: dict, id:str)-> dict:
+    """
+    Get CEPH mons
+    """
+
+    return get(conn,PCC_STORAGE + '/ceph/cluster/' + str(id) + '/state/mons')
+
+def _get_ceph_state_mds(conn: dict, id:str)-> dict:
+    """
+    Get CEPH mds
+    """
+
+    return get(conn,PCC_STORAGE + '/ceph/cluster/' + str(id) + '/state/mds')
 
 def _get_event_log(conn: dict) -> dict:
     """

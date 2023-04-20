@@ -6339,12 +6339,26 @@ def delete_user(conn: dict, data: dict) -> dict:
     """
     return private._delete_user(conn, data)
 
-def get_ceph_version_list(conn: dict, id:str)-> dict:
+def get_ceph_state_nodes(conn: dict, id:str)-> dict:
     """
-    get ceph version list.
+    Get CEPH nodes state
     """
 
-    return private._get_ceph_version_list(conn,id)
+    return private._get_ceph_state_nodes(conn,id)
+
+def get_ceph_state_mons(conn: dict, id:str)-> dict:
+    """
+    Get CEPH mons
+    """
+
+    return private._get_ceph_state_mons(conn,id)
+
+def get_ceph_state_mds(conn: dict, id:str)-> dict:
+    """
+    Get CEPH mds
+    """
+
+    return private._get_ceph_state_mds(conn,id)
 
 
 def get_event_log(conn: dict) -> dict:
