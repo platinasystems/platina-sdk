@@ -7202,3 +7202,18 @@ def _set_node_maintenance(conn: dict, id: str, data: dict, extra: str) -> dict:
             (dict) Response: result of operation
         """
     return post(conn, PCCSERVER + "/node/"+ id +"/maintenance" + extra, data)
+
+def _node_dismiss(conn: dict, id: str, data: dict, extra: str) -> dict:
+    """
+           Dismiss the specified node
+
+           [Args]
+               (dict) conn: Connection dictionary obtained after logging in
+               (str) id: id of the node
+               (dict) data: e.g. {“force”:true}
+               (str) extra: e.g. "?code=gags345a"
+
+           [Returns]
+               (dict) Response: result of operation
+    """
+    return post(conn, PCCSERVER + "/node/"+ id +"/dismiss" + extra, data)
