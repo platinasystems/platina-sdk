@@ -7217,3 +7217,17 @@ def _node_dismiss(conn: dict, id: str, data: dict, extra: str) -> dict:
                (dict) Response: result of operation
     """
     return post(conn, PCCSERVER + "/node/"+ id +"/dismiss" + extra, data)
+
+def _add_mon(conn: dict, id: str, data: dict) -> dict:
+    """
+           Add a mon in the specified cluster
+
+           [Args]
+               (dict) conn: Connection dictionary obtained after logging in
+               (str) id: ceph cluster id
+               (dict) data: {}
+
+           [Returns]
+               (dict) Response: result of operation
+    """
+    return post(conn, PCC_STORAGE + "/ceph/cluster/"+ id +"/mon", data)

@@ -6714,3 +6714,17 @@ def node_dismiss(conn: dict, id: str, data: dict, extra: str) -> dict:
             (dict) Response: result of operation
         """
     return private._node_dismiss(conn, id, data, extra)
+
+def add_mon(conn: dict, id: str, data: dict) -> dict:
+    """
+            Add a mon in the specified cluster
+
+            [Args]
+                (dict) conn: Connection dictionary obtained after logging in
+                (str) id: ceph cluster id
+                (dict) data: {}
+
+            [Returns]
+                (dict) Response: result of operation
+     """
+    return private._add_mon(conn, id, data)
