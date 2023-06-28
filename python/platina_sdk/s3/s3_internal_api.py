@@ -9,7 +9,7 @@ from platina_sdk.utils import get, post, put, delete, post_multipart, put_multip
 
 S3MANAGER = "/s3-manager"
 
-def _get_agents(conn: dict) -> dict:
+def _get_pccs(conn: dict) -> dict:
     """
     Get PCCs
 
