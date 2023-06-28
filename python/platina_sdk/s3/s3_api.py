@@ -91,17 +91,18 @@ def update_pcc(conn: dict, id:str, data: dict) -> dict:
     """
     return put(conn, S3PCCS + "/" + id, data)
 
-def delete_pcc(conn: dict) -> dict:
+def delete_pcc(conn: dict, id: str) -> dict:
     """
-    Get PCCs
+    Delete PCC
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
+        (str) id: id of the pcc to be deleted
 
     [Returns]
-        (dict) Response: List of PCC instances
+        (dict) Response: Result of the operation
     """
-    return delete(conn, S3PCCS)
+    return delete(conn, S3PCCS + "/" + id)
 
 
 
