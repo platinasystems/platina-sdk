@@ -317,7 +317,7 @@ def update_user(conn: dict, data: dict) -> dict:
                               "owner": 1
                             }
     """
-    return put(conn, S3USERS + "/update", data)
+    return post(conn, S3USERS + "/update", data)
 
 def delete_user(conn: dict, data: dict) -> dict:
     """
@@ -330,7 +330,7 @@ def delete_user(conn: dict, data: dict) -> dict:
     [Returns]
         (dict) Response: Result of the operation
     """
-    return delete(conn, S3USERS + "/delete", data)
+    return post(conn, S3USERS + "/delete", data)
 
 
 
