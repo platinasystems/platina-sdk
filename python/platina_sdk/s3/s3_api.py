@@ -9,6 +9,8 @@ from platina_sdk.utils import get, post, put, delete, post_multipart, put_multip
 
 S3MANAGER = "/s3-manager"
 S3PCCS = S3MANAGER + "/pccs"
+S3ORGS = S3MANAGER + "/customers"
+
 ### PCC instances ###
 
 def get_pccs(conn: dict) -> dict:
@@ -19,7 +21,7 @@ def get_pccs(conn: dict) -> dict:
         (dict) conn: Connection dictionary obtained after logging in
 
     [Returns]
-        (dict) data: [
+        (dict) Response["data"]: [
                 {
                   “id”: 1,
                   “name”: “pcc221",
@@ -49,7 +51,7 @@ def create_pcc(conn: dict,  data: dict) -> dict:
                     }
 
     [Returns]
-        (dict) data: {
+        (dict) Response["data"]: {
                         “id”: 1,
                         “name”: “pcc221”,
                         “username”: “288c566ffdd26ec96ff6670c49790e495f206747be1ac10bf260538a2b3344cf90”,
@@ -62,7 +64,7 @@ def create_pcc(conn: dict,  data: dict) -> dict:
     """
     return post(conn, S3PCCS, data)
 
-def update_pcc(conn: dict, id:str, data: dict) -> dict:
+def update_pcc(conn: dict, id: str, data: dict) -> dict:
     """
     Update PCCs
 
@@ -78,7 +80,7 @@ def update_pcc(conn: dict, id:str, data: dict) -> dict:
                     }
 
     [Returns]
-        (dict) Response: {
+        (dict) Response["data"]: {
             “id”: 1,
             “name”: “pcc221”,
             “username”: “288c566ffdd26ec96ff6670c49790e495f206747be1ac10bf260538a2b3344cf90”,
@@ -103,6 +105,124 @@ def delete_pcc(conn: dict, id: str) -> dict:
         (dict) Response: Result of the operation
     """
     return delete(conn, S3PCCS + "/" + id)
+
+### Organizations ###
+
+def get_organizations(conn: dict) -> dict:
+    """
+    Get Organizations
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response["data"]: [
+                            {
+                              "name": "test-org",
+                              "description": "test-org",
+                              "id": 3,
+                              "reservedCapacityTB": 0,
+                              "priceUsageGB": 0.015,
+                              "priceTrafficGB": 0.00015,
+                              "priceOps": 0.0000015
+                            }
+                          ]
+    """
+    return get(conn, S3ORGS)
+
+def create_organization(conn: dict,  data: dict) -> dict:
+    """
+    Add Organization
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: {
+                    "name":"test-org",
+                    "description":"test-org",
+                    "reservedCapacityTB":0,
+                    "priceUsageGB":0.015,
+                    "priceTrafficGB":0.00015,
+                    "priceOps":0.0000015,
+                    "username":"test-org@test.com",
+                    "password":"test-org",
+                    "firstname":"test-org",
+                    "lastname":"test-org",
+                    "email":"test-org@test.com",
+                    "active":true,"protect":false,
+                    "source":"https://172.17.2.221:59999/s3-portal-admin/reset-password?"
+                    }
+
+    [Returns]
+        (dict) Response["data"]: {
+                    "name": "test-org",
+                    "description": "test-org",
+                    "id": 3,
+                    "reservedCapacityTB": 0,
+                    "priceUsageGB": 0.015,
+                    "priceTrafficGB": 0.00015,
+                    "priceOps": 0.0000015,
+                    "username": "test-org@test.com",
+                    "password": "test-org",
+                    "firstname": "test-org",
+                    "lastname": "test-org",
+                    "email": "test-org@test.com"
+                  }
+    """
+    return post(conn, S3ORGS, data)
+
+def update_organization(conn: dict, id: str, data: dict) -> dict:
+    """
+    Update Organization
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) id: id of the Org to  update
+        (dict)    {
+                    "name":"test-org",
+                    "description":"test-org",
+                    "reservedCapacityTB":0,
+                    "priceUsageGB":0.015,
+                    "priceTrafficGB":0.00015,
+                    "priceOps":0.0000015,
+                    "username":"test-org@test.com",
+                    "password":"test-org",
+                    "firstname":"test-org",
+                    "lastname":"test-org",
+                    "email":"test-org@test.com",
+                    "active":true,"protect":false,
+                    "source":"https://172.17.2.221:59999/s3-portal-admin/reset-password?"
+                    }
+
+    [Returns]
+        (dict) Response["data"]: {{
+                        "name": "test-org",
+                        "description": "test-org",
+                        "id": 3,
+                        "reservedCapacityTB": 0,
+                        "priceUsageGB": 0.015,
+                        "priceTrafficGB": 0.00015,
+                        "priceOps": 0.0000015,
+                        "username": "test-org@test.com",
+                        "password": "test-org",
+                        "firstname": "test-org",
+                        "lastname": "test-org",
+                        "email": "test-org@test.com"
+                      }
+    """
+    return put(conn, S3ORGS + "/" + id, data)
+
+def delete_organization(conn: dict, id: str) -> dict:
+    """
+    Delete Organization
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) id: id of the Org to be deleted
+
+    [Returns]
+        (dict) Response: Result of the operation
+    """
+    return delete(conn, S3ORGS + "/" + id)
 
 
 
