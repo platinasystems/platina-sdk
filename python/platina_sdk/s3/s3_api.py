@@ -107,6 +107,156 @@ def delete_pcc(conn: dict, id: str) -> dict:
     """
     return delete(conn, S3PCCS + "/" + id)
 
+def get_ceph_clusters_by_pcc(conn: dict, id: str) -> dict:
+    """
+    Get ceph clusters by pcc id
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) id: pcc id
+
+    [Returns]
+        (dict) "Data": [
+                    {
+                      "id": 1,
+                      "name": "ceph221",
+                      "description": "",
+                      "locationDescription": "",
+                      "nodes": [...],
+                      "version": "",
+                      "status": "",
+                      "deploy_status": "completed",
+                      "tags": [
+                        "All"
+                      ],
+                      ...,
+                    }
+                  ]
+                }
+
+    """
+    return get(conn, S3PCCS + "/" + id + "/storage/clusters")
+
+
+def get_certificates_by_pcc(conn: dict, id: str) -> dict:
+    """
+    Get certificates by pcc id
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) id: pcc id
+
+    [Returns]
+        (dict) "Data": [
+                        {
+                          "id": 5,
+                          "name": "",
+                          "description": "",
+                          "alias": "rgw-cert",
+                          "owner": 1,
+                          "tenant": 1,
+                          "protect": false,
+                          "key": {...},
+                          "details": {...},
+                        }
+                    ]
+
+    """
+    return get(conn, S3PCCS + "/" + id + "/certificates")
+
+def get_lbnodes_by_pcc(conn: dict, id: str) -> dict:
+    """
+    Get lb nodes by pcc id
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) id: pcc id
+
+    [Returns]
+        (dict) "Data": [
+                    {
+                      "Id": 8,
+                      "Uuid": "8f09a58d-d8de-11ed-8d94-0242ac10001e",
+                      "Name": "sv41.platinasystems",
+                      "Host": "172.17.2.241",
+                      "SN": "TCJNM13E0011\n",
+                      "hwAddr": "",
+                      "Vendor": "",
+                      "Model": "B7106G62HE10HR\n",
+                      "CreatedAt": 0,
+                      "ModifiedAt": 0,
+                      "owner": 1,
+                      "status": "OK",
+                      "provisionStatus": "Ready",
+                      "ready": false,
+                      "managed": true,
+                      "tags": [
+                        "rgw-attached"
+                      ],
+                      "standby": false,
+                      "reimage": false,
+                      "invader": false,
+                      "scopeId": 4,
+                      "roles": [...],
+                      "maintenance": false,
+                      "off": false,
+                      "nodeAvailabilityStatus": {
+                        "connectionStatus": "online"
+                      }
+                    },
+                    ...
+                  ]
+
+    """
+    return get(conn, S3PCCS + "/" + id + "/nodes/cephlb")
+
+def get_rgwnodes_by_cluster(conn: dict, pccID: str, clusterID: str) -> dict:
+    """
+    Get rgw nodes by pcc id and cluster id
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) pccID: pcc id
+        (str) clusterID: cluster id
+
+    [Returns]
+        (dict) "Data": [
+                    {
+                      "Id": 8,
+                      "Uuid": "8f09a58d-d8de-11ed-8d94-0242ac10001e",
+                      "Name": "sv41.platinasystems",
+                      "Host": "172.17.2.241",
+                      "SN": "TCJNM13E0011\n",
+                      "hwAddr": "",
+                      "Vendor": "",
+                      "Model": "B7106G62HE10HR\n",
+                      "CreatedAt": 0,
+                      "ModifiedAt": 0,
+                      "owner": 1,
+                      "status": "OK",
+                      "provisionStatus": "Ready",
+                      "ready": false,
+                      "managed": true,
+                      "tags": [
+                        "rgw-attached"
+                      ],
+                      "standby": false,
+                      "reimage": false,
+                      "invader": false,
+                      "scopeId": 4,
+                      "roles": [...],
+                      "maintenance": false,
+                      "off": false,
+                      "nodeAvailabilityStatus": {
+                        "connectionStatus": "online"
+                      }
+                    },
+                    ...
+                  ]
+
+    """
+    return get(conn, S3PCCS + pccID + "/storage/clusters/" + clusterID + "/nodes/cephrgw")
+
 ### Organizations ###
 
 def get_organizations(conn: dict) -> dict:
