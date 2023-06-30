@@ -255,7 +255,7 @@ def get_rgwnodes_by_cluster(conn: dict, pccID: str, clusterID: str) -> dict:
                   ]
 
     """
-    return get(conn, S3PCCS + pccID + "/storage/clusters/" + clusterID + "/nodes/cephrgw")
+    return get(conn, S3PCCS + "/" + pccID + "/storage/clusters/" + clusterID + "/nodes/cephrgw")
 
 ### Organizations ###
 
