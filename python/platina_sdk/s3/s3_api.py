@@ -371,18 +371,38 @@ def get_endpoints(conn: dict) -> dict:
     """
     return get(conn, S3ENDPOINTS)
 
-def create_endpoint(conn: dict,  data: dict) -> dict:
+def create_endpoint(conn: dict, pccID: str, clusterID: str, data: dict) -> dict:
     """
     Add endpoint
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
-        (dict) data:
-
+        (str) pccID: id of the pcc
+        (str) clusterID: id of the ceph cluster
+        (dict) data: {
+                  "name": "test",
+                  "rgw": {
+                    "certificateID": null,
+                    "numDaemonsMap": {}
+                  },
+                  "pool": {
+                    "erasureCodeProfile": {
+                      "dataChunks": 0,
+                      "codingChunks": 0,
+                      "stripeUnit": 4096
+                    }
+                  },
+                  "lb": {
+                    "nodeId": null
+                  },
+                  "customers": [
+                    1
+                  ]
+                }
     [Returns]
-        (dict) data:
+        (dict) data: empty
     """
-    return post(conn, S3ENDPOINTS, data)
+    return post(conn, S3PCCS +  "/" + pccID + "/storage/clusters/" + clusterID + "/endpoints", data)
 
 def update_endpoint(conn: dict, id: str, data: dict) -> dict:
     """
