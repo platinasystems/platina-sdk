@@ -8,10 +8,10 @@ import requests
 from platina_sdk.utils import get, post, put, delete, post_multipart, put_multipart
 
 S3MANAGER = "/s3-manager"
-S3PCCS = S3MANAGER + "/pccs"
-S3ORGS = S3MANAGER + "/customers"
+S3PCCS = f"{S3MANAGER}/pccs"
+S3ORGS = f"{S3MANAGER}/customers"
 S3USERS = "/user-management/user"
-S3ENDPOINTS = S3MANAGER + "/storage/endpoints"
+S3ENDPOINTS =f"{S3MANAGER}/storage/endpoints"
 ### PCC instances ###
 
 def get_pccs(conn: dict) -> dict:
@@ -92,7 +92,7 @@ def update_pcc(conn: dict, id: str, data: dict) -> dict:
             “owner”: 1
           }
     """
-    return put(conn, S3PCCS + "/" + id, data)
+    return put(conn, f"{S3PCCS}/{id}", data)
 
 def delete_pcc(conn: dict, id: str) -> dict:
     """
@@ -105,7 +105,7 @@ def delete_pcc(conn: dict, id: str) -> dict:
     [Returns]
         (dict) Response: Result of the operation
     """
-    return delete(conn, S3PCCS + "/" + id)
+    return delete(conn, f"{S3PCCS}/{id}")
 
 def get_ceph_clusters_by_pcc(conn: dict, id: str) -> dict:
     """
@@ -135,7 +135,7 @@ def get_ceph_clusters_by_pcc(conn: dict, id: str) -> dict:
                 }
 
     """
-    return get(conn, S3PCCS + "/" + id + "/storage/clusters")
+    return get(conn, f"{S3PCCS}/{id}/storage/clusters")
 
 
 def get_certificates_by_pcc(conn: dict, id: str) -> dict:
@@ -162,7 +162,7 @@ def get_certificates_by_pcc(conn: dict, id: str) -> dict:
                     ]
 
     """
-    return get(conn, S3PCCS + "/" + id + "/certificates")
+    return get(conn, f"{S3PCCS}/{id}/certificates")
 
 def get_lbnodes_by_pcc(conn: dict, id: str) -> dict:
     """
@@ -208,7 +208,7 @@ def get_lbnodes_by_pcc(conn: dict, id: str) -> dict:
                   ]
 
     """
-    return get(conn, S3PCCS + "/" + id + "/nodes/cephlb")
+    return get(conn, f"{S3PCCS}/{id}/nodes/cephlb")
 
 def get_rgwnodes_by_cluster(conn: dict, pccID: str, clusterID: str) -> dict:
     """
@@ -255,7 +255,7 @@ def get_rgwnodes_by_cluster(conn: dict, pccID: str, clusterID: str) -> dict:
                   ]
 
     """
-    return get(conn, S3PCCS + "/" + pccID + "/storage/clusters/" + clusterID + "/nodes/cephrgw")
+    return get(conn, f"{S3PCCS}/{pccID}/storage/clusters/{clusterID}/nodes/cephrgw")
 
 ### Organizations ###
 
@@ -360,7 +360,7 @@ def update_organization(conn: dict, id: str, data: dict) -> dict:
                         "email": "test-org@test.com"
                       }
     """
-    return put(conn, S3ORGS + "/" + id, data)
+    return put(conn, f"{S3ORGS}/{id}", data)
 
 def delete_organization(conn: dict, id: str) -> dict:
     """
@@ -373,9 +373,9 @@ def delete_organization(conn: dict, id: str) -> dict:
     [Returns]
         (dict) Response: Result of the operation
     """
-    return delete(conn, S3ORGS + "/" + id)
+    return delete(conn, f"{S3ORGS}/{id}")
 
-### S3 Users ###
+### S3Manager Users ###
 
 def get_users(conn: dict) -> dict:
     """
@@ -403,7 +403,7 @@ def get_users(conn: dict) -> dict:
               },
             ]
     """
-    return get(conn, S3USERS + "/list")
+    return get(conn, f"{S3USERS}/list")
 
 def create_user(conn: dict,  data: dict) -> dict:
     """
@@ -437,7 +437,7 @@ def create_user(conn: dict,  data: dict) -> dict:
                               "owner": 1
                             }
     """
-    return post(conn, S3USERS + "/register", data)
+    return post(conn, f"{S3USERS}/register", data)
 
 def update_user(conn: dict, data: dict) -> dict:
     """
@@ -468,7 +468,7 @@ def update_user(conn: dict, data: dict) -> dict:
                               "owner": 1
                             }
     """
-    return post(conn, S3USERS + "/update", data)
+    return post(conn, f"{S3USERS}/update", data)
 
 def delete_user(conn: dict, data: dict) -> dict:
     """
@@ -481,7 +481,7 @@ def delete_user(conn: dict, data: dict) -> dict:
     [Returns]
         (dict) Response: Result of the operation
     """
-    return post(conn, S3USERS + "/delete", data)
+    return post(conn, f"{S3USERS}/delete", data)
 
 ### Endpoints ###
 
@@ -552,7 +552,7 @@ def create_endpoint(conn: dict, pccID: str, clusterID: str, data: dict) -> dict:
     [Returns]
         (dict) data: empty
     """
-    return post(conn, S3PCCS +  "/" + pccID + "/storage/clusters/" + clusterID + "/endpoints", data)
+    return post(conn, f"{S3PCCS}/{pccID}/storage/clusters/{clusterID}/endpoints", data)
 
 def update_endpoint(conn: dict, id: str, data: dict) -> dict:
     """
@@ -576,7 +576,7 @@ def update_endpoint(conn: dict, id: str, data: dict) -> dict:
     [Returns]
         (dict) Response["data"]: empty
     """
-    return put(conn, S3ENDPOINTS + "/" + id, data)
+    return put(conn, f"{S3ENDPOINTS}/{id}", data)
 
 def delete_endpoint(conn: dict, id: str) -> dict:
     """
@@ -589,7 +589,7 @@ def delete_endpoint(conn: dict, id: str) -> dict:
     [Returns]
         (dict) Response: Result of the operation
     """
-    return delete(conn, S3ENDPOINTS + "/" + id)
+    return delete(conn, f"{S3ENDPOINTS}/{id}")
 
 def get_attachable_endpoints(conn: dict, id: str) -> dict:
     """
@@ -622,7 +622,7 @@ def get_attachable_endpoints(conn: dict, id: str) -> dict:
                         },
                       ]
     """
-    return get(conn,  S3PCCS + "/" + id + "/storage/clusters/endpoints/attach")
+    return get(conn,  f"{S3PCCS}/{id}/storage/clusters/endpoints/attach")
 
 
 
@@ -659,8 +659,158 @@ def attach_endpoint(conn: dict, id: str, data: dict) -> dict:
                     "url": "https://172.17.2.241:4444"
                   }
     """
-    return post(conn, S3PCCS + "/" + id + "/storage/clusters/endpoints/attach", data)
+    return post(conn, f"{S3PCCS}/{id}/storage/clusters/endpoints/attach", data)
 
+
+### S3 credentials ###
+
+def get_s3credentials_by_endpoint(conn: dict, id: str) -> dict:
+    """
+    Get s3 credentials for an endpoint
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) id: id of the endpoint
+
+    [Returns]
+        (dict) "Data": [
+                {
+                  "id": 15,
+                  "name": "test-user",
+                  "type": "ceph",
+                  "applicationId": 13,
+                  "description": "aaaa",
+                  "active": true,
+                  "protect": false,
+                  "profile": {
+                    "accessKey": "6Nswbe63eer8tzXlRZOp",
+                    "addressList": [
+                      "rgw.platinasystems.com"
+                    ],
+                    "deletePermission": true,
+                    "email": "",
+                    "maxBucketObjects": -1,
+                    "maxBucketSize": -1,
+                    "maxBucketSizeUnit": "MiB",
+                    "maxBuckets": 1000,
+                    "maxUserObjects": -1,
+                    "maxUserSize": -1,
+                    "maxUserSizeUnit": "MiB",
+                    "readPermission": true,
+                    "secretKey": "3klJ3ZjPL13s0b6JcfzqgC6FlEtzrYlflxioNhSN",
+                    "username": "test-user",
+                    "writePermission": true
+                  },
+                  "owner": 1,
+                  "objects": null,
+                  "deployStatus": "updating",
+                  "metadata": {
+                    "customerID": 1,
+                    "customerName": "ROOT",
+                    "source": "s3-manager"
+                  },
+                  "hide": false
+                }
+              ]
+    """
+    return get(conn, f"{S3ENDPOINTS}/{id}/users")
+
+def create_s3credentials_by_endpoint(conn: dict, id: str, data: dict) -> dict:
+    """
+    Create s3 credentials for an endpoint
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) id: id of the endpoints
+        (dict) data : {
+              "name": "test-user",
+              "description": "aaaa",
+              "active": true,
+              "profile": {
+                "readPermission": true,
+                "writePermission": true,
+                "deletePermission": true
+              }
+            }
+    [Returns]
+        (dict) "Data": {
+                "username": "test-user",
+                "accessKey": "6Nswbe63eer8tzXlRZOp",
+                "email": "",
+                "secretKey": "3klJ3ZjPL13s0b6JcfzqgC6FlEtzrYlflxioNhSN",
+                "addressList": null,
+                "readPermission": true,
+                "writePermission": true,
+                "deletePermission": true,
+                "maxBuckets": 1000,
+                "maxBucketObjects": -1,
+                "maxBucketSize": -1,
+                "maxBucketSizeUnit": "MiB",
+                "maxUserSize": -1,
+                "maxUserSizeUnit": "MiB",
+                "maxUserObjects": -1
+              }
+    """
+    return post(conn, f"{S3ENDPOINTS}/{id}/users", data)
+
+def update_s3credentials_by_endpoint(conn: dict, endpointID: str, credID: str, data: dict) -> dict:
+    """
+    Update s3 credentials for an endpoint
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) endpointID: id of the endpoint
+        (str) credID: id of the credentials
+        (dict) data : {
+                      "id": 15,
+                      "name": "test-user",
+                      "description": "bbb",
+                      "active": true,
+                      "profile": {
+                        "readPermission": true,
+                        "writePermission": true,
+                        "deletePermission": true,
+                        "maxBuckets": 1000,
+                        "maxBucketObjects": -1,
+                        "maxBucketSize": -1,
+                        "maxBucketSizeUnit": "MiB",
+                        "maxUserSize": -1,
+                        "maxUserSizeUnit": "MiB",
+                        "maxUserObjects": -1
+                      }
+                    }
+    [Returns]
+        (dict) "Data": "Data": {
+                "id": 0,
+                "name": "",
+                "type": "",
+                "applicationId": 0,
+                "description": "",
+                "active": false,
+                "protect": false,
+                "profile": null,
+                "owner": 0,
+                "objects": null,
+                "deployStatus": "",
+                "metadata": null,
+                "hide": false
+              }
+    """
+    return put(conn, f"{S3ENDPOINTS}/{endpointID}/users/{credID}", data)
+
+def delete_s3credentials_by_endpoint(conn: dict, endpointID: str, credID: str) -> dict:
+    """
+    Delete s3 credentials for an endpoint
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) endpointID: id of the endpoint
+        (str) credID: id of the credentials
+
+    [Returns]
+        (dict) result of the operation
+    """
+    return delete(conn, f"{S3ENDPOINTS}/{endpointID}/users/{credID}")
 
 
 
