@@ -936,6 +936,120 @@ def delete_ticket(conn: dict, id: str) -> dict:
     """
     return delete(conn, f"{S3TICKETS}/{id}")
 
+### Dashboard ###
 
+def get_stats_by_organization(conn: dict, id: str) -> dict:
+    """
+    Get stats by organization id
 
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) id: id of the customer/organization
+    [Returns]
+        (dict) "Data": {
+                "customers": 1,
+                "buckets": 0,
+                "totalBytes": 0,
+                "totalBytesSent": 0,
+                "totalBytesReceived": 0,
+                "totalObjects": 0,
+                "totalOps": 0,
+                "totalSuccessfulOps": 0,
+                "totalUsers": 0,
+                "dataPoolSizeBytes": 0,
+                "endpointsOK": 0,
+                "endpointsKO": 0
+              }
+    """
+    return get(conn, f"{S3ORGS}/{id}/storage/monitor/stats")
 
+def get_prometheus_stats_by_endpoint(conn: dict, id: str) -> dict:
+    """
+    Get prometheus stats by endpoint id
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) id: id of the endpoint
+    [Returns]
+        (dict) "Data": [
+                {
+                  "timestamp": 0,
+                  "value": 0,
+                  "metric": {
+                    "__name__": "radosgw_usage_total_objects",
+                    "help": "Usage of objects by user",
+                    "job": "ceph-rgw-metrics",
+                    "name": "radosgw_usage_total_objects",
+                    "type": "gauge",
+                    "unit": ""
+                  },
+                  "values": [
+                    {
+                      "timestamp": 1688119819,
+                      "value": 0
+                    },
+                    {
+                      "timestamp": 1688122819,
+                      "value": 0
+                    },
+                    ...,
+                    ]
+                    }
+    """
+    return post(conn, f"{S3ENDPOINTS}/{id}/monitor/query_range")
+
+### Billing  ###
+
+def get_billing_by_organization(conn: dict, id: str) -> dict:
+    """
+    Get billing by organization id
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) id: id of the customer/organization
+    [Returns]
+        (dict) "Data": ?
+    """
+    return get(conn, f"{S3ORGS}/{id}/storage/billing/bills")
+
+def get_billing_by_endpoint(conn: dict, id: str) -> dict:
+    """
+    Get billing by endpoint
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (str) id: id of the endpoint
+    [Returns]
+        (dict) Data": [
+                {
+                  "endpointID": 4,
+                  "customerID": 1,
+                  "customerName": "ROOT",
+                  "timestamp": "2023-07-04T07:37:09.423716Z",
+                  "startDate": "2023-07-04T07:15:00Z",
+                  "endDate": "2023-07-04T07:35:00Z",
+                  "trafficBytes": 0,
+                  "usageBytes": 0,
+                  "ops": 1,
+                  "cost": 0.0000015,
+                  "endpoint": {
+                    "id": 4,
+                    "name": "test-endpoint",
+                    "description": "test create endpoint",
+                    "cephClusterID": 1,
+                    "pccID": 8,
+                    "poolID": 73,
+                    "rgwID": 13,
+                    "lbNodeID": 2,
+                    "owner": 1,
+                    "customers": [
+                      1
+                    ],
+                    "deployStatus": "completed",
+                    "url": "https://172.17.2.142:60000",
+                    "status": "OK"
+                  }
+                }
+              ]
+    """
+    return get(conn, f"{S3ENDPOINTS}/{id}/billing/bills")
