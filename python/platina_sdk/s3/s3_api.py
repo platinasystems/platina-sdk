@@ -963,13 +963,14 @@ def get_stats_by_organization(conn: dict, id: str) -> dict:
     """
     return get(conn, f"{S3ORGS}/{id}/storage/monitor/stats")
 
-def get_prometheus_stats_by_endpoint(conn: dict, id: str) -> dict:
+def get_prometheus_stats_by_endpoint(conn: dict, id: str, data: dict) -> dict:
     """
     Get prometheus stats by endpoint id
 
     [Args]
         (dict) conn: Connection dictionary obtained after logging in
         (str) id: id of the endpoint
+        (str) {"query":"{job='ceph-rgw-metrics', __name__='radosgw_usage_total_objects', rgwID='13'}&start=2023-06-28T07:20:19.558Z&end=2023-07-04T07:20:19.558Z&step=3000s"}
     [Returns]
         (dict) "Data": [
                 {
@@ -996,7 +997,7 @@ def get_prometheus_stats_by_endpoint(conn: dict, id: str) -> dict:
                     ]
                     }
     """
-    return post(conn, f"{S3ENDPOINTS}/{id}/monitor/query_range")
+    return post(conn, f"{S3ENDPOINTS}/{id}/monitor/query_range", data)
 
 ### Billing  ###
 
