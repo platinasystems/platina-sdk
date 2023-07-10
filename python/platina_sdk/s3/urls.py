@@ -1,0 +1,5 @@
+S3ORGS = "/s3-manager/customers"
+S3ENDPOINTS = "/s3-manager/storage/endpoints"
+S3PCCS = "/s3-manager/pccs"
+S3TICKETS = "/s3-manager/support/tickets"
+S3USERS = "/user-management/user"

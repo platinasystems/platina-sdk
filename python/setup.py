@@ -33,7 +33,7 @@ DOWNLOAD_URL = PROJECT_GIT_URL + "/archive/master.zip"
 print("VERSION=%s" % VERSION) 
 setup(
     name = PROJECT_NAME,
-    packages=[SOURCE_DIR, SOURCE_DIR+".s3"],
+    packages=[SOURCE_DIR, SOURCE_DIR+".s3", SOURCE_DIR+".pcc"],
     version = VERSION,
     license = LICENSE,
     author = AUTHOR_NAME,
