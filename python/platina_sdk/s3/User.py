@@ -108,3 +108,24 @@ def delete_user(conn: dict, data: dict) -> dict:
         (dict) Response: Result of the operation
     """
     return post(conn, f"{S3USERS}/delete", data)
+
+def get_user_roles(conn: dict) -> dict:
+    """
+    Get user roles
+
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+
+    [Returns]
+        (dict) Response: [
+                  {
+                    "id": 11,
+                    "name": "ADMIN",
+                    "description": "The ADMIN role",
+                    "owner": 5,
+                    "protect": true
+                  },
+                  ...
+                ]
+    """
+    return get(conn, "/user-management/role/list")
