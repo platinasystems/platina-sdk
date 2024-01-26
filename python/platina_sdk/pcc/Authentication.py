@@ -23,3 +23,14 @@ def disable_mfa(conn: dict, data: dict) -> dict:
     """
     return post(conn, PCC_USER_MANAGEMENT + "/user/mfa/disable", data)
 
+def reset_mfa(conn: dict, data: dict) -> dict:
+    """
+    Reset MFA
+    [Args]
+        (dict) conn: Connection dictionary obtained after logging in
+        (dict) data: {"username":"admin", "source":"https://10.2.71.54:9999/gui/mfaReset"} in the first request
+        (dict) Data: {"username":"admin", "otp":"4441756"} in the second request to complete the procedure
+    [Returns]
+        (dict) Response: result of the operation
+    """
+    return post(conn, PCC_USER_MANAGEMENT + "/user/mfa/reset", data)
